@@ -1,0 +1,80 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@100..900&display=swap");
+
+/* .noto-sans bengali-<uniquifier> {
+  font-family: "Noto Sans Bengali", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+} */
+
+.profile-user-img {
+    width: 150px;
+    height: 150px;
+}
+
+input#image {
+    padding: 3px;
+}
+
+[class*="sidebar-dark-"] .nav-treeview>.nav-item>.nav-link.active,
+[class*="sidebar-dark-"] .nav-treeview>.nav-item>.nav-link.active:focus,
+[class*="sidebar-dark-"] .nav-treeview>.nav-item>.nav-link.active:hover {
+    background-color: rgb(20 87 106 / 90%);
+    color: #ffffff;
+}
+
+button#print {
+    float: right;
+}
+
+span.gn_by {
+    font-size: 10px;
+}
+
+.addr_area {
+    border: 1px solid #ededed;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.generate_sign {
+    font-size: 12px;
+    border: 1px solid #ededed;
+    padding: 3px 5px;
+    border-radius: 5px;
+    background: #fff;
+}
+
+.card {
+    width: 100% !important;
+}
+
+td.pay_clear {
+    color: #11d840;
+}
+
+.pay_not_clear {
+    color: #ee0a0a;
+}
+
+
+
+
+p.amount {
+    font-weight: bold;
+    color: #ffffff;
+    border-radius: 5px;
+    background: #fd793a;
+
+    text-align: center;
+    width: 20%;
+}
+
+span.total_amount {
+    background: #1ac951;
+    padding: 3px 9px;
+    border-radius: 5px;
+    color: #ffffff;
+}
