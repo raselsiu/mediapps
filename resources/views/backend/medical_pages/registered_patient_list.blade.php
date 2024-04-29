@@ -29,7 +29,7 @@
                                 <th>No.</th>
                                 <th>Patients ID</th>
                                 <th>Name</th>
-                                <th>Address</th>
+                                <th>Mobile</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -40,7 +40,7 @@
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $patient->uuid }}</td>
                                     <td>{{ $patient->name }}</td>
-                                    <td>{{ $patient->address }}</td>
+                                    <td>{{ $patient->mobile }}</td>
                                     <td>
                                         <a href="" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
                                         <a href="" id="deleteEvent" class="btn btn-sm btn-danger"><i

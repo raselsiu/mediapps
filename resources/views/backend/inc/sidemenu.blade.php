@@ -106,16 +106,16 @@ $route = Route::current()->getName();
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('registration_form') }}" class="nav-link ">
+                            <a href="{{ route('admission_form_view') }}" class="nav-link ">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Register Patients</p>
+                                <p>Admit patient</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a href="{{ route('all_regi_patient') }}" class="nav-link ">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Patients Lists</p>
+                                <p>Patient Lists</p>
                             </a>
                         </li>
 

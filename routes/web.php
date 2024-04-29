@@ -70,7 +70,8 @@ Route::group(['prefix' => 'patients', 'middleware' => ['auth']], function () {
 
 Route::group(['prefix' => 'admission', 'middleware' => ['auth']], function () {
 
-    Route::get('/form/view/{id}', [MedicalController::class, 'admission_form_view'])->name('admission_form_view');
+    Route::get('/form/view', [MedicalController::class, 'admission_form_view'])->name('admission_form_view');
+
     Route::post('/form/save', [MedicalController::class, 'admission_form_save'])->name('admission_form_save');
 });
 

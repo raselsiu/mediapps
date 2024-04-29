@@ -29,7 +29,7 @@
                 <form method="POST" action="{{ route('admission_form_save') }}" id="userForm">
                     @csrf
 
-                    <input type="hidden" name="uuid" value="{{ $uuid }}">
+                    {{-- <input type="hidden" name="uuid" value="{{ $uuid }}"> --}}
 
                     <input type="text" hidden name="registration_fee" value="registration_fee">
                     <div class="card-body">

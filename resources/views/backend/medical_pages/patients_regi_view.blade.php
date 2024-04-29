@@ -54,7 +54,12 @@
                                 </li>
                                 <li class="list-group-item">
                                     Address:-
-                                    <p class="float-right">{{ $patient->address }}</p>
+                                    <p class="float-right">{{ $patient->pa_village }}</p>
+                                </li>
+
+                                <li class="list-group-item">
+                                    Mobile:-
+                                    <p class="float-right">{{ $patient->mobile }}</p>
                                 </li>
                                 <li class="list-group-item">
                                     Cabin No:- &nbsp;{{ $patient->cabin_no }}
@@ -72,12 +77,11 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6"> <a href="{{ route('admission_form_view', $patient->uuid) }}"
-                                class="btn btn-success btn-block {{ $isAdmitted ? 'disabled' : '' }} "><b>{{ $isAdmitted ? 'Already Admitted' : 'Admit patient' }}
-                                </b></a>
-                        </div>
+                            {{-- <div class="col-md-6"> <a href="{{ route('admission_form_view', $patient->uuid) }}"
+                                    class="btn btn-success btn-block"><b>Admit patient</b></a>
+                            </div> --}}
                         <div class="col-md-6"> <a href="{{ route('cash_memo_form', $patient->uuid) }}"
-                                class="btn btn-success btn-block {{ $isAdmitted ? '' : 'disabled' }}"><b>Generate Cash
+                                class="btn btn-success btn-block"><b>Generate Cash
                                     Memo</b></a>
                         </div>
                     </div>

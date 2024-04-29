@@ -105,7 +105,7 @@ class MedicalController extends Controller
     public function all_regi_patient()
     {
 
-        $data['patients'] = RegistratonForm::all();
+        $data['patients'] = AdmissinForm::all();
 
         return view('backend.medical_pages.registered_patient_list', $data);
     }
@@ -168,7 +168,7 @@ class MedicalController extends Controller
     public function regi_form_view(string $patient_id)
     {
 
-        $patient = RegistratonForm::where('uuid', $patient_id)->firstOrFail();
+        $patient = AdmissinForm::where('uuid', $patient_id)->firstOrFail();
 
         $isAdmitted = $patient->is_admitted;
 
@@ -184,10 +184,10 @@ class MedicalController extends Controller
 
     // Admission Part Started
 
-    public function admission_form_view(string $id)
+    public function admission_form_view()
     {
-        $uuid = $id;
-        return view('backend.medical_pages.admission_form', compact('uuid'));
+        // $uuid = $id;
+        return view('backend.medical_pages.admission_form');
     }
 
     public function admission_form_save(Request $request)
@@ -195,20 +195,9 @@ class MedicalController extends Controller
 
         $patient_info = new AdmissinForm();
 
-        RegistratonForm::where('uuid', $request->uuid)
-            ->update([
-                'is_admitted' => 1,
-            ]);
+        $uuid = uniqid();
 
-
-
-
-
-
-
-
-
-        $patient_info->uuid = $request->uuid;
+        $patient_info->uuid = $uuid;
         $patient_info->name = $request->name;
         $patient_info->age = $request->age;
         $patient_info->father_or_husb_name = $request->father_or_husb_name;
