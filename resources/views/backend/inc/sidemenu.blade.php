@@ -12,7 +12,7 @@ $route = Route::current()->getName();
     <a href="{{ route('home') }}" class="brand-link">
         <img src="{{ asset('backend/img/logo.png') }}" alt="Logo" class="brand-image img-circle elevation-3"
             style="opacity: .8">
-        <span class="brand-text font-weight-light">BrainStation 24</span>
+        <span class="brand-text font-weight-light">Al-Falah Hospital</span>
     </a>
 
     <!-- Sidebar -->
@@ -249,14 +249,9 @@ $route = Route::current()->getName();
 
                     </ul>
                 </li>
-
-                <li class="nav-item">
-                    <a href="{{ route('testForm') }}" class="nav-link ">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Test Form</p>
-                    </a>
+                <li>
+                    <a href="{{ route('receipt_generate') }}">Receipt</a>
                 </li>
-
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

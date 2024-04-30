@@ -78,3 +78,11 @@ span.total_amount {
     border-radius: 5px;
     color: #ffffff;
 }
+
+
+
+
+.calculated_area {
+    float: right;
+    width: 100%;
+}

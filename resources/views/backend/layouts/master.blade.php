@@ -174,7 +174,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <footer class="main-footer">
             <!-- To the right -->
             <div class="float-right d-none d-sm-inline">
-                BrainStation24.com
+                Al-Falah Hospital
             </div>
             <!-- Default to the left -->
             <strong>Copyright &copy;
@@ -185,7 +185,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </script>
 
 
-                <a href="https://smssystemauto.com">SMS Auto</a>.
+                <a href="#">Al-Falah Hospital</a>.
             </strong> All rights reserved.
         </footer>
     </div>

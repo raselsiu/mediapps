@@ -36,7 +36,7 @@
                             <div class="form-group col-md-4">
                                 <label for="name">Admission Date: </label>
                                 <input type="date" class="form-control" name="admission_date"
-                                    placeholder="Admission Date....">
+                                    value="{{ $patient->created_at->format('Y-m-d') }}" placeholder="Admission Date....">
                                 {{-- @if ($errors->has('name'))
                                     <span style="color: red">{{ $errors->first('name') }}</span>
                                 @endif --}}
@@ -52,7 +52,8 @@
 
                             <div class="form-group col-md-4">
                                 <label for="name">Name: </label>
-                                <input type="text" class="form-control" name="name" placeholder="Patient Name....">
+                                <input type="text" class="form-control" value="{{ $patient->name }}" name="name"
+                                    placeholder="Patient Name....">
                                 {{-- @if ($errors->has('name'))
                                     <span style="color: red">{{ $errors->first('name') }}</span>
                                 @endif --}}
@@ -62,7 +63,7 @@
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label for="name">Mobile No: </label>
-                                <input type="text" class="form-control" name="mobile"
+                                <input type="text" class="form-control" name="mobile" value="{{ $patient->mobile }}"
                                     placeholder="Patient Mobile Number....">
                                 {{-- @if ($errors->has('name'))
                                     <span style="color: red">{{ $errors->first('name') }}</span>
@@ -73,7 +74,7 @@
 
                             <div class="form-group col-md-4">
                                 <label for="name">Cabin No: </label>
-                                <input type="text" class="form-control" name="cabin_no"
+                                <input type="text" class="form-control" name="cabin_no" value="{{ $patient->cabin_no }}"
                                     placeholder="Patient Cabin No. ....">
                                 {{-- @if ($errors->has('name'))
                                     <span style="color: red">{{ $errors->first('name') }}</span>
@@ -82,7 +83,8 @@
 
                             <div class="form-group col-md-4">
                                 <label for="name">Regi No: </label>
-                                <input type="text" class="form-control" name="regi_no" placeholder="Regi. No....">
+                                <input type="text" class="form-control" value="{{ $uuid }}" name="regi_no"
+                                    value="" placeholder="Regi. No....">
                                 {{-- @if ($errors->has('name'))
                                     <span style="color: red">{{ $errors->first('name') }}</span>
                                 @endif --}}
@@ -90,7 +92,7 @@
                             <div class="form-group col-md-6">
                                 <label for="name">Address: </label>
                                 <textarea class="form-control" name="address" id="address" cols="5" rows="2"
-                                    placeholder="Patient Address Here..."></textarea>
+                                    placeholder="Patient Address Here...">{{ $patient->present_address }}, {{ $patient->pa_district }}</textarea>
                                 {{-- @if ($errors->has('name'))
                                     <span style="color: red">{{ $errors->first('name') }}</span>
                                 @endif --}}
@@ -113,7 +115,8 @@
                             <tbody>
 
                                 <tr>
-                                    <input type="hidden" name="patient_uuid" value="{{ $uuid }}" id="patient_uuid">
+                                    <input type="hidden" name="patient_uuid" value="{{ $uuid }}"
+                                        id="patient_uuid">
 
                                     <td><input type="text" name="description[]" value="Registration Fee"
                                             placeholder="Add Description.." class="form-control" required>

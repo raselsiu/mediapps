@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\AdmissinForm;
+use App\Models\CashMemoForm;
 use App\Models\CashMemoInfo;
 use App\Models\Income;
 use App\Models\RegistratonForm;
@@ -33,7 +34,11 @@ class MedicalController extends Controller
     {
 
         $uuid = $id;
-        return view('backend.medical_pages.cash_memo', compact('uuid'));
+
+
+        $patient = AdmissinForm::where('uuid', $id)->first();
+
+        return view('backend.medical_pages.cash_memo', compact('uuid', 'patient'));
     }
 
 
@@ -77,10 +82,6 @@ class MedicalController extends Controller
             'patient_uuid' => 'required',
         ]);
 
-
-
-
-
         $patient_uuid = $request->patient_uuid;
         $description = $request->description;
         $comments = $request->comments;
@@ -98,8 +99,46 @@ class MedicalController extends Controller
             DB::table('cash_memo_forms')->insert($data);
         }
 
-        return redirect()->back()->with('success', 'Data Inserted Successfully!');
+
+
+
+        $rcpt_info = CashMemoInfo::where('patient_uuid', $request->patient_uuid)->first();
+
+        $patient_info = AdmissinForm::where('uuid', $request->patient_uuid)->first();
+
+
+        $get_bill = CashMemoForm::where('patient_uuid', $request->patient_uuid)->get()->toArray();
+
+
+        return view('backend.medical_pages.cash_memo_receipt', compact('rcpt_info', 'get_bill', 'patient_info'));
     }
+
+
+
+
+    public function receipt_generate()
+    {
+
+        $id = '6630cece79b9e';
+
+        $rcpt_info = CashMemoInfo::where('patient_uuid', $id)->first();
+        $get_bill = CashMemoForm::where('patient_uuid', $id)->get()->toArray();
+
+        $patient_info = AdmissinForm::where('uuid', $id)->first();
+
+
+        return view('backend.medical_pages.cash_memo_receipt', compact('rcpt_info', 'get_bill', 'patient_info'));
+    }
+
+
+
+
+
+
+
+
+
+
 
 
     public function all_regi_patient()
@@ -171,9 +210,6 @@ class MedicalController extends Controller
         $patient = AdmissinForm::where('uuid', $patient_id)->firstOrFail();
 
         $isAdmitted = $patient->is_admitted;
-
-
-
 
 
 

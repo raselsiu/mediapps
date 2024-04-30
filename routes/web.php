@@ -61,8 +61,11 @@ Route::group(['prefix' => 'profile', 'middleware' => ['auth']], function () {
 Route::group(['prefix' => 'patients', 'middleware' => ['auth']], function () {
     Route::get('/registration/form', [MedicalController::class, 'registration_form'])->name('registration_form');
     Route::get('/registered/patients', [MedicalController::class, 'all_regi_patient'])->name('all_regi_patient');
-    Route::get('/registered/patients/view/{patient_id}', [MedicalController::class, 'regi_form_view'])->name('regi_form_view');
+    Route::get('/registered/admit/patients/view/{patient_id}', [MedicalController::class, 'regi_form_view'])->name('regi_form_view');
     Route::get('/admission/form/', [MedicalController::class, 'admission_form'])->name('admission_form');
+
+
+
 
     Route::post('/registration/form/save', [MedicalController::class, 'storeRegistration'])->name('storeRegistration');
 });
@@ -82,6 +85,9 @@ Route::group(['prefix' => 'cash-memo', 'middleware' => ['auth']], function () {
 
     Route::get('/generate/form/{id}', [MedicalController::class, 'cash_memo_form'])->name('cash_memo_form');
     Route::post('/memo/generate/save', [MedicalController::class, 'cash_memo_form_save'])->name('cash_memo_form_save');
+
+
+    Route::get('/generate/receipt', [MedicalController::class, 'receipt_generate'])->name('receipt_generate');
 });
 
 
