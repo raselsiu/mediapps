@@ -187,12 +187,12 @@ $total = Session::get('total_revenue');
             });
 
 
-            window.onload = function() {
-                if (!window.location.hash) {
-                    window.location = window.location + '#loaded';
-                    window.location.reload();
-                }
-            }
+            // window.onload = function() {
+            //     if (!window.location.hash) {
+            //         window.location = window.location + '#loaded';
+            //         window.location.reload();
+            //     }
+            // }
         </script>
     @endpush
 @endsection

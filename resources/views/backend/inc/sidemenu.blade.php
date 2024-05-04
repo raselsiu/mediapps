@@ -249,9 +249,9 @@ $route = Route::current()->getName();
 
                     </ul>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="{{ route('receipt_generate') }}">Receipt</a>
-                </li>
+                </li> --}}
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
