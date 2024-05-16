@@ -45,6 +45,11 @@ class AccountController extends Controller
 
 
 
+
+    
+
+
+
     public function expenditureCalculation()
     {
         $expenditure['data'] = Expenditure::all();

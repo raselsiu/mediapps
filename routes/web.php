@@ -12,6 +12,7 @@ use App\Http\Controllers\IncomeCategoryController;
 use App\Http\Controllers\IncomeFieldController;
 use App\Http\Controllers\IncomeSubCategoryController;
 use App\Http\Controllers\OutdoorController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TestController;
 use App\Models\Expenditure;
 use App\Models\ExpenditureCategory;
@@ -116,6 +117,15 @@ Route::group(['prefix' => 'accounts', 'middleware' => ['auth']], function () {
     Route::get('/expenditure/', [AccountController::class, 'expenditureCalculation'])->name('expenditureCalculation');
 
     Route::get('/income/', [AccountController::class, 'incomeCalculation'])->name('incomeCalculation');
+
+
+
+    // Accounts Fetch Data by Date and Time
+
+
+    Route::get('/revenue/search/todays', [SearchController::class, 'dataTwentyFourHour'])->name('dataTwentyFourHour');
+    Route::get('/revenue/search/current-month', [SearchController::class, 'getCurrentMonthRevenue'])->name('getCurrentMonthRevenue');
+    Route::get('/revenue/search/last-month', [SearchController::class, 'getLastMonthRevenue'])->name('getLastMonthRevenue');
 });
 
 

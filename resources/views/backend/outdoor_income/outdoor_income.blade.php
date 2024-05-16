@@ -24,7 +24,8 @@ $total = Session::get('total_revenue');
             <!-- small box -->
             <div class="small-box bg-info">
                 <div class="inner">
-                    <h3>{{ $total ? $total : '0' }}</h3>
+                    {{-- <h3 id="amount_id">{{ $total ? $total : '0' }}</h3> --}}
+                    <h3 id="amount_id"></h3>
 
                     <p>Total Outdoor Revenue </p>
                 </div>
@@ -90,11 +91,8 @@ $total = Session::get('total_revenue');
                 <div class="card-header">
                     <div class="btn-row">
                         <span><a class="btn btn-warning" href="">Todays Revenue</a></span>
-                        <span><a class="btn btn-warning" href="">Last 24 Hours Revenue</a></span>
                         <span><a class="btn btn-warning" href="">Current Month Revenue</a></span>
                         <span><a class="btn btn-warning" href="">Last Month Revenue</a></span>
-                        <span><a class="btn btn-warning" href="">Last 24 Hours</a></span>
-                        <span><a class="btn btn-warning" href="">Last 24 Hours</a></span>
                     </div>
 
 
@@ -150,7 +148,7 @@ $total = Session::get('total_revenue');
                                 <th>No.</th>
                                 {{-- <th>Patients ID</th> --}}
                                 <th>Name </th>
-                                <th><span class="total_amount">Total = {{ $total_revenue }}</span></th>
+                                <th> Total = <span id="total_amount" class="total_amount">{{ $total_revenue }}</span></th>
                                 <th>View Patient</th>
                             </tr>
                         </tfoot>
@@ -193,6 +191,14 @@ $total = Session::get('total_revenue');
             //         window.location.reload();
             //     }
             // }
+
+
+            // Get the value of the element with ID 'total_amount'
+            var totalAmountElement = document.getElementById('total_amount');
+
+            // Get the value from total_amount and set it to the text content of amount_id
+            var amountIdElement = document.getElementById('amount_id');
+            amountIdElement.textContent = totalAmountElement.textContent + " TK";
         </script>
     @endpush
 @endsection
