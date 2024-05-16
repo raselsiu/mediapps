@@ -86,3 +86,41 @@ span.total_amount {
     float: right;
     width: 100%;
 }
+
+.select2 {
+    width: 100% !important;
+}
+
+span.p_clear {
+    background: #38c162;
+    padding: 1px 5px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+span.p_not_clear {
+    background: #e97d7d;
+    padding: 2px 5px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+a.btn_cash_memo_view {
+    background: #ffb610;
+    padding: 2px 8px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+p.cash_memo_generated {
+    background: #ede9e9;
+    text-align: center;
+    padding: 6px 5px;
+    border-radius: 5px;
+    color: #000000;
+}
+
+.cashmemo_btn {
+    width: 60%;
+    margin: 0 auto;
+}

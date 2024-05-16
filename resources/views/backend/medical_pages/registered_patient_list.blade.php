@@ -18,7 +18,7 @@
         <div class="col-md-12 col-lg-12 col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <h1 class="card-title">Available Users</h1>
+                    <h1 class="card-title">Available Patients</h1>
                     <a href="{{ route('registration_form') }}" class="float-right btn btn-success"> <i
                             class="fa fa-plus-circle"></i> Register Patients</a>
                 </div>
@@ -27,9 +27,12 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Patients ID</th>
                                 <th>Name</th>
+                                <th>Address</th>
                                 <th>Mobile</th>
+                                <th>Cabin No.</th>
+                                <th>Payment Status</th>
+                                <th>Cash-Memo</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -38,9 +41,40 @@
                             @foreach ($patients as $key => $patient)
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
-                                    <td>{{ $patient->uuid }}</td>
                                     <td>{{ $patient->name }}</td>
+                                    <td>{{ $patient->present_address }}, {{ $patient->pre_thana }},
+                                        {{ $patient->pre_district }}</td>
                                     <td>{{ $patient->mobile }}</td>
+                                    <td>{{ $patient->cabin_no }}</td>
+
+                                    <?php
+                                    
+                                    $balance = DB::table('cash_memo_infos')
+                                        ->where('patient_uuid', $patient->uuid)
+                                        ->first();
+                                    
+                                    ?>
+
+                                    <td>
+                                        @isset($balance->outstanding_total)
+                                            <span class="{{ $balance->outstanding_total == 0 ? 'p_clear' : 'p_not_clear' }}">
+                                                {{ $balance->outstanding_total == 0 ? 'Clear - Paid: ' . $balance->total_paid . ' TK' : 'Due - ' . $balance->outstanding_total . 'TK' }}
+                                            </span>
+                                        @else
+                                            <p
+                                                style="background: #fa9090; padding:2px 5px; border-radius:5px;text-align:center">
+                                                Not Genereted</p>
+                                        @endisset
+                                    </td>
+                                    <td>
+                                        @if ($patient->is_cash_memo_generated)
+                                            <a href="{{ route('view_cash_memo', $patient->uuid) }}"
+                                                class="btn_cash_memo_view">View Memo</a>
+                                        @else
+                                            No Cash Memo
+                                        @endif
+
+                                    </td>
                                     <td>
                                         <a href="" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
                                         <a href="" id="deleteEvent" class="btn btn-sm btn-danger"><i
@@ -56,9 +90,12 @@
                         <tfoot>
                             <tr>
                                 <th>No.</th>
-                                <th>Role</th>
                                 <th>Name</th>
-                                <th>Email</th>
+                                <th>Address</th>
+                                <th>Mobile</th>
+                                <th>Cabin No.</th>
+                                <th>Payment Status</th>
+                                <th>Cash-Memo</th>
                                 <th>Actions</th>
                             </tr>
                         </tfoot>

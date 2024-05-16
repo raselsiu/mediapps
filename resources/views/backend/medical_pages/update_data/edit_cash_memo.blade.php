@@ -10,7 +10,7 @@
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Simple Tables</li>
+                <li class="breadcrumb-item active">Update Cash Memo</li>
             </ol>
         </div>
         <div class="col-md-12">
@@ -20,7 +20,7 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <form action="{{ route('cash_memo_form_save') }}" method="POST" id="myForm">
+                    <form action="" method="POST" id="myForm">
                         @csrf
 
 

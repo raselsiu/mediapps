@@ -14,15 +14,11 @@ return new class extends Migration
         Schema::create('admissin_forms', function (Blueprint $table) {
             $table->id();
             $table->string('uuid');
+            $table->string('regular_date');
+            $table->string('regi_no');
             $table->string('name');
             $table->string('age');
             $table->string('father_or_husb_name');
-            $table->string('mother_name');
-            $table->string('permanent_address');
-            $table->string('pa_village');
-            $table->string('pa_post_code');
-            $table->string('pa_thana');
-            $table->string('pa_district');
             $table->string('present_address');
             $table->string('pre_village');
             $table->string('pre_post_code');
@@ -36,6 +32,14 @@ return new class extends Migration
             $table->string('cabin_no');
             $table->string('date_of_leave')->nullable();
             $table->string('leave_time')->nullable();
+            $table->string('is_admitted')->nullable();
+            $table->string('status')->nullable();
+            $table->string('total_bill')->nullable();
+            $table->string('discount')->nullable();
+            $table->string('total_paid')->nullable();
+            $table->string('paid')->nullable();
+            $table->string('is_payment_clear')->default(0);
+            $table->string('is_cash_memo_generated')->default(0);
             $table->timestamps();
         });
     }

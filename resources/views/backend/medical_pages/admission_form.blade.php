@@ -34,6 +34,27 @@
                     <input type="text" hidden name="registration_fee" value="registration_fee">
                     <div class="card-body">
                         <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="regular_date">Date: </label>
+                                    <input type="date" class="form-control" name="regular_date" id="regular_date">
+                                    @if ($errors->has('regular_date'))
+                                        <span style="color: red">{{ $errors->first('regular_date') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="regi_no">Regi No: </label>
+                                    <input type="text" class="form-control" name="regi_no" id="regi_no"
+                                        placeholder="Enter Regi. No...">
+                                    @if ($errors->has('regi_no'))
+                                        <span style="color: red">{{ $errors->first('regi_no') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="form-group col-md-4">
                                 <label for="name">Patient Name: </label>
                                 <input type="text" class="form-control" name="name" id="name"
@@ -58,62 +79,10 @@
                                     <span style="color: red">{{ $errors->first('father_or_husb_name') }}</span>
                                 @endif
                             </div>
-                            <div class="form-group col-md-3">
-                                <label for="mother_name">Mother Name: </label>
-                                <input type="text" class="form-control" id="mother_name" name="mother_name"
-                                    placeholder="Mother Name...." />
-                                @if ($errors->has('mother_name'))
-                                    <span style="color: red">{{ $errors->first('mother_name') }}</span>
-                                @endif
-                            </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="addr_area">
-                                    <div class="form-group col-md-12">
-                                        <label for="permanent_address">Permanent Address: </label>
-                                        <input type="text" class="form-control" name="permanent_address"
-                                            id="permanent_address" placeholder="Permanent Address....">
-                                        @if ($errors->has('permanent_address'))
-                                            <span style="color: red">{{ $errors->first('permanent_address') }}</span>
-                                        @endif
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <label for="pa_village">Village: </label>
-                                        <input type="text" class="form-control" name="pa_village" id="pa_village"
-                                            placeholder="Village....">
-                                        @if ($errors->has('pa_village'))
-                                            <span style="color: red">{{ $errors->first('pa_village') }}</span>
-                                        @endif
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <label for="pa_post_code">Post Office: </label>
-                                        <input type="text" class="form-control" name="pa_post_code" id="pa_post_code"
-                                            placeholder="Post Office....">
-                                        @if ($errors->has('pa_post_code'))
-                                            <span style="color: red">{{ $errors->first('pa_post_code') }}</span>
-                                        @endif
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <label for="pa_thana">Thana: </label>
-                                        <input type="text" class="form-control" name="pa_thana" id="pa_thana"
-                                            placeholder="Thana....">
-                                        @if ($errors->has('pa_thana'))
-                                            <span style="color: red">{{ $errors->first('pa_thana') }}</span>
-                                        @endif
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <label for="pa_district">District: </label>
-                                        <input type="text" class="form-control" name="pa_district" id="pa_district"
-                                            placeholder="District....">
-                                        @if ($errors->has('pa_district'))
-                                            <span style="color: red">{{ $errors->first('pa_district') }}</span>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="addr_area">
                                     <div class="form-group col-md-12">
                                         <label for="present_address">Present Address: </label>
@@ -133,8 +102,8 @@
                                     </div>
                                     <div class="form-group col-md-12">
                                         <label for="pre_post_code">Post Office: </label>
-                                        <input type="text" class="form-control" name="pre_post_code"
-                                            id="pre_post_code" placeholder="Post Office....">
+                                        <input type="text" class="form-control" name="pre_post_code" id="pre_post_code"
+                                            placeholder="Post Office....">
                                         @if ($errors->has('pre_post_code'))
                                             <span style="color: red">{{ $errors->first('pre_post_code') }}</span>
                                         @endif
@@ -218,18 +187,14 @@
                                         <label for="date_of_leave">Date Of Leave: </label>
                                         <input type="date" class="form-control" name="date_of_leave"
                                             id="date_of_leave" placeholder="Cabin Number....">
-                                        @if ($errors->has('date_of_leave'))
-                                            <span style="color: red">{{ $errors->first('date_of_leave') }}</span>
-                                        @endif
+
                                     </div>
 
                                     <div class="form-group col-md-12">
-                                        <label for="leave_time">Time: </label>
+                                        <label for="leave_time">Leave Time: </label>
                                         <input type="time" class="form-control" name="leave_time" id="leave_time"
                                             placeholder="Cabin Number....">
-                                        @if ($errors->has('leave_time'))
-                                            <span style="color: red">{{ $errors->first('leave_time') }}</span>
-                                        @endif
+
                                     </div>
                                 </div>
                             </div>
@@ -259,19 +224,113 @@
     </script>
 
 
+
+
+
+
+
+
     <script>
         $(function() {
             $('#userForm').validate({
                 rules: {
+                    regular_date: {
+                        required: true,
+                    },
+                    regi_no: {
+                        required: true,
+                    },
                     name: {
                         required: true,
-                        maxlength: 50,
-                    }
+                    },
+                    age: {
+                        required: true,
+                    },
+                    father_or_husb_name: {
+                        required: true,
+                    },
+                    present_address: {
+                        required: true,
+                    },
+                    pre_village: {
+                        required: true,
+                    },
+                    pre_post_code: {
+                        required: true,
+                    },
+                    pre_thana: {
+                        required: true,
+                    },
+                    pre_district: {
+                        required: true,
+                    },
+                    mobile: {
+                        required: true,
+                    },
+                    admission_date: {
+                        required: true,
+                    },
+                    admission_time: {
+                        required: true,
+                    },
+                    disease_name: {
+                        required: true,
+                    },
+                    doctor_name: {
+                        required: true,
+                    },
+                    cabin_no: {
+                        required: true,
+                    },
                 },
                 messages: {
+                    regular_date: {
+                        required: 'Date required.',
+                    },
+                    regi_no: {
+                        required: 'Enter Regi No.',
+                    },
                     name: {
-                        required: "Please enter name",
-                        maxlength: "Your password must be not greater then 50 characters long"
+                        required: 'Enter patient name',
+                    },
+                    age: {
+                        required: 'Age',
+                    },
+                    father_or_husb_name: {
+                        required: "Father or Husband name is requied",
+                    },
+                    present_address: {
+                        required: 'Present Address',
+                    },
+                    pre_village: {
+                        required: 'Village name',
+                    },
+                    pre_post_code: {
+                        required: 'Field is required',
+                    },
+                    pre_thana: {
+                        required: "Field is required",
+                    },
+                    pre_district: {
+                        required: 'Field is required',
+                    },
+                    mobile: {
+                        required: 'Field is required',
+                    },
+                    admission_date: {
+                        required: 'Field is required',
+                    },
+                    admission_time: {
+                        required: 'Field is required',
+                    },
+                    disease_name: {
+                        required: 'Field is required',
+                    },
+                    doctor_name: {
+                        required: 'Field is required',
+                    },
+                    cabin_no: {
+                        required: 'Field is required',
                     }
                 },
                 errorElement: 'span',

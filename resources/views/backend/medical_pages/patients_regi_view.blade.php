@@ -31,10 +31,6 @@
                                     src="{{ asset('backend/img/uploads/no_img.png') }}" alt="User profile picture">
                             </div>
 
-
-
-
-
                             <h3 class="profile-username text-center">{{ $hospitalName }}</h3>
 
                             <p class="text-muted text-center">{{ $hospitalAddress }} | Mobile: {{ $hospitalPhone }}</p>
@@ -54,7 +50,7 @@
                                 </li>
                                 <li class="list-group-item">
                                     Address:-
-                                    <p class="float-right">{{ $patient->pa_village }}</p>
+                                    <p class="float-right">{{ $patient->present_address }}, {{ $patient->pre_district }}</p>
                                 </li>
 
                                 <li class="list-group-item">
@@ -77,10 +73,24 @@
                         {{-- <div class="col-md-6"> <a href="{{ route('admission_form_view', $patient->uuid) }}"
                                     class="btn btn-success btn-block"><b>Admit patient</b></a>
                             </div> --}}
-                        <div class="col-md-6"> <a href="{{ route('cash_memo_form', $patient->uuid) }}"
-                                class="btn btn-success btn-block"><b>Generate Cash
-                                    Memo</b></a>
+                        <div class="col-md-6">
+                            @if ($patient->is_cash_memo_generated)
+                                <p class="cash_memo_generated">Cash-Memo Generated</p>
+                            @else
+                                <a href="{{ route('cash_memo_form', $patient->uuid) }}" class="btn btn-success btn-block">
+                                    <b>Generate Cash Memo</b>
+                                </a>
+                            @endif
                         </div>
+                        @if ($patient->is_cash_memo_generated)
+                            <div class="col-md-6"> <a href="{{ route('view_cash_memo', $patient->uuid) }}"
+                                    class="btn btn-success btn-block"><b>View Cash-Memo</b></a>
+                            </div>
+                        @else
+                            <div class="col-md-6"> <a href="{{ route('all_regi_patient') }}"
+                                    class="btn btn-success btn-block"><b>Pateint Lists</b></a>
+                            </div>
+                        @endif
                     </div>
                 </div>
 

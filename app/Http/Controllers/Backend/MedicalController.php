@@ -8,6 +8,7 @@ use App\Models\CashMemoForm;
 use App\Models\CashMemoInfo;
 use App\Models\Income;
 use App\Models\RegistratonForm;
+use App\Models\Service;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,16 +39,40 @@ class MedicalController extends Controller
 
         $patient = AdmissinForm::where('uuid', $id)->first();
 
-        return view('backend.medical_pages.cash_memo', compact('uuid', 'patient'));
+
+        $service_list = Service::all();
+
+
+        return view('backend.medical_pages.cash_memo', compact('uuid', 'patient', 'service_list'));
     }
+
+
+
+
+
+    public function edit_cash_memo(String $id)
+    {
+        $uuid = $id;
+
+        $patient = AdmissinForm::where('uuid', $id)->first();
+
+        $cash_memo_info = CashMemoInfo::where('patient_uuid', $id)->first();
+
+        $cash_memo_form = CashMemoForm::where('patient_uuid', $id)->first();
+
+        $service_list = Service::all();
+
+
+        return view('backend.medical_pages.update_data.edit_cash_memo', compact('uuid', 'patient', 'service_list'));
+    }
+
+
 
 
 
 
     public function cash_memo_form_save(Request $request)
     {
-
-
 
 
         $data = new CashMemoInfo();
@@ -68,15 +93,33 @@ class MedicalController extends Controller
         $paid = $request->paid;
         $outstanding = $totalPaid - $paid;
 
-
         $data->outstanding_total = $outstanding;
         $data->generated_by = Auth::user()->name;
 
+
+
+
+        $admissionFormData = AdmissinForm::where('uuid', $request->patient_uuid)->first();
+        $admissionFormData->total_bill = $request->total_bill;
+        $admissionFormData->discount = $request->discount;
+        $admissionFormData->total_paid = $request->total_paid;
+        $admissionFormData->paid = $request->paid;
+        if ($totalPaid == $paid) {
+            $admissionFormData->is_payment_clear = true;
+        } else {
+            $admissionFormData->is_payment_clear = false;
+        }
+
+        $admissionFormData->is_cash_memo_generated = true;
+
+
         $data->save();
 
+        $admissionFormData->save();
 
 
 
+        //Cash-Memo Form 
 
         $this->validate($request, [
             'patient_uuid' => 'required',
@@ -115,6 +158,24 @@ class MedicalController extends Controller
 
 
 
+    public function view_cash_memo(String $id)
+    {
+        $rcpt_info = CashMemoInfo::where('patient_uuid', $id)->first();
+
+        $patient_info = AdmissinForm::where('uuid', $id)->first();
+
+        $get_bill = CashMemoForm::where('patient_uuid', $id)->get()->toArray();
+
+        return view('backend.medical_pages.cash_memo_receipt', compact('rcpt_info', 'get_bill', 'patient_info'));
+    }
+
+
+
+
+
+
+
+
 
     public function receipt_generate()
     {
@@ -140,9 +201,9 @@ class MedicalController extends Controller
 
 
 
-
     public function all_regi_patient()
     {
+
 
         $data['patients'] = AdmissinForm::all();
 
@@ -209,12 +270,8 @@ class MedicalController extends Controller
 
         $patient = AdmissinForm::where('uuid', $patient_id)->firstOrFail();
 
-        $isAdmitted = $patient->is_admitted;
 
-
-
-
-        return view('backend.medical_pages.patients_regi_view', compact('patient', 'isAdmitted'));
+        return view('backend.medical_pages.patients_regi_view', compact('patient'));
     }
 
 
@@ -234,15 +291,11 @@ class MedicalController extends Controller
         $uuid = uniqid();
 
         $patient_info->uuid = $uuid;
+        $patient_info->regular_date = $request->regular_date;
+        $patient_info->regi_no = $request->regi_no;
         $patient_info->name = $request->name;
         $patient_info->age = $request->age;
         $patient_info->father_or_husb_name = $request->father_or_husb_name;
-        $patient_info->mother_name = $request->mother_name;
-        $patient_info->permanent_address = $request->permanent_address;
-        $patient_info->pa_village = $request->pa_village;
-        $patient_info->pa_post_code = $request->pa_post_code;
-        $patient_info->pa_thana = $request->pa_thana;
-        $patient_info->pa_district = $request->pa_district;
         $patient_info->present_address = $request->present_address;
         $patient_info->pre_village = $request->pre_village;
         $patient_info->pre_post_code = $request->pre_post_code;
@@ -256,6 +309,9 @@ class MedicalController extends Controller
         $patient_info->cabin_no = $request->cabin_no;
         $patient_info->date_of_leave = $request->date_of_leave;
         $patient_info->leave_time = $request->leave_time;
+        $patient_info->is_admitted = true;
+        $patient_info->status = 'admitted';
+
 
         $patient_info->save();
 
@@ -267,25 +323,28 @@ class MedicalController extends Controller
 
 
 
-    public function show(string $id)
+    public function service_index()
     {
-        //
+        return view('backend.medical_service.service');
     }
-
-
-    public function edit(string $id)
+    public function service_store(Request $request)
     {
-        //
+
+
+        $this->validate($request, [
+            'name' => 'required'
+        ]);
+
+
+        $data = new Service();
+
+        $data->name = $request->name;
+        $data->name = $request->name;
+        $data->name = $request->name;
+        $data->save();
+        return redirect()->back()->with('success', 'Created Successfully!');
     }
-
-
-    public function update(Request $request, string $id)
+    public function delete_service()
     {
-        //
-    }
-
-    public function destroy(string $id)
-    {
-        //
     }
 }

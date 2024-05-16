@@ -59,12 +59,12 @@ Route::group(['prefix' => 'profile', 'middleware' => ['auth']], function () {
 });
 
 Route::group(['prefix' => 'patients', 'middleware' => ['auth']], function () {
+
+
     Route::get('/registration/form', [MedicalController::class, 'registration_form'])->name('registration_form');
     Route::get('/registered/patients', [MedicalController::class, 'all_regi_patient'])->name('all_regi_patient');
     Route::get('/registered/admit/patients/view/{patient_id}', [MedicalController::class, 'regi_form_view'])->name('regi_form_view');
     Route::get('/admission/form/', [MedicalController::class, 'admission_form'])->name('admission_form');
-
-
 
 
     Route::post('/registration/form/save', [MedicalController::class, 'storeRegistration'])->name('storeRegistration');
@@ -85,9 +85,10 @@ Route::group(['prefix' => 'cash-memo', 'middleware' => ['auth']], function () {
 
     Route::get('/generate/form/{id}', [MedicalController::class, 'cash_memo_form'])->name('cash_memo_form');
     Route::post('/memo/generate/save', [MedicalController::class, 'cash_memo_form_save'])->name('cash_memo_form_save');
-
-
     Route::get('/generate/receipt', [MedicalController::class, 'receipt_generate'])->name('receipt_generate');
+    Route::get('/form/view/{id}', [MedicalController::class, 'view_cash_memo'])->name('view_cash_memo');
+
+    Route::get('/form/edit/{id}', [MedicalController::class, 'edit_cash_memo'])->name('edit_cash_memo');
 });
 
 
@@ -167,15 +168,14 @@ Route::group(['prefix' => 'data-entry', 'middleware' => ['auth']], function () {
     Route::get('/get_subcategory/income/{id}', [IncomeFieldController::class, 'getIncomeSubCategory'])->name('getIncomeSubCategory');
 
     Route::post('/store/income/get_subcategory', [IncomeFieldController::class, 'store'])->name('storeIncomeForm');
+
+
+
+    // Add Service
+    Route::get('/service/create', [MedicalController::class, 'service_index'])->name('service_index');
+    Route::post('/service/store', [MedicalController::class, 'service_store'])->name('service_store');
+    Route::get('/service/delete', [MedicalController::class, 'delete_service'])->name('delete_service');
 });
-
-
-
-
-
-
-
-
 
 
 
@@ -185,21 +185,6 @@ Route::group(['prefix' => 'data-entry', 'middleware' => ['auth']], function () {
 Route::group(['prefix' => 'accounts', 'middleware' => ['auth']], function () {
     Route::get('/outdoor', [AccountController::class, 'outdoor_income'])->name('outdoor_income');
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
