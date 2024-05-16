@@ -185,13 +185,3 @@ Route::group(['prefix' => 'data-entry', 'middleware' => ['auth']], function () {
 Route::group(['prefix' => 'accounts', 'middleware' => ['auth']], function () {
     Route::get('/outdoor', [AccountController::class, 'outdoor_income'])->name('outdoor_income');
 });
-
-
-
-
-
-
-
-
-Route::get('/test-form', [TestController::class, 'index'])->name('testForm');
-Route::post('/test-form/save', [TestController::class, 'store'])->name('testFormStore');
