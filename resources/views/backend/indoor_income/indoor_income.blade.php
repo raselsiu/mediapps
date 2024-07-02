@@ -1,6 +1,6 @@
 <?php
-$total_expenditure = 0;
-$total = Session::get('total_expenditure');
+$total_revenue = 0;
+$total = Session::get('total_revenue');
 ?>
 
 
@@ -9,7 +9,7 @@ $total = Session::get('total_expenditure');
 @section('content')
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h1 class="m-0">Expenditure Accounting</h1>
+            <h1 class="m-0">Indoor Accounting</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -24,9 +24,10 @@ $total = Session::get('total_expenditure');
             <!-- small box -->
             <div class="small-box bg-info">
                 <div class="inner">
-                    <h3>{{ $total ? $total : '0' }} TK</h3>
+                    {{-- <h3 id="amount_id">{{ $total ? $total : '0' }}</h3> --}}
+                    <h3 id="amount_id"></h3>
 
-                    <p>Total Expenditure </p>
+                    <p>Total Outdoor Revenue </p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-bag"></i>
@@ -38,9 +39,9 @@ $total = Session::get('total_expenditure');
             <!-- small box -->
             <div class="small-box bg-success">
                 <div class="inner">
-                    <h3>0 TK</sup></h3>
+                    <h3>53<sup style="font-size: 20px">%</sup></h3>
 
-                    <p>Todays</p>
+                    <p>Bounce Rate</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-stats-bars"></i>
@@ -52,9 +53,9 @@ $total = Session::get('total_expenditure');
             <!-- small box -->
             <div class="small-box bg-warning">
                 <div class="inner">
-                    <h3>0 TK</h3>
+                    <h3>44</h3>
 
-                    <p>Last Months</p>
+                    <p>User Registrations</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-person-add"></i>
@@ -66,9 +67,9 @@ $total = Session::get('total_expenditure');
             <!-- small box -->
             <div class="small-box bg-danger">
                 <div class="inner">
-                    <h3>0 TK</h3>
+                    <h3>65</h3>
 
-                    <p>Last 1 Year</p>
+                    <p>Unique Visitorsdsfsfsd</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-pie-graph"></i>
@@ -85,12 +86,11 @@ $total = Session::get('total_expenditure');
         <div class="col-md-12 col-lg-12 col-sm-12">
             <div class="card">
                 <div class="card-header">
-
                     <div class="btn-row">
-                        <span><a class="btn btn-warning" href="">Todays Revenue</a></span>
-                        <span><a class="btn btn-warning" href="">Current Month
+                        <span><a class="btn btn-warning" href="{{ route('dataTwentyFourHour') }}">Todays Revenue</a></span>
+                        <span><a class="btn btn-warning" href="{{ route('getCurrentMonthRevenue') }}">Current Month
                                 Revenue</a></span>
-                        <span><a class="btn btn-warning" href="">Last Month
+                        <span><a class="btn btn-warning" href="{{ route('getLastMonthRevenue') }}">Last Month
                                 Revenue</a></span>
                     </div>
 
@@ -101,38 +101,42 @@ $total = Session::get('total_expenditure');
                 </div>
                 <div class="card-body">
 
-                    <table id="example1" class="table table-bordered table-striped">
+                    <table id="example1xc" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th># SL No</th>
-                                <th>Category</th>
-                                <th>Subcategory</th>
-                                <th>Amount</th>
-                                <th>Details</th>
+                                {{-- <th>Patients ID</th> --}}
+                                <th>Name</th>
+                                <th>Income Amount</th>
+                                <th>View Patient</th>
                             </tr>
                         </thead>
                         <tbody>
 
 
 
-                            @foreach ($data as $key => $expenditure)
-                                <?php $total_expenditure = $total_expenditure + $expenditure->amount;
+                            @foreach ($data as $key => $income)
+                                <?php $total_revenue = $total_revenue + $income->paid;
                                 
-                                Session::put('total_expenditure', $total_expenditure);
+                                $patientName = DB::table('admissin_forms')
+                                    ->where('uuid', $income->patient_uuid)
+                                    ->get(['name']);
+                                
+                                Session::put('total_revenue', $total_revenue);
                                 
                                 ?>
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
-
-                                    <td>{{ $expenditure->category }}</td>
-                                    <td>{{ $expenditure->sub_category }}</td>
-
+                                    {{-- <td>{{ $income->patient_uuid }}</td> --}}
+                                    @foreach ($patientName as $patient)
+                                        <td>{{ $patient->name }}</td>
+                                    @endforeach
                                     <td>
-                                        <p class="amount" style="margin: 0px;padding:0px;">{{ $expenditure->amount }} TK
-                                        </p>
+                                        <p class="amount" style="margin: 0px;padding:0px;">+{{ $income->paid }}</p>
                                     </td>
                                     <td>
-                                        <a href="" class="btn btn-sm btn-primary"><i class="fa fa-eye"></i></a>
+                                        <a href="{{ route('regi_form_view', $income->patient_uuid) }}"
+                                            class="btn btn-sm btn-primary"><i class="fa fa-eye"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -142,10 +146,9 @@ $total = Session::get('total_expenditure');
                             <tr>
                                 <th>No.</th>
                                 {{-- <th>Patients ID</th> --}}
-                                <th></th>
-                                <th></th>
-                                <th><span class="total_amount">Total = -{{ $total_expenditure }} TK</span></th>
-                                <th>Details</th>
+                                <th>Name </th>
+                                <th> Total = <span id="total_amount" class="total_amount">{{ $total_revenue }}</span></th>
+                                <th>View Patient</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -163,7 +166,7 @@ $total = Session::get('total_expenditure');
     @push('js')
         <script>
             $(function() {
-                $("#example1").DataTable({
+                $("#example1xc").DataTable({
                     "responsive": true,
                     "lengthChange": false,
                     "autoWidth": false,
@@ -181,12 +184,11 @@ $total = Session::get('total_expenditure');
             });
 
 
-            // window.onload = function() {
-            //     if (!window.location.hash) {
-            //         window.location = window.location + '#loaded';
-            //         window.location.reload();
-            //     }
-            // }
+
+
+            var totalAmountElement = document.getElementById('total_amount');
+            var amountIdElement = document.getElementById('amount_id');
+            amountIdElement.textContent = totalAmountElement.textContent + " TK";
         </script>
     @endpush
 @endsection

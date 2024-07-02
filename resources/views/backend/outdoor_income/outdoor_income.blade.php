@@ -83,16 +83,15 @@ $total = Session::get('total_revenue');
         <div id="cf-data-container"></div>
 
 
-
-
-
         <div class="col-md-12 col-lg-12 col-sm-12">
             <div class="card">
                 <div class="card-header">
                     <div class="btn-row">
-                        <span><a class="btn btn-warning" href="">Todays Revenue</a></span>
-                        <span><a class="btn btn-warning" href="">Current Month Revenue</a></span>
-                        <span><a class="btn btn-warning" href="">Last Month Revenue</a></span>
+                        <span><a class="btn btn-warning" href="{{ route('dataTwentyFourHour') }}">Todays Revenue</a></span>
+                        <span><a class="btn btn-warning" href="{{ route('getCurrentMonthRevenue') }}">Current Month
+                                Revenue</a></span>
+                        <span><a class="btn btn-warning" href="{{ route('getLastMonthRevenue') }}">Last Month
+                                Revenue</a></span>
                     </div>
 
 

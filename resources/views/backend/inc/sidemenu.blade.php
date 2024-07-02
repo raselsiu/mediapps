@@ -232,7 +232,7 @@ $route = Route::current()->getName();
                         {{-- Outdoor --}}
 
                         <li class="nav-item">
-                            <a href="" class="nav-link ">
+                            <a href="{{ route('indoor_income') }}" class="nav-link ">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Indoor</p>
                             </a>
@@ -247,12 +247,21 @@ $route = Route::current()->getName();
                                 <p>Expenditure</p>
                             </a>
                         </li>
+
                         <li class="nav-item">
                             <a href="{{ route('incomeCalculation') }}" class="nav-link ">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Income</p>
                             </a>
                         </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('accountsBook') }}" class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Accounts Book</p>
+                            </a>
+                        </li>
+
 
                     </ul>
                 </li>

@@ -13,7 +13,7 @@ class SearchController extends Controller
     {
         // $out_income['data'] = Income::all();
 
-        $revenue24Hours['data'] = DB::table('incomes')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->get();
+        $revenue24Hours['data'] = DB::table('incomes')->where('income_source_name', 'outdoor-registration-fee')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->get();
 
         return view('backend.outdoor_income.outdoor_income', $revenue24Hours);
     }

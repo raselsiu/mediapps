@@ -118,9 +118,22 @@ Route::group(['prefix' => 'accounts', 'middleware' => ['auth']], function () {
 
     Route::get('/income/', [AccountController::class, 'incomeCalculation'])->name('incomeCalculation');
 
+    Route::get('/outdoor', [AccountController::class, 'outdoor_income'])->name('outdoor_income');
+
+    Route::get('/indoor', [AccountController::class, 'indoor_income'])->name('indoor_income');
+
+
+    // Account Books Controller 
+    Route::get('/account/books/todays', [AccountController::class, 'accountsBook'])->name('accountsBook');
+
+
+
+
 
 
     // Accounts Fetch Data by Date and Time
+
+
 
 
     Route::get('/revenue/search/todays', [SearchController::class, 'dataTwentyFourHour'])->name('dataTwentyFourHour');
@@ -185,13 +198,4 @@ Route::group(['prefix' => 'data-entry', 'middleware' => ['auth']], function () {
     Route::get('/service/create', [MedicalController::class, 'service_index'])->name('service_index');
     Route::post('/service/store', [MedicalController::class, 'service_store'])->name('service_store');
     Route::get('/service/delete', [MedicalController::class, 'delete_service'])->name('delete_service');
-});
-
-
-
-
-
-
-Route::group(['prefix' => 'accounts', 'middleware' => ['auth']], function () {
-    Route::get('/outdoor', [AccountController::class, 'outdoor_income'])->name('outdoor_income');
 });
