@@ -63,7 +63,7 @@ Route::group(['prefix' => 'patients', 'middleware' => ['auth']], function () {
 
 
     Route::get('/registration/form', [MedicalController::class, 'registration_form'])->name('registration_form');
-    Route::get('/registered/patients', [MedicalController::class, 'all_regi_patient'])->name('all_regi_patient');
+
     Route::get('/registered/admit/patients/view/{patient_id}', [MedicalController::class, 'regi_form_view'])->name('regi_form_view');
     Route::get('/admission/form/', [MedicalController::class, 'admission_form'])->name('admission_form');
 
@@ -77,6 +77,10 @@ Route::group(['prefix' => 'admission', 'middleware' => ['auth']], function () {
     Route::get('/form/view', [MedicalController::class, 'admission_form_view'])->name('admission_form_view');
 
     Route::post('/form/save', [MedicalController::class, 'admission_form_save'])->name('admission_form_save');
+
+
+
+    Route::get('/registered/patients', [MedicalController::class, 'all_regi_patient'])->name('all_regi_patient');
 });
 
 

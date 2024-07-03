@@ -96,8 +96,8 @@ $route = Route::current()->getName();
                 </li>
 
 
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
+                <li class="nav-item {{ $prefix == '/admission' ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link ">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Indoor
@@ -106,14 +106,16 @@ $route = Route::current()->getName();
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('admission_form_view') }}" class="nav-link ">
+                            <a href="{{ route('admission_form_view') }}"
+                                class="nav-link {{ $route == 'admission_form_view' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Admit patient</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('all_regi_patient') }}" class="nav-link ">
+                            <a href="{{ route('all_regi_patient') }}"
+                                class="nav-link {{ $route == 'all_regi_patient' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Patient Lists</p>
                             </a>
@@ -124,7 +126,7 @@ $route = Route::current()->getName();
 
 
 
-                <li class="nav-item">
+                <li class="nav-item {{ $prefix == '/outdoor' ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
@@ -134,14 +136,16 @@ $route = Route::current()->getName();
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('outdoor_regi_form') }}" class="nav-link ">
+                            <a href="{{ route('outdoor_regi_form') }}"
+                                class="nav-link {{ $route == 'outdoor_regi_form' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Register Patients</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('all_out_regi_patient') }}" class="nav-link ">
+                            <a href="{{ route('all_out_regi_patient') }}"
+                                class="nav-link {{ $route == 'all_out_regi_patient' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Patients Lists</p>
                             </a>
@@ -155,7 +159,7 @@ $route = Route::current()->getName();
 
 
 
-                <li class="nav-item">
+                <li class="nav-item {{ $prefix == '/data-entry' ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
@@ -165,32 +169,37 @@ $route = Route::current()->getName();
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('add_expenditure_index') }}" class="nav-link ">
+                            <a href="{{ route('add_expenditure_index') }}"
+                                class="nav-link {{ $route == 'add_expenditure_index' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Expenditure Category</p>
                             </a>
-                            <a href="{{ route('expenditure_form') }}" class="nav-link ">
+                            <a href="{{ route('expenditure_form') }}"
+                                class="nav-link {{ $route == 'expenditure_form' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Expenditure Form</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('add_income_index') }}" class="nav-link ">
+                            <a href="{{ route('add_income_index') }}"
+                                class="nav-link {{ $route == 'add_income_index' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Income Category</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('income_form') }}" class="nav-link ">
+                            <a href="{{ route('income_form') }}"
+                                class="nav-link {{ $route == 'income_form' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Income Form</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('service_index') }}" class="nav-link ">
+                            <a href="{{ route('service_index') }}"
+                                class="nav-link {{ $route == 'service_index' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Add Services</p>
                             </a>
@@ -205,7 +214,7 @@ $route = Route::current()->getName();
 
 
 
-                <li class="nav-item">
+                <li class="nav-item {{ $prefix == '/accounts' ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
@@ -220,7 +229,8 @@ $route = Route::current()->getName();
                         {{-- Outdoor --}}
 
                         <li class="nav-item">
-                            <a href="{{ route('outdoor_income') }}" class="nav-link ">
+                            <a href="{{ route('outdoor_income') }}"
+                                class="nav-link  {{ $route == 'outdoor_income' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Outdoor</p>
                             </a>
@@ -232,7 +242,8 @@ $route = Route::current()->getName();
                         {{-- Outdoor --}}
 
                         <li class="nav-item">
-                            <a href="{{ route('indoor_income') }}" class="nav-link ">
+                            <a href="{{ route('indoor_income') }}"
+                                class="nav-link  {{ $route == 'indoor_income' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Indoor</p>
                             </a>
@@ -242,21 +253,24 @@ $route = Route::current()->getName();
 
 
                         <li class="nav-item">
-                            <a href="{{ route('expenditureCalculation') }}" class="nav-link ">
+                            <a href="{{ route('expenditureCalculation') }}"
+                                class="nav-link {{ $route == 'expenditureCalculation' ? 'active' : '' }} ">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Expenditure</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('incomeCalculation') }}" class="nav-link ">
+                            <a href="{{ route('incomeCalculation') }}"
+                                class="nav-link {{ $route == 'incomeCalculation' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Income</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('accountsBook') }}" class="nav-link ">
+                            <a href="{{ route('accountsBook') }}"
+                                class="nav-link {{ $route == 'accountsBook' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Accounts Book</p>
                             </a>
