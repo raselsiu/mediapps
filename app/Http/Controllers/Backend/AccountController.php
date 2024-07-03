@@ -98,7 +98,6 @@ class AccountController extends Controller
 
     public function gettingIncome(Request $request)
     {
-
         $data = Income::all();
         return response()->json($data);
     }
@@ -110,28 +109,71 @@ class AccountController extends Controller
     public function accountsBook()
     {
 
-
+        // Todays Income
         $income_field = IncomeField::whereDate('created_at', Carbon::today())->select('category as income_source', 'amount as income_amount')->get();
         $incomes = Income::whereDate('created_at', Carbon::today())->get();
 
         $merge_income = $incomes->concat($income_field);
 
-
         $income_balance = $merge_income->pluck('income_amount')->sum();
 
 
 
-
-        // Expenditure
+        // Todays Expenditure
         $expenditure = Expenditure::whereDate('created_at', Carbon::today())->get();
         $expenditureAmount = DB::table('expenditures')->whereDate('created_at', Carbon::today())->pluck('amount')->sum();
-
-
 
         $inCash = $income_balance - $expenditureAmount;
 
 
-        return view('backend.accounts.account_books', compact('expenditure', 'expenditureAmount', 'merge_income', 'income_balance', 'inCash'));
+
+
+
+
+        // Yesterday Calculation
+
+        //Yesterday income
+
+        $income_field_yd = IncomeField::whereDate('created_at', Carbon::yesterday())->select('category as income_source', 'amount as income_amount')->get();
+        $incomes_yd = Income::whereDate('created_at', Carbon::yesterday())->get();
+
+        $merge_income_yd = $incomes_yd->concat($income_field_yd);
+
+
+        $income_balance_yd = $merge_income_yd->pluck('income_amount')->sum();
+
+
+        // Yesterday Expenditure
+        $expenditure_yd = Expenditure::whereDate('created_at', Carbon::yesterday())->get();
+        $expenditureAmount_yd = DB::table('expenditures')->whereDate('created_at', Carbon::yesterday())->pluck('amount')->sum();
+
+        // Yesterday Cash
+        $inCashYd = $income_balance_yd - $expenditureAmount_yd;
+
+
+        // Yesterday Calculation End
+
+
+
+        // Final Cash with forwording yesterday cash  
+        $presentCashWithYd = $inCash + $inCashYd;
+
+
+
+
+        return view('backend.accounts.account_books', compact(
+            'expenditure',
+            'expenditureAmount',
+            'merge_income',
+            'income_balance',
+            'inCash',
+            'inCashYd',
+            'expenditure_yd',
+            'expenditureAmount_yd',
+            'merge_income_yd',
+            'income_balance_yd',
+            'presentCashWithYd'
+        ));
     }
 
 

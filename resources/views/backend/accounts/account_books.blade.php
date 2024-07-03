@@ -23,9 +23,9 @@ $total = Session::get('total_expenditure');
             <!-- small box -->
             <div class="small-box bg-success">
                 <div class="inner">
-                    <h3><b>{{ $income_balance }} TK</b></h3>
+                    <h3><b>{{ number_format($income_balance) }} TK</b></h3>
 
-                    <p>Total Income</p>
+                    <p>Todays Total Income</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-stats-bars"></i>
@@ -34,11 +34,11 @@ $total = Session::get('total_expenditure');
         </div>
         <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-info">
+            <div class="small-box bg-warning">
                 <div class="inner">
-                    <h3><b> {{ $expenditureAmount }}&nbsp;TK</b></h3>
+                    <h3><b> {{ number_format($expenditureAmount) }}&nbsp;TK</b></h3>
 
-                    <p>Total Expenditure </p>
+                    <p>Todays Total Expenditure </p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-bag"></i>
@@ -50,11 +50,25 @@ $total = Session::get('total_expenditure');
 
         <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-warning">
+            <div class="small-box {{ $presentCashWithYd < 0 ? 'bg-danger' : 'bg-success' }}">
                 <div class="inner">
-                    <h3><b>{{ $inCash }}</b> TK</h3>
+                    <h3><b>{{ number_format($presentCashWithYd) }}</b> TK</h3>
 
-                    <p>In Cash</p>
+                    <p>In Cash (Today)</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3><b>{{ number_format($inCashYd) }}</b> TK</h3>
+
+                    <p>In Cash (Yesterday)</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-person-add"></i>
@@ -100,14 +114,14 @@ $total = Session::get('total_expenditure');
                                             <tr>
                                                 <th scope="row">{{ $key + 1 }}</th>
                                                 <td>{{ $data->income_source }}</td>
-                                                <td>{{ $data->income_amount }}</td>
+                                                <td>{{ number_format($data->income_amount) }}</td>
                                             </tr>
                                         @endforeach
-                                        <tr>
+                                        <tr class="income_amount">
                                             <th scope="row">#</th>
 
                                             <td><b>Todays Income:</b></td>
-                                            <td><b>{{ $income_balance }}</b></td>
+                                            <td><b> =&nbsp;{{ number_format($income_balance) }} TK</b></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -128,13 +142,13 @@ $total = Session::get('total_expenditure');
                                             <tr>
                                                 <th scope="row">{{ $key + 1 }}</th>
                                                 <td>{{ $exp->category }}</td>
-                                                <td>{{ $exp->amount }}</td>
+                                                <td>{{ number_format($exp->amount) }}</td>
                                             </tr>
                                         @endforeach
-                                        <tr>
+                                        <tr class="exp_amount">
                                             <th scope="row">#</th>
                                             <td><b>Todays Expenditure:</b></td>
-                                            <td><b> = &nbsp;{{ $expenditureAmount }}&nbsp;TK</b></td>
+                                            <td><b> = &nbsp;{{ number_format($expenditureAmount) }}&nbsp;TK</b></td>
                                         </tr>
                                     </tbody>
                                 </table>

@@ -124,3 +124,13 @@ p.cash_memo_generated {
     width: 60%;
     margin: 0 auto;
 }
+
+.income_amount {
+    color: #28a745;
+    font-size: 18px;
+}
+
+.exp_amount {
+    color: #eba40c;
+    font-size: 18px;
+}
