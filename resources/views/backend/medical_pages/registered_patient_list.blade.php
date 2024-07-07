@@ -76,7 +76,7 @@
 
                                     </td>
                                     <td>
-                                        <a href="" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
+
                                         <a href="" id="deleteEvent" class="btn btn-sm btn-danger"><i
                                                 class="fa fa-trash"></i></a>
                                         -

@@ -274,7 +274,7 @@ use Carbon\Carbon;
                                     </li>
                                     <li class="list-group-item">
                                         <b>Discount:</b>
-                                        <p class="float-right">{{ $rcpt_info->discount }} %</p>
+                                        <p class="float-right">{{ $rcpt_info->discount }}</p>
                                     </li>
                                     <li class="list-group-item">
                                         <b>Total Amount: </b>

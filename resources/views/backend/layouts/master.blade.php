@@ -145,6 +145,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 
+        @if (session()->has('msg'))
+            <script>
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "bottom-start",
+                    showConfirmButton: false,
+                    timer: 5000,
+                    timerProgressBar: false,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: "error",
+                    title: "{{ session()->get('msg') }}"
+                });
+            </script>
+        @endif
+
+
+
+
+
+
+
+
         @if (session()->has('error'))
             <script>
                 const Toast = Swal.mixin({

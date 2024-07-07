@@ -113,7 +113,9 @@ class AccountController extends Controller
         $income_field = IncomeField::whereDate('created_at', Carbon::today())->select('category as income_source', 'amount as income_amount')->get();
         $incomes = Income::whereDate('created_at', Carbon::today())->get();
 
-        $merge_income = $incomes->concat($income_field);
+        $fromAdmittedPatient = CashMemoInfo::whereDate('created_at', Carbon::today())->select('patient_uuid as income_source', 'total_paid as income_amount')->get();
+
+        $merge_income = $incomes->merge($income_field)->merge($fromAdmittedPatient);
 
         $income_balance = $merge_income->pluck('income_amount')->sum();
 
@@ -132,12 +134,14 @@ class AccountController extends Controller
 
         // Yesterday Calculation
 
-        //Yesterday income
+        //  Yesterday income
 
         $income_field_yd = IncomeField::whereDate('created_at', Carbon::yesterday())->select('category as income_source', 'amount as income_amount')->get();
         $incomes_yd = Income::whereDate('created_at', Carbon::yesterday())->get();
 
-        $merge_income_yd = $incomes_yd->concat($income_field_yd);
+        $fromAdmittedPatient_YD = CashMemoInfo::whereDate('created_at', Carbon::yesterday())->select('patient_uuid as income_source', 'total_paid as income_amount')->get();
+
+        $merge_income_yd = $incomes_yd->merge($income_field_yd)->merge($fromAdmittedPatient_YD);
 
 
         $income_balance_yd = $merge_income_yd->pluck('income_amount')->sum();

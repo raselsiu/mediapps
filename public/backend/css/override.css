@@ -134,3 +134,8 @@ p.cash_memo_generated {
     color: #eba40c;
     font-size: 18px;
 }
+
+.user-panel img {
+    height: 50px;
+    width: 50px;
+}

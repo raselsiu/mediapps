@@ -92,8 +92,9 @@ Route::group(['prefix' => 'cash-memo', 'middleware' => ['auth']], function () {
     Route::post('/memo/generate/save', [MedicalController::class, 'cash_memo_form_save'])->name('cash_memo_form_save');
     Route::get('/generate/receipt', [MedicalController::class, 'receipt_generate'])->name('receipt_generate');
     Route::get('/form/view/{id}', [MedicalController::class, 'view_cash_memo'])->name('view_cash_memo');
-
     Route::get('/form/edit/{id}', [MedicalController::class, 'edit_cash_memo'])->name('edit_cash_memo');
+
+    Route::post('/cash-memo/update/{id}', [MedicalController::class, 'updateDueAmount'])->name('updateDueAmount');
 });
 
 

@@ -313,132 +313,131 @@
     </script>
 
 
-    @push('js')
-        <script src="{{ asset('backend/plugins/select2/js/select2.full.min.js') }}"></script>
-        <script src="{{ asset('backend/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
-        <script src="{{ asset('backend/plugins/jquery-validation/additional-methods.min.js') }}"></script>
 
-        <script>
-            $(function() {
-                $('.custom-select').select2()
+    <script src="{{ asset('backend/plugins/select2/js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('backend/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('backend/plugins/jquery-validation/additional-methods.min.js') }}"></script>
 
-            });
-        </script>
+    <script>
+        $(function() {
+            $('.custom-select').select2()
 
-
+        });
+    </script>
 
 
 
 
 
 
-        <script>
-            $(function() {
-                $('#myForm').validate({
-                    rules: {
-                        admission_date: {
-                            required: true,
-                        },
-                        leave_date: {
-                            required: true,
-                        },
-                        name: {
-                            required: true,
-                        },
-                        mobile: {
-                            required: true,
-                        },
-                        cabin_no: {
-                            required: true,
-                        },
 
-                        regi_no: {
-                            required: true,
-                        },
-                        address: {
-                            required: true,
-                        },
-                        description: {
-                            required: true,
-                        },
-                        comments: {
-                            required: true,
-                        },
-                        amount: {
-                            required: true,
-                        },
-                        total_bill: {
-                            required: true,
-                        },
-                        discount: {
-                            required: true,
-                        },
-                        total_paid: {
-                            required: true,
-                        },
-                        paid: {
-                            required: true,
-                        }
+
+    <script>
+        $(function() {
+            $('#myForm').validate({
+                rules: {
+                    admission_date: {
+                        required: true,
                     },
-                    messages: {
-                        admission_date: {
-                            required: 'Field is required',
-                        },
-                        leave_date: {
-                            required: 'Field is required',
-                        },
-                        name: {
-                            required: 'Field is required',
-                        },
-                        mobile: {
-                            required: "Field is required",
-                        },
-                        cabin_no: {
-                            required: 'Field is required',
-                        },
-                        regi_no: {
-                            required: 'Field is required',
-                        },
+                    leave_date: {
+                        required: true,
+                    },
+                    name: {
+                        required: true,
+                    },
+                    mobile: {
+                        required: true,
+                    },
+                    cabin_no: {
+                        required: true,
+                    },
 
-                        address: {
-                            required: 'Field is required',
-                        },
-                        description: {
-                            required: 'Field is required',
-                        },
-                        comments: {
-                            required: 'Field is required',
-                        },
-                        amount: {
-                            required: 'Field is required',
-                        },
-                        total_bill: {
-                            required: 'Field is required',
-                        },
-                        discount: {
-                            required: 'Field is required',
-                        },
-
-                        total_paid: {
-                            required: 'Field is required',
-                        },
-                        paid: {
-                            required: 'Field is required',
-                        }
+                    regi_no: {
+                        required: true,
                     },
-                    errorElement: 'span',
-                    errorPlacement: function(error, element) {
-                        error.addClass('invalid-feedback');
-                        element.closest('.form-group').append(error);
+                    address: {
+                        required: true,
                     },
-                    highlight: function(element, errorClass, validClass) {
-                        $(element).addClass('is-invalid');
+                    description: {
+                        required: true,
                     },
-                    unhighlight: function(element, errorClass, validClass) {
-                        $(element).removeClass('is-invalid');
+                    comments: {
+                        required: true,
+                    },
+                    amount: {
+                        required: true,
+                    },
+                    total_bill: {
+                        required: true,
+                    },
+                    discount: {
+                        required: true,
+                    },
+                    total_paid: {
+                        required: true,
+                    },
+                    paid: {
+                        required: true,
                     }
-                });
+                },
+                messages: {
+                    admission_date: {
+                        required: 'Field is required',
+                    },
+                    leave_date: {
+                        required: 'Field is required',
+                    },
+                    name: {
+                        required: 'Field is required',
+                    },
+                    mobile: {
+                        required: "Field is required",
+                    },
+                    cabin_no: {
+                        required: 'Field is required',
+                    },
+                    regi_no: {
+                        required: 'Field is required',
+                    },
+
+                    address: {
+                        required: 'Field is required',
+                    },
+                    description: {
+                        required: 'Field is required',
+                    },
+                    comments: {
+                        required: 'Field is required',
+                    },
+                    amount: {
+                        required: 'Field is required',
+                    },
+                    total_bill: {
+                        required: 'Field is required',
+                    },
+                    discount: {
+                        required: 'Field is required',
+                    },
+
+                    total_paid: {
+                        required: 'Field is required',
+                    },
+                    paid: {
+                        required: 'Field is required',
+                    }
+                },
+                errorElement: 'span',
+                errorPlacement: function(error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function(element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function(element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
             });
-        </script>
-    @endpush
+        });
+    </script>
 @endpush

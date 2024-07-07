@@ -63,7 +63,7 @@ class MedicalController extends Controller
         $service_list = Service::all();
 
 
-        return view('backend.medical_pages.update_data.edit_cash_memo', compact('uuid', 'patient', 'service_list'));
+        return view('backend.medical_pages.update_data.edit_cash_memo', compact('uuid', 'patient', 'cash_memo_info'));
     }
 
 
@@ -155,6 +155,53 @@ class MedicalController extends Controller
 
         return view('backend.medical_pages.cash_memo_receipt', compact('rcpt_info', 'get_bill', 'patient_info'));
     }
+
+
+
+
+
+
+    public function updateDueAmount(Request $request, string $id)
+    {
+
+
+        $patient_cash = CashMemoInfo::where('patient_uuid', $id)->first();
+
+
+
+        $outstanding_value = $patient_cash->outstanding_total;
+
+
+
+        $this->validate($request, [
+            'due_amount' => 'required',
+        ]);
+
+        if ($request->due_amount > $outstanding_value) {
+            return redirect()->back()->with('msg', 'Amount should not be greater then the Due Amount');
+        }
+        if ($request->due_amount < $outstanding_value) {
+            return redirect()->back()->with('msg', 'Amount should not be less then the Due Amount');
+        }
+
+
+
+
+        $amount = $patient_cash->paid + $request->due_amount;
+
+        $UpdateOutstanding_Total = $patient_cash->total_paid - $amount;
+
+        $user = CashMemoInfo::where('patient_uuid', $id)->first();
+        $user->paid = $amount;
+        $user->outstanding_total = $UpdateOutstanding_Total;
+        $user->save();
+        return redirect()->route('all_regi_patient')->with('success', 'Updated Successfully!');
+    }
+
+
+
+
+
 
 
 
