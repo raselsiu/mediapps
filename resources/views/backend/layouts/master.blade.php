@@ -8,7 +8,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SMS | Dashboard</title>
+    <title>Al-Falah Hospital|Dashboard</title>
 
 
     <!-- Google Font: Source Sans Pro -->
@@ -176,9 +176,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <script>
                 const Toast = Swal.mixin({
                     toast: true,
-                    position: "top-end",
+                    position: "bottom-left",
                     showConfirmButton: false,
-                    timer: 4000,
+                    timer: 6000,
                     timerProgressBar: false,
                     didOpen: (toast) => {
                         toast.onmouseenter = Swal.stopTimer;
@@ -188,6 +188,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 Toast.fire({
                     icon: "error",
                     title: "{{ session()->get('error') }}"
+                });
+            </script>
+        @endif
+
+
+
+        @if (session()->has('validationError'))
+            <script>
+                Swal.fire({
+                    title: "{{ session()->get('validationError') }}",
+                    text: "You are not permitted to this",
+                    icon: "error"
                 });
             </script>
         @endif

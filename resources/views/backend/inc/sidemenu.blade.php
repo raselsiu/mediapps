@@ -213,72 +213,74 @@ $route = Route::current()->getName();
 
 
 
-
-                <li class="nav-item {{ $prefix == '/accounts' ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>
-                            Accounts
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-
-
-
-                        {{-- Outdoor --}}
-
-                        <li class="nav-item">
-                            <a href="{{ route('outdoor_income') }}"
-                                class="nav-link  {{ $route == 'outdoor_income' ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Outdoor</p>
-                            </a>
-                        </li>
-
-                        {{-- Outdoor End --}}
+                @if (auth()->user()->usertype == 'admin' || auth()->user()->usertype == 'developers')
+                    <li class="nav-item {{ $prefix == '/accounts' ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>
+                                Accounts
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
 
 
-                        {{-- Outdoor --}}
 
-                        <li class="nav-item">
-                            <a href="{{ route('indoor_income') }}"
-                                class="nav-link  {{ $route == 'indoor_income' ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Indoor</p>
-                            </a>
-                        </li>
+                            {{-- Outdoor --}}
 
-                        {{-- Outdoor End --}}
+                            <li class="nav-item">
+                                <a href="{{ route('outdoor_income') }}"
+                                    class="nav-link  {{ $route == 'outdoor_income' ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Outdoor</p>
+                                </a>
+                            </li>
 
-
-                        <li class="nav-item">
-                            <a href="{{ route('expenditureCalculation') }}"
-                                class="nav-link {{ $route == 'expenditureCalculation' ? 'active' : '' }} ">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Expenditure</p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="{{ route('incomeCalculation') }}"
-                                class="nav-link {{ $route == 'incomeCalculation' ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Income</p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="{{ route('accountsBook') }}"
-                                class="nav-link {{ $route == 'accountsBook' ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Accounts Book</p>
-                            </a>
-                        </li>
+                            {{-- Outdoor End --}}
 
 
-                    </ul>
-                </li>
+                            {{-- Outdoor --}}
+
+                            <li class="nav-item">
+                                <a href="{{ route('indoor_income') }}"
+                                    class="nav-link  {{ $route == 'indoor_income' ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Indoor</p>
+                                </a>
+                            </li>
+
+                            {{-- Outdoor End --}}
+
+
+                            <li class="nav-item">
+                                <a href="{{ route('expenditureCalculation') }}"
+                                    class="nav-link {{ $route == 'expenditureCalculation' ? 'active' : '' }} ">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Expenditure</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('incomeCalculation') }}"
+                                    class="nav-link {{ $route == 'incomeCalculation' ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Others Income</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('accountsBook') }}"
+                                    class="nav-link {{ $route == 'accountsBook' ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Accounts Book</p>
+                                </a>
+                            </li>
+
+
+                        </ul>
+                    </li>
+                @endif
+
                 {{-- <li>
                     <a href="{{ route('receipt_generate') }}">Receipt</a>
                 </li> --}}

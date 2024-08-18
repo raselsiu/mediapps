@@ -1,15 +1,9 @@
-<?php
-$total_expenditure = 0;
-$total = Session::get('total_expenditure');
-?>
-
-
 @extends('backend.layouts.master')
 
 @section('content')
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h1 class="m-0">Expenditure Accounting</h1>
+            <h1 class="m-0">Others Amount</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -20,65 +14,6 @@ $total = Session::get('total_expenditure');
     </div>
     <div class="row">
 
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-info">
-                <div class="inner">
-                    <h3>{{ $total ? $total : '0' }} TK</h3>
-
-                    <p>Total Expenditure </p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-bag"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-success">
-                <div class="inner">
-                    <h3>0 TK</sup></h3>
-
-                    <p>Todays</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-stats-bars"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-                <div class="inner">
-                    <h3>0 TK</h3>
-
-                    <p>Last Months</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-person-add"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-danger">
-                <div class="inner">
-                    <h3>0 TK</h3>
-
-                    <p>Last 1 Year</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-pie-graph"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-
-
-
         <div id="cf-data-container"></div>
 
 
@@ -87,52 +22,39 @@ $total = Session::get('total_expenditure');
                 <div class="card-header">
 
                     <div class="btn-row">
-                        <span><a class="btn btn-warning" href="">Todays Revenue</a></span>
-                        <span><a class="btn btn-warning" href="">Current Month
-                                Revenue</a></span>
-                        <span><a class="btn btn-warning" href="">Last Month
-                                Revenue</a></span>
+                        <span><a class="btn btn-warning" href="{{ route('othersTwentyFourHour') }}">Todays</a></span>
+                        <span><a class="btn btn-warning" href="{{ route('othersGetCurrentMonthRevenue') }}">Current Month
+                            </a></span>
+                        <span><a class="btn btn-warning" href="{{ route('othersGetLastMonthRevenue') }}">Last Month
+                            </a></span>
                     </div>
 
-
-
-                    {{-- <a href="" class="float-right btn btn-success"> <i class="fa fa-plus-circle"></i> Register
-                        Patients</a> --}}
                 </div>
                 <div class="card-body">
 
-                    <table id="example1" class="table table-bordered table-striped">
+                    <table id="printable" class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th># SL No</th>
-                                <th>Category</th>
-                                <th>Subcategory</th>
+                                <th>#SL No</th>
+                                <th>Particulars</th>
+                                <th>Detials</th>
                                 <th>Amount</th>
-                                <th>Details</th>
                             </tr>
                         </thead>
                         <tbody>
 
 
 
-                            @foreach ($data as $key => $expenditure)
-                                <?php $total_expenditure = $total_expenditure + $expenditure->amount;
-                                
-                                Session::put('total_expenditure', $total_expenditure);
-                                
-                                ?>
+                            @foreach ($data as $key => $others)
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
 
-                                    <td>{{ $expenditure->category }}</td>
-                                    <td>{{ $expenditure->sub_category }}</td>
+                                    <td>{{ $others->category }}</td>
+                                    <td>{{ $others->sub_category }}</td>
 
                                     <td>
-                                        <p class="amount" style="margin: 0px;padding:0px;">{{ $expenditure->amount }} TK
+                                        <p class="amount" style="margin: 0px;padding:0px;">{{ $others->amount }} TK
                                         </p>
-                                    </td>
-                                    <td>
-                                        <a href="" class="btn btn-sm btn-primary"><i class="fa fa-eye"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -144,8 +66,8 @@ $total = Session::get('total_expenditure');
                                 {{-- <th>Patients ID</th> --}}
                                 <th></th>
                                 <th></th>
-                                <th><span class="total_amount">Total = -{{ $total_expenditure }} TK</span></th>
-                                <th>Details</th>
+                                <th><span class="total_amount">Total = {{ $totalAmount }} TK</span></th>
+
                             </tr>
                         </tfoot>
                     </table>
@@ -160,33 +82,27 @@ $total = Session::get('total_expenditure');
 
 
 
+
+
     @push('js')
         <script>
             $(function() {
-                $("#example1").DataTable({
+                $("#printable").DataTable({
                     "responsive": true,
-                    "lengthChange": false,
-                    "autoWidth": false,
-                    "buttons": ["csv", "excel", "pdf", "print"]
+                    "lengthChange": true,
+                    "autoWidth": true,
+                    'footer': true,
+                    dom: 'lBfrtip',
+                    buttons: [{
+                        extend: ['print'],
+                        footer: true,
+                        exportOptions: {
+                            columns: ':not(.notForPrint)'
+                        }
+                    }]
+
                 }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-                $('#example2').DataTable({
-                    "paging": true,
-                    "lengthChange": false,
-                    "searching": false,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": false,
-                    "responsive": true,
-                });
             });
-
-
-            // window.onload = function() {
-            //     if (!window.location.hash) {
-            //         window.location = window.location + '#loaded';
-            //         window.location.reload();
-            //     }
-            // }
         </script>
     @endpush
 @endsection

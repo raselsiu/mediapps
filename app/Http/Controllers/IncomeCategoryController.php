@@ -20,6 +20,11 @@ class IncomeCategoryController extends Controller
 
     public function store_income_category(Request $request)
     {
+        $request->validate([
+            'name' => 'required|unique:income_categories,name'
+        ]);
+
+
         $data = new IncomeCategory();
         $data->name = $request->name;
         $data->slug = Str::slug($request->name);

@@ -37,7 +37,8 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="regular_date">Date: </label>
-                                    <input type="date" class="form-control" name="regular_date" id="regular_date">
+                                    <input type="date" class="form-control" name="regular_date" id="regular_date"
+                                        value="{{ old('regular_date') }}">
                                     @if ($errors->has('regular_date'))
                                         <span style="color: red">{{ $errors->first('regular_date') }}</span>
                                     @endif
@@ -47,7 +48,7 @@
                                 <div class="form-group">
                                     <label for="regi_no">Regi No: </label>
                                     <input type="text" class="form-control" name="regi_no" id="regi_no"
-                                        placeholder="Enter Regi. No...">
+                                        placeholder="Enter Regi. No..." value="{{ old('regi_no') }}">
                                     @if ($errors->has('regi_no'))
                                         <span style="color: red">{{ $errors->first('regi_no') }}</span>
                                     @endif
@@ -58,7 +59,7 @@
                             <div class="form-group col-md-4">
                                 <label for="name">Patient Name: </label>
                                 <input type="text" class="form-control" name="name" id="name"
-                                    placeholder="Patient Name....">
+                                    placeholder="Patient Name...." value="{{ old('name') }}">
                                 @if ($errors->has('name'))
                                     <span style="color: red">{{ $errors->first('name') }}</span>
                                 @endif
@@ -66,7 +67,7 @@
                             <div class="form-group col-md-2">
                                 <label for="age">Age: </label>
                                 <input type="text" class="form-control" id="age" name="age"
-                                    placeholder="Age...." />
+                                    placeholder="Age...." value="{{ old('age') }}" />
                                 @if ($errors->has('age'))
                                     <span style="color: red">{{ $errors->first('age') }}</span>
                                 @endif
@@ -74,7 +75,8 @@
                             <div class="form-group col-md-3">
                                 <label for="father_or_husb_name">Father/Husband Name: </label>
                                 <input type="text" class="form-control" id="father_or_husb_name"
-                                    name="father_or_husb_name" placeholder="Father or Husband Name...." />
+                                    name="father_or_husb_name" placeholder="Father or Husband Name...."
+                                    value="{{ old('father_or_husb_name') }}" />
                                 @if ($errors->has('father_or_husb_name'))
                                     <span style="color: red">{{ $errors->first('father_or_husb_name') }}</span>
                                 @endif
@@ -87,7 +89,8 @@
                                     <div class="form-group col-md-12">
                                         <label for="present_address">Present Address: </label>
                                         <input type="text" class="form-control" name="present_address"
-                                            id="present_address" placeholder="Present Address....">
+                                            id="present_address" placeholder="Present Address...."
+                                            value="{{ old('present_address') }}">
                                         @if ($errors->has('present_address'))
                                             <span style="color: red">{{ $errors->first('present_address') }}</span>
                                         @endif
@@ -95,7 +98,7 @@
                                     <div class="form-group col-md-12">
                                         <label for="pre_village">Village: </label>
                                         <input type="text" class="form-control" name="pre_village" id="pre_village"
-                                            placeholder="Village....">
+                                            placeholder="Village...." value="{{ old('pre_village') }}">
                                         @if ($errors->has('pre_village'))
                                             <span style="color: red">{{ $errors->first('pre_village') }}</span>
                                         @endif
@@ -103,7 +106,7 @@
                                     <div class="form-group col-md-12">
                                         <label for="pre_post_code">Post Office: </label>
                                         <input type="text" class="form-control" name="pre_post_code" id="pre_post_code"
-                                            placeholder="Post Office....">
+                                            placeholder="Post Office...." value="{{ old('pre_post_code') }}">
                                         @if ($errors->has('pre_post_code'))
                                             <span style="color: red">{{ $errors->first('pre_post_code') }}</span>
                                         @endif
@@ -111,7 +114,7 @@
                                     <div class="form-group col-md-12">
                                         <label for="pre_thana">Thana: </label>
                                         <input type="text" class="form-control" name="pre_thana" id="pre_thana"
-                                            placeholder="Thana....">
+                                            placeholder="Thana...." value="{{ old('pre_thana') }}">
                                         @if ($errors->has('pre_thana'))
                                             <span style="color: red">{{ $errors->first('pre_thana') }}</span>
                                         @endif
@@ -119,7 +122,7 @@
                                     <div class="form-group col-md-12">
                                         <label for="pre_district">District: </label>
                                         <input type="text" class="form-control" name="pre_district" id="pre_district"
-                                            placeholder="District....">
+                                            placeholder="District...." value="{{ old('pre_district') }}">
                                         @if ($errors->has('pre_district'))
                                             <span style="color: red">{{ $errors->first('pre_district') }}</span>
                                         @endif
@@ -133,7 +136,7 @@
                             <div class="form-group col-md-4">
                                 <label for="mobile">Mobile: </label>
                                 <input type="text" class="form-control" name="mobile" id="mobile"
-                                    placeholder="Mobile Number....">
+                                    placeholder="Mobile Number...." value="{{ old('mobile') }}">
                                 @if ($errors->has('mobile'))
                                     <span style="color: red">{{ $errors->first('mobile') }}</span>
                                 @endif
@@ -141,7 +144,7 @@
                             <div class="form-group col-md-4">
                                 <label for="admission_date">Admission Date: </label>
                                 <input type="date" class="form-control" name="admission_date" id="admission_date"
-                                    placeholder="Admission Date....">
+                                    placeholder="Admission Date...." value="{{ old('admission_date') }}">
                                 @if ($errors->has('admission_date'))
                                     <span style="color: red">{{ $errors->first('admission_date') }}</span>
                                 @endif
@@ -149,7 +152,7 @@
                             <div class="form-group col-md-4">
                                 <label for="admission_time">Admission Time: </label>
                                 <input type="time" class="form-control" name="admission_time" id="admission_time"
-                                    placeholder="Admission Time....">
+                                    placeholder="Admission Time...." value="{{ old('admission_time') }}">
                                 @if ($errors->has('admission_time'))
                                     <span style="color: red">{{ $errors->first('admission_time') }}</span>
                                 @endif
@@ -157,7 +160,7 @@
                             <div class="form-group col-md-4">
                                 <label for="disease_name">Disease Name: </label>
                                 <input type="text" class="form-control" name="disease_name" id="disease_name"
-                                    placeholder="Disease Name....">
+                                    placeholder="Disease Name...." value="{{ old('disease_name') }}">
                                 @if ($errors->has('disease_name'))
                                     <span style="color: red">{{ $errors->first('disease_name') }}</span>
                                 @endif
@@ -165,7 +168,7 @@
                             <div class="form-group col-md-4">
                                 <label for="doctor_name">Doctor Name: </label>
                                 <input type="text" class="form-control" name="doctor_name" id="doctor_name"
-                                    placeholder="Doctor Name....">
+                                    placeholder="Doctor Name...." value="{{ old('doctor_name') }}">
                                 @if ($errors->has('doctor_name'))
                                     <span style="color: red">{{ $errors->first('doctor_name') }}</span>
                                 @endif
@@ -173,7 +176,7 @@
                             <div class="form-group col-md-4">
                                 <label for="cabin_no">Cabin No: </label>
                                 <input type="text" class="form-control" name="cabin_no" id="cabin_no"
-                                    placeholder="Cabin Number....">
+                                    placeholder="Cabin Number...." value="{{ old('cabin_no') }}">
                                 @if ($errors->has('cabin_no'))
                                     <span style="color: red">{{ $errors->first('cabin_no') }}</span>
                                 @endif
@@ -186,14 +189,15 @@
                                     <div class="form-group col-md-12">
                                         <label for="date_of_leave">Date Of Leave: </label>
                                         <input type="date" class="form-control" name="date_of_leave"
-                                            id="date_of_leave" placeholder="Cabin Number....">
+                                            id="date_of_leave" placeholder="Cabin Number...."
+                                            value="{{ old('date_of_leave') }}">
 
                                     </div>
 
                                     <div class="form-group col-md-12">
                                         <label for="leave_time">Leave Time: </label>
                                         <input type="time" class="form-control" name="leave_time" id="leave_time"
-                                            placeholder="Cabin Number....">
+                                            placeholder="Cabin Number...." value="{{ old('leave_time') }}">
 
                                     </div>
                                 </div>

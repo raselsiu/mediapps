@@ -42,194 +42,43 @@ use Carbon\Carbon;
                             <p class="text-muted text-center">{{ $hospitalAddress }} | Mobile: {{ $hospitalPhone }}</p>
 
 
-                            <table id="tobeprint" class="list-group list-group-unbordered mb-3">
-                                {{-- <li class="list-group-item">
-                                    Date:- &nbsp;&nbsp;
-                                    <p class="float-right">{{ $patient_info->created_at->format('D, d M Y h:i A') }}</p>
-                                </li>
-                                <li class="list-group-item">
-                                    Patient ID: <p class="float-right">{{ $patient_info->uuid }}</p>
-                                </li>
-                                <li class="list-group-item">
-                                    Patient Name:-
-                                    <p class="float-right">{{ $patient_info->name }}</p>
-                                </li>
-                                </li>
-                                <li class="list-group-item">
-                                    Mobile:-
-                                    <p class="float-right">{{ $patient_info->mobile }}</p>
-                                </li> --}}
-                                <div class="data_info_area">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="table_content_area">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <div class="pateint_info">
-                                                            <span class="pa_info">
-                                                                <b> Patients ID: </b>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        <div class="pateint_info">
-                                                            <span class="pa_info">
-                                                                {{ $patient_info->uuid }}
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                            <table class="table patient_info_viewer">
+                                <tbody>
+                                    {{-- <tr>
+                                        <td>1</td>
+                                        <td>a</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>@fat</td>
+                                        <td>@fat</td>
+                                    </tr>
 
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="table_content_area">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <div class="pateint_info">
-                                                            <span class="pa_info">
-                                                                <b>Date: </b>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        <div class="pateint_info">
-                                                            <span class="pa_info">
-                                                                {{ Carbon::now()->toFormattedDateString() }}
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    <tr>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>@fat</td>
+                                        <td>@fat</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>@fat</td>
+                                        <td>@fat</td>
+                                    </tr> --}}
+                                    Patients ID: {{ $patient_info->uuid }}
+                                    Date: {{ Carbon::now()->toFormattedDateString() }}
+                                    Name: {{ $patient_info->name }}
+                                    Cabin No: {{ $patient_info->cabin_no }}
+                                    Regi. No: {{ $patient_info->regi_no }}
 
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="table_content_area">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <div class="pateint_info">
-                                                            <span class="pa_info">
-                                                                <b>Name: </b>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        <div class="pateint_info">
-                                                            <span class="pa_info">
-                                                                {{ $patient_info->name }}
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="table_content_area">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <div class="pateint_info">
-                                                            <span class="pa_info">
-                                                                <b>Cabin No: </b>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        <div class="pateint_info">
-                                                            <span class="pa_info">
-                                                                {{ $patient_info->cabin_no }}
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="table_content_area">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <div class="pateint_info">
-                                                            <span class="pa_info">
-                                                                <b>Regi. No: </b>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        <div class="pateint_info">
-                                                            <span class="pa_info">
-                                                                {{ $patient_info->regi_no }}
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="table_content_area">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <div class="pateint_info">
-                                                            <span class="pa_info">
-                                                                <b>Contact No: </b>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        <div class="pateint_info">
-                                                            <span class="pa_info">
-                                                                {{ $patient_info->mobile }}
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="table_content_area">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <div class="pateint_info">
-                                                            <span class="pa_info">
-                                                                <b>Adm. Date: </b>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        <div class="pateint_info">
-                                                            <span class="pa_info">
-                                                                {{ $patient_info->admission_date }}
-
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="table_content_area">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <div class="pateint_info">
-                                                            <span class="pa_info">
-                                                                <b>Leave Date: </b>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        <div class="pateint_info">
-                                                            <span class="pa_info">
-                                                                {{ $rcpt_info->leave_date }}
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
+                                    Contact No: {{ $patient_info->mobile }}
+                                    Adm. Date: {{ $patient_info->admission_date }}
+                                    Leave Date: {{ $rcpt_info->leave_date }}
+                                </tbody>
                             </table>
 
 

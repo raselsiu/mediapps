@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AllInComingAmount;
 use App\Models\Income;
 use App\Models\OutdoorModel;
 use Illuminate\Http\Request;
@@ -44,11 +45,21 @@ class OutdoorController extends Controller
     public function storeOutdoor_regi_form(Request $request)
     {
 
+        $request->validate([
+            'name' => 'required|max:100',
+            'address' => 'required',
+            'regi_fee' => 'required|numeric',
+        ]);
+
         $data = new OutdoorModel();
 
         $uuid = uniqid();
 
         $income = new Income();
+
+        $allIncomingAmountSave = new AllInComingAmount();
+        $allIncomeAmount = AllInComingAmount::first();
+
 
         if ($request->outdoor_registration_fee) {
 
@@ -57,6 +68,17 @@ class OutdoorController extends Controller
             $income->income_amount = $request->regi_fee;
             $income->income_source = $request->outdoor_registration_fee;
             $income->income_source_name = Str::slug($request->outdoor_registration_fee);
+
+
+            if ($allIncomeAmount == null) {
+                $allIncomingAmountSave->total_amount = $request->regi_fee;
+                $allIncomingAmountSave->save();
+            } else {
+                $allIncomeAmount->total_amount = $allIncomeAmount->total_amount + $request->regi_fee;
+                $allIncomeAmount->save();
+            }
+
+
             $income->save();
         }
 

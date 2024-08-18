@@ -47,9 +47,9 @@
                                         {{ $patient->is_payment_clear ? 'Paid' : 'Not Paid' }}</td>
                                     <td>{{ $patient->address }}</td>
                                     <td>
-                                        <a href="" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
-                                        <a href="" id="deleteEvent" class="btn btn-sm btn-danger"><i
-                                                class="fa fa-trash"></i></a>
+                                        {{-- <a href="" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a> --}}
+                                        <a href="{{ route('destroyOutdoorPatient', $patient->uuid) }}" id="deleteEvent"
+                                            class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
                                         -
                                         <a href="{{ route('outdoor_regi_form_view', $patient->uuid) }}"
                                             class="btn btn-sm btn-primary"><i class="fa fa-eye"></i></a>

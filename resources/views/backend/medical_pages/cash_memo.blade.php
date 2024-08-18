@@ -16,7 +16,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Generate Cash-Memo for Patient ID: {{ $uuid }}</h3>
+                    <h3 class="card-title">Generating Cash-Memo for Patient ID: {{ $uuid }}</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">

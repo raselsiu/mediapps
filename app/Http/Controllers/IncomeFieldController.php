@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AllInComingAmount;
 use App\Models\Income;
 use App\Models\IncomeCategory;
 use App\Models\IncomeField;
@@ -34,13 +35,31 @@ class IncomeFieldController extends Controller
     {
         $category = IncomeCategory::where('id', $request->category)->get(['name'])->first();
 
+
+
         $data = new IncomeField();
+
+
+        $allIncomingAmountSave = new AllInComingAmount();
+        $allIncomeAmount = AllInComingAmount::first();
+
         $data->category = $category->name;
         $data->cat_slug = Str::slug($category->name);
         $data->sub_category = $request->sub_category;
         $data->sub_slug = Str::slug($request->sub_category);
         $data->amount = $request->amount;
         $data->description = $request->description;
+
+
+        if ($allIncomeAmount == null) {
+            $allIncomingAmountSave->total_amount = $request->amount;
+            $allIncomingAmountSave->save();
+        } else {
+            $allIncomeAmount->total_amount = $allIncomeAmount->total_amount + $request->amount;
+            $allIncomeAmount->save();
+        }
+
+
         $data->save();
 
 

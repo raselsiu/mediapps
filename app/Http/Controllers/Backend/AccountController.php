@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\AllInComingAmount;
+use App\Models\AllOutGoingAmount;
 use App\Models\CashMemoInfo;
 use App\Models\Expenditure;
 use App\Models\Income;
 use App\Models\IncomeField;
+use App\Models\OutdoorModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,62 +17,58 @@ use Illuminate\Support\Facades\DB;
 class AccountController extends Controller
 {
 
-
-
-
-
     public function outdoor_income()
     {
 
-        $out_income['data'] = Income::all();
+        $out_income['data'] = OutdoorModel::all();
+
+
+        $outdoorAmount = OutdoorModel::pluck('regi_fee')->sum();
+
 
         $fromDate = Carbon::now()->subMonth()->startOfMonth()->toDateString();
 
         $tillDate = Carbon::now()->subMonth()->endOfMonth()->toDateString();
 
         // Last Month Revenue from Outdoor Patient
-        $revenueLastMonth = DB::table('incomes')->whereBetween('created_at', [$fromDate, $tillDate])->get();
+        $revenueLastMonth = DB::table('outdoor_models')->whereBetween('created_at', [$fromDate, $tillDate])->get();
 
         // Last 24 Hours Revenue from Outdoor Patient
-        $revenue24Hours = DB::table('incomes')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->get();
+        $revenue24Hours = DB::table('outdoor_models')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->get();
 
         // Current Month Revenue
-        $currentMonth = Income::select('*')->whereMonth('created_at', Carbon::now()->month)->get();
+        $currentMonth = OutdoorModel::select('*')->whereMonth('created_at', Carbon::now()->month)->get();
 
-        $last24HourIncomeDaily = DB::table('incomes')->where('created_at', '>=', Carbon::now()->subDays(30)->toDateTimeString())->get();
+        $last24HourIncomeDaily = DB::table('outdoor_models')->where('created_at', '>=', Carbon::now()->subDays(30)->toDateTimeString())->get();
 
-        $yearly = DB::table('incomes')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->get();
+        $yearly = DB::table('outdoor_models')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->get();
 
         // dd($currentMonth);
 
-        return view('backend.outdoor_income.outdoor_income', $out_income);
+
+
+        return view('backend.outdoor_income.outdoor_income', $out_income, compact('outdoorAmount'));
     }
 
 
     public function indoor_income()
     {
         $out_income['data'] = CashMemoInfo::all();
+        $totalAmount = CashMemoInfo::pluck('paid')->sum();
 
         $fromDate = Carbon::now()->subMonth()->startOfMonth()->toDateString();
-
         $tillDate = Carbon::now()->subMonth()->endOfMonth()->toDateString();
-
-        // Last Month Revenue from Outdoor Patient
         $revenueLastMonth = DB::table('incomes')->whereBetween('created_at', [$fromDate, $tillDate])->get();
-
-        // Last 24 Hours Revenue from Outdoor Patient
         $revenue24Hours = DB::table('incomes')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->get();
-
-        // Current Month Revenue
         $currentMonth = Income::select('*')->whereMonth('created_at', Carbon::now()->month)->get();
 
         $last24HourIncomeDaily = DB::table('incomes')->where('created_at', '>=', Carbon::now()->subDays(30)->toDateTimeString())->get();
 
         $yearly = DB::table('incomes')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->get();
 
-        // dd($currentMonth);
 
-        return view('backend.indoor_income.indoor_income', $out_income);
+
+        return view('backend.indoor_income.indoor_income', $out_income, compact('totalAmount'));
     }
 
 
@@ -79,7 +78,8 @@ class AccountController extends Controller
     public function expenditureCalculation()
     {
         $expenditure['data'] = Expenditure::all();
-        return view('backend.expenditure_amount.expenditure_account', $expenditure);
+        $totalAmount = Expenditure::pluck('amount')->sum();
+        return view('backend.expenditure_amount.expenditure_account', $expenditure, compact('totalAmount'));
     }
 
 
@@ -88,7 +88,8 @@ class AccountController extends Controller
     public function incomeCalculation()
     {
         $income['data'] = IncomeField::all();
-        return view('backend.income_amount.income_amount', $income);
+        $totalAmount = IncomeField::pluck('amount')->sum();
+        return view('backend.income_amount.income_amount', $income, compact('totalAmount'));
     }
 
 
@@ -111,11 +112,13 @@ class AccountController extends Controller
 
         // Todays Income
         $income_field = IncomeField::whereDate('created_at', Carbon::today())->select('category as income_source', 'amount as income_amount')->get();
+
         $incomes = Income::whereDate('created_at', Carbon::today())->get();
 
-        $fromAdmittedPatient = CashMemoInfo::whereDate('created_at', Carbon::today())->select('patient_uuid as income_source', 'total_paid as income_amount')->get();
+        // Indoor Patients
+        $fromAdmittedPatient = CashMemoInfo::whereDate('created_at', Carbon::today())->select('patient_name as income_source', 'paid as income_amount')->get();
 
-        $merge_income = $incomes->merge($income_field)->merge($fromAdmittedPatient);
+        $merge_income = $income_field->concat($incomes)->concat($fromAdmittedPatient);
 
         $income_balance = $merge_income->pluck('income_amount')->sum();
 
@@ -129,9 +132,6 @@ class AccountController extends Controller
 
 
 
-
-
-
         // Yesterday Calculation
 
         //  Yesterday income
@@ -141,7 +141,7 @@ class AccountController extends Controller
 
         $fromAdmittedPatient_YD = CashMemoInfo::whereDate('created_at', Carbon::yesterday())->select('patient_uuid as income_source', 'total_paid as income_amount')->get();
 
-        $merge_income_yd = $incomes_yd->merge($income_field_yd)->merge($fromAdmittedPatient_YD);
+        $merge_income_yd = $incomes_yd->concat($income_field_yd)->concat($fromAdmittedPatient_YD);
 
 
         $income_balance_yd = $merge_income_yd->pluck('income_amount')->sum();
@@ -158,9 +158,26 @@ class AccountController extends Controller
         // Yesterday Calculation End
 
 
-
         // Final Cash with forwording yesterday cash  
-        $presentCashWithYd = $inCash + $inCashYd;
+
+
+
+        $allIncomingAmount = AllInComingAmount::first();
+        $allOutGoingAmount = AllOutGoingAmount::first();
+
+        if ($allIncomingAmount == null) {
+            $incomingAmount = 0;
+        } else {
+            $incomingAmount = $allIncomingAmount->total_amount;
+        }
+        if ($allOutGoingAmount == null) {
+            $outGoingAmount = 0;
+        } else {
+            $outGoingAmount = $allOutGoingAmount->total_amount;
+        }
+
+
+        $inCashTotal = $incomingAmount - $outGoingAmount;
 
 
 
@@ -171,70 +188,11 @@ class AccountController extends Controller
             'merge_income',
             'income_balance',
             'inCash',
-            'inCashYd',
             'expenditure_yd',
             'expenditureAmount_yd',
             'merge_income_yd',
             'income_balance_yd',
-            'presentCashWithYd'
+            'inCashTotal'
         ));
-    }
-
-
-
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

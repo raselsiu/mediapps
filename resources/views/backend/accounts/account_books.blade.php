@@ -1,22 +1,16 @@
-<?php
-$total_expenditure = 0;
-$total = Session::get('total_expenditure');
-?>
-
-
 @extends('backend.layouts.master')
 
 @section('content')
     <div class="row mb-2">
-        <div class="col-sm-6">
+        <div class="col-sm-6" style="display: flex">
             <h1 class="m-0">Account Books</h1>
-        </div><!-- /.col -->
+        </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Accounts</a></li>
                 <li class="breadcrumb-item active">Outdoor</li>
             </ol>
-        </div><!-- /.col -->
+        </div>
     </div>
     <div class="row">
         <div class="col-lg-3 col-6">
@@ -50,9 +44,9 @@ $total = Session::get('total_expenditure');
 
         <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box {{ $presentCashWithYd < 0 ? 'bg-danger' : 'bg-success' }}">
+            <div class="small-box {{ $inCash < 0 ? 'bg-danger' : 'bg-success' }}">
                 <div class="inner">
-                    <h3><b>{{ number_format($presentCashWithYd) }}</b> TK</h3>
+                    <h3><b>{{ number_format($inCash) }}</b> TK</h3>
 
                     <p>In Cash (Today)</p>
                 </div>
@@ -63,12 +57,15 @@ $total = Session::get('total_expenditure');
         </div>
 
         <div class="col-lg-3 col-6">
-            <!-- small box -->
             <div class="small-box bg-info">
                 <div class="inner">
-                    <h3><b>{{ number_format($inCashYd) }}</b> TK</h3>
+                    <h3><b>
 
-                    <p>In Cash (Yesterday)</p>
+                            {{ number_format($inCashTotal) }}
+
+                        </b> TK</h3>
+
+                    <p>In Cash (Total)</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-person-add"></i>
@@ -83,15 +80,25 @@ $total = Session::get('total_expenditure');
 
         <div class="col-md-12 col-lg-12 col-sm-12">
             <div class="card">
-                {{-- <div class="card-header">
+                <div class="card-header">
                     <div class="btn-row">
-                        <span><a class="btn btn-warning" href="">Todays Revenue</a></span>
-                        <span><a class="btn btn-warning" href="">Current Month
-                                Revenue</a></span>
-                        <span><a class="btn btn-warning" href="">Last Month
-                                Revenue</a></span>
+                        <form action="{{ route('getDatedData') }}" method="GET" class="formHandler" id="userForm">
+                            @csrf
+                            <span>Start Date</span>&nbsp;&nbsp;
+                            <input class="inputControl" type="date" name="start_date" placeholder="Start Date"
+                                required>&nbsp;&nbsp;
+                            @if ($errors->has('start_date'))
+                                <span style="color: red">Field is Required</span>
+                            @endif
+                            <span>End Date</span>&nbsp;
+                            <input class="inputControl" type="date" name="end_date" placeholder="End Date" required>
+                            @if ($errors->has('end_date'))
+                                <span style="color: red">Field is Required</span>
+                            @endif
+                            <button class="submitBtn" type="submit">Search By Date</button>
+                        </form>
                     </div>
-                </div> --}}
+                </div>
 
 
                 <div class="card-body">
@@ -163,3 +170,15 @@ $total = Session::get('total_expenditure');
 
     </div>
 @endsection
+
+
+{{-- @push('js')
+    <script>
+        window.onload = function() {
+            if (!window.location.hash) {
+                window.location = window.location + '#loaded';
+                window.location.reload();
+            }
+        }
+    </script>
+@endpush --}}

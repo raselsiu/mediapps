@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>Al-Falah Hospital</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -852,7 +852,7 @@
         @endif
 
 
-        <h1 style="color: white;font-size: 55px">Hello SMS Apps</h1>
+        <h1 style="color: white;font-size: 55px">Al-Falah Hospital</h1>
 
     </div>
 

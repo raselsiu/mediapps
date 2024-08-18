@@ -29,6 +29,13 @@ class ExpenditureCategoryController extends Controller
      */
     public function store_exp_category(Request $request)
     {
+
+
+        $request->validate([
+            'name' => 'required|unique:expenditure_categories,name'
+        ]);
+
+
         $data = new ExpenditureCategory();
         $data->name = $request->name;
         $data->slug = Str::slug($request->name);

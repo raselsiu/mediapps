@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\AdmissinForm;
+use App\Models\AllInComingAmount;
 use App\Models\CashMemoForm;
 use App\Models\CashMemoInfo;
+use App\Models\Due;
 use App\Models\Income;
 use App\Models\RegistratonForm;
 use App\Models\Service;
@@ -76,7 +78,13 @@ class MedicalController extends Controller
 
 
         $data = new CashMemoInfo();
+        $admissionFormData = AdmissinForm::where('uuid', $request->patient_uuid)->first();
+        $due = new Due();
+        $allIncomingAmountSave = new AllInComingAmount();
+
+
         $data->patient_uuid = $request->patient_uuid;
+        $data->patient_name = $admissionFormData->name;
         $data->admission_date = $request->admission_date;
         $data->leave_date = $request->leave_date;
         $data->address = $request->address;
@@ -99,7 +107,7 @@ class MedicalController extends Controller
 
 
 
-        $admissionFormData = AdmissinForm::where('uuid', $request->patient_uuid)->first();
+
         $admissionFormData->total_bill = $request->total_bill;
         $admissionFormData->discount = $request->discount;
         $admissionFormData->total_paid = $request->total_paid;
@@ -112,6 +120,24 @@ class MedicalController extends Controller
 
         $admissionFormData->is_cash_memo_generated = true;
 
+
+
+        // Save the amount to Master Amount
+        $allIncomeAmount = AllInComingAmount::first();
+
+        if ($allIncomeAmount == null) {
+            $allIncomingAmountSave->total_amount = $request->paid;
+            $allIncomingAmountSave->save();
+        } else {
+            $allIncomeAmount->total_amount = $request->paid + $allIncomeAmount->total_amount;
+            $allIncomeAmount->save();
+        }
+
+        // Due Collect
+        $due->refs_id = $request->patient_uuid;
+        $due->due_amount = $outstanding;
+        $due->source = $admissionFormData->name;
+        $due->save();
 
         $data->save();
 
@@ -180,8 +206,8 @@ class MedicalController extends Controller
         if ($request->due_amount > $outstanding_value) {
             return redirect()->back()->with('msg', 'Amount should not be greater then the Due Amount');
         }
-        if ($request->due_amount < $outstanding_value) {
-            return redirect()->back()->with('msg', 'Amount should not be less then the Due Amount');
+        if ($request->due_amount <= 0) {
+            return redirect()->back()->with('msg', 'Amount should not be less then or equal to 0');
         }
 
 
@@ -219,11 +245,6 @@ class MedicalController extends Controller
 
 
 
-
-
-
-
-
     public function receipt_generate()
     {
 
@@ -240,17 +261,8 @@ class MedicalController extends Controller
 
 
 
-
-
-
-
-
-
-
-
     public function all_regi_patient()
     {
-
 
         $data['patients'] = AdmissinForm::all();
 
@@ -333,6 +345,10 @@ class MedicalController extends Controller
     public function admission_form_save(Request $request)
     {
 
+        $request->validate([
+            'regi_no' => "required|unique:admissin_forms,regi_no"
+        ]);
+
         $patient_info = new AdmissinForm();
 
         $uuid = uniqid();
@@ -379,19 +395,15 @@ class MedicalController extends Controller
 
 
         $this->validate($request, [
-            'name' => 'required'
+            'name' => 'required|unique:services,name'
         ]);
 
 
         $data = new Service();
 
         $data->name = $request->name;
-        $data->name = $request->name;
-        $data->name = $request->name;
+        $data->description = $request->description;
         $data->save();
         return redirect()->back()->with('success', 'Created Successfully!');
-    }
-    public function delete_service()
-    {
     }
 }

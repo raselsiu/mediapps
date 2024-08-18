@@ -52,7 +52,6 @@
                                     $balance = DB::table('cash_memo_infos')
                                         ->where('patient_uuid', $patient->uuid)
                                         ->first();
-                                    
                                     ?>
 
                                     <td>
@@ -77,8 +76,8 @@
                                     </td>
                                     <td>
 
-                                        <a href="" id="deleteEvent" class="btn btn-sm btn-danger"><i
-                                                class="fa fa-trash"></i></a>
+                                        <a href="{{ route('destroyPatient', $patient->uuid) }}" id="deleteEvent"
+                                            class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
                                         -
                                         <a href="{{ route('regi_form_view', $patient->uuid) }}"
                                             class="btn btn-sm btn-primary"><i class="fa fa-eye"></i></a>

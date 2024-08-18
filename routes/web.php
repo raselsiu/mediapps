@@ -4,6 +4,7 @@ use App\Http\Controllers\Backend\AccountController;
 use App\Http\Controllers\Backend\MedicalController;
 use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\DeleteController;
 use App\Http\Controllers\ExpenditureCategoryController;
 use App\Http\Controllers\ExpenditureController;
 use App\Http\Controllers\ExpenditureSubCategoryController;
@@ -13,10 +14,6 @@ use App\Http\Controllers\IncomeFieldController;
 use App\Http\Controllers\IncomeSubCategoryController;
 use App\Http\Controllers\OutdoorController;
 use App\Http\Controllers\SearchController;
-use App\Http\Controllers\TestController;
-use App\Models\Expenditure;
-use App\Models\ExpenditureCategory;
-use App\Models\ExpenditureSubCategory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -35,7 +32,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+
+
+
+Auth::routes(['register' => false]);
+
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
@@ -75,11 +76,7 @@ Route::group(['prefix' => 'patients', 'middleware' => ['auth']], function () {
 Route::group(['prefix' => 'admission', 'middleware' => ['auth']], function () {
 
     Route::get('/form/view', [MedicalController::class, 'admission_form_view'])->name('admission_form_view');
-
     Route::post('/form/save', [MedicalController::class, 'admission_form_save'])->name('admission_form_save');
-
-
-
     Route::get('/registered/patients', [MedicalController::class, 'all_regi_patient'])->name('all_regi_patient');
 });
 
@@ -113,11 +110,11 @@ Route::group(['prefix' => 'outdoor', 'middleware' => ['auth']], function () {
 });
 
 
-Route::group(['prefix' => 'accounts', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'accounts', 'middleware' => ['auth', 'admin']], function () {
 
     Route::get('/outdoor', [AccountController::class, 'outdoor_income'])->name('outdoor_income');
 
-    Route::get('/getting-income', 'AccountController@gettingIncome')->name('gettingIncome');
+    Route::get('/getting-income', [AccountController::class, 'gettingIncome'])->name('gettingIncome');
 
     Route::get('/expenditure/', [AccountController::class, 'expenditureCalculation'])->name('expenditureCalculation');
 
@@ -127,23 +124,34 @@ Route::group(['prefix' => 'accounts', 'middleware' => ['auth']], function () {
 
     Route::get('/indoor', [AccountController::class, 'indoor_income'])->name('indoor_income');
 
-
     // Account Books Controller 
     Route::get('/account/books/todays', [AccountController::class, 'accountsBook'])->name('accountsBook');
 
 
-
-
-
-
     // Accounts Fetch Data by Date and Time
 
+    // Outdoor
+    Route::get('/outdoor/search/todays', [SearchController::class, 'dataTwentyFourHour'])->name('dataTwentyFourHour');
+    Route::get('/outdoor/search/current-month', [SearchController::class, 'getCurrentMonthRevenue'])->name('getCurrentMonthRevenue');
+    Route::get('/outdoor/search/last-month', [SearchController::class, 'getLastMonthRevenue'])->name('getLastMonthRevenue');
+
+    // Indoor
+    Route::get('/indoor/search/todays', [SearchController::class, 'indoorTwentyFourHour'])->name('indoorTwentyFourHour');
+    Route::get('/indoor/search/current-month', [SearchController::class, 'indoorGetCurrentMonthRevenue'])->name('indoorGetCurrentMonthRevenue');
+    Route::get('/indoor/search/last-month', [SearchController::class, 'indoorGetLastMonthRevenue'])->name('indoorGetLastMonthRevenue');
+
+    // Expenditure
+    Route::get('/expenditure/search/todays', [SearchController::class, 'expTwentyFourHour'])->name('expTwentyFourHour');
+    Route::get('/expenditure/search/current-month', [SearchController::class, 'expGetCurrentMonthRevenue'])->name('expGetCurrentMonthRevenue');
+    Route::get('/expenditure/search/last-month', [SearchController::class, 'expGetLastMonthRevenue'])->name('expGetLastMonthRevenue');
+
+    // Others Income
+    Route::get('/others/search/todays', [SearchController::class, 'othersTwentyFourHour'])->name('othersTwentyFourHour');
+    Route::get('/others/search/current-month', [SearchController::class, 'othersGetCurrentMonthRevenue'])->name('othersGetCurrentMonthRevenue');
+    Route::get('/others/search/last-month', [SearchController::class, 'othersGetLastMonthRevenue'])->name('othersGetLastMonthRevenue');
 
 
-
-    Route::get('/revenue/search/todays', [SearchController::class, 'dataTwentyFourHour'])->name('dataTwentyFourHour');
-    Route::get('/revenue/search/current-month', [SearchController::class, 'getCurrentMonthRevenue'])->name('getCurrentMonthRevenue');
-    Route::get('/revenue/search/last-month', [SearchController::class, 'getLastMonthRevenue'])->name('getLastMonthRevenue');
+    Route::get('/search/date', [SearchController::class, 'getDatedData'])->name('getDatedData');
 });
 
 
@@ -203,4 +211,13 @@ Route::group(['prefix' => 'data-entry', 'middleware' => ['auth']], function () {
     Route::get('/service/create', [MedicalController::class, 'service_index'])->name('service_index');
     Route::post('/service/store', [MedicalController::class, 'service_store'])->name('service_store');
     Route::get('/service/delete', [MedicalController::class, 'delete_service'])->name('delete_service');
+});
+
+
+
+// Delete Web Controller 
+
+Route::group(['prefix' => 'delete', 'middleware' => ['auth']], function () {
+    Route::get('/patient/history/{id}', [DeleteController::class, 'destroyPatient'])->name('destroyPatient');
+    Route::get('/OUTDOOR/history/{id}', [DeleteController::class, 'destroyOutdoorPatient'])->name('destroyOutdoorPatient');
 });

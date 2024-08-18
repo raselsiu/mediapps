@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('cash_memo_infos', function (Blueprint $table) {
             $table->id();
             $table->string('patient_uuid');
+            $table->string('patient_name');
             $table->string('admission_date');
             $table->string('leave_date');
             $table->string('address');
@@ -30,15 +31,15 @@ return new class extends Migration
         });
     }
 
-       // admission_date
-        // leave_date
-        // name
-        // phone
-        // cabin_no
-        // regi_no
-        // total_amount
-        // discount
-        // total_paid
+    // admission_date
+    // leave_date
+    // name
+    // phone
+    // cabin_no
+    // regi_no
+    // total_amount
+    // discount
+    // total_paid
 
 
 

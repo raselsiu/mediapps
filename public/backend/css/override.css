@@ -126,7 +126,7 @@ p.cash_memo_generated {
 }
 
 .income_amount {
-    color: #28a745;
+    color: #000;
     font-size: 18px;
 }
 
@@ -138,4 +138,66 @@ p.cash_memo_generated {
 .user-panel img {
     height: 50px;
     width: 50px;
+}
+
+
+/* Receipt editing */
+table.patient_info_viewer td {
+    border-top: 0;
+    line-height: 7px;
+}
+
+
+/* Receipt editing end */
+
+.inputControl {
+    border-color: #ededed;
+    border: 1px solid #ededed;
+    padding: 2px 8px;
+}
+
+.submitBtn {
+    padding: 4px 25px;
+    border: 0;
+    border-radius: 5px;
+    color: #ffffff;
+    background: #834fe5;
+}
+
+.time_booksarea {
+    margin: 0 auto;
+    display: table;
+    width: 50%;
+    border: 1px solid #ededed;
+    border-radius: 10px;
+    padding: 8px 16px;
+}
+
+span.title_bar {
+    margin: 0 auto;
+    display: table;
+    font-size: 18px;
+    color: #e73f74;
+    border: 1px solid;
+    padding: 5px 24px;
+}
+
+.marking {
+    color: #dc3545;
+    font-weight: 500;
+}
+
+tr.due {
+    color: #fd5d5d;
+}
+
+.content-wrapper {
+    background-color: #f4f6f9;
+    background-image: url(/backend/img/dashboard-bg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.content-header {
+    padding: 15px .5rem;
 }

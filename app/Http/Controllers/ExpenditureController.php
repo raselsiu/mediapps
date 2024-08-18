@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AllOutGoingAmount;
 use App\Models\Expenditure;
 use App\Models\ExpenditureCategory;
 use Illuminate\Http\Request;
@@ -44,12 +45,26 @@ class ExpenditureController extends Controller
 
         $data = new Expenditure();
 
+        $allOutGoingAmountSave = new AllOutGoingAmount();
+        $allOutGoingAmount = AllOutGoingAmount::first();
+
+
         $data->category = $category->name;
         $data->cat_slug = Str::slug($category->name);
         $data->sub_category = $request->sub_category;
         $data->sub_slug = Str::slug($request->sub_category);
         $data->amount = $request->amount;
         $data->description = $request->description;
+
+        // Collecting Expenditure Amount to the Master Amount
+        if ($allOutGoingAmount == null) {
+            $allOutGoingAmountSave->total_amount = $request->amount;
+            $allOutGoingAmountSave->save();
+        } else {
+            $allOutGoingAmount->total_amount = $allOutGoingAmount->total_amount + $request->amount;
+            $allOutGoingAmount->save();
+        }
+
 
         $data->save();
 

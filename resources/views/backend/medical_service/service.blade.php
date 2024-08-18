@@ -39,7 +39,7 @@
                                 <input type="text" class="form-control" name="name" id="name"
                                     placeholder="Add a service">
                                 @if ($errors->has('name'))
-                                    <span style="color: red">Service Field is Required</span>
+                                    <span style="color: red">{{ $errors->first('name') }}</span>
                                 @endif
                             </div>
 

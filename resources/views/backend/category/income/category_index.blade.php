@@ -34,7 +34,7 @@
                             <div class="form-group col-md-6">
                                 <label for="name">Name: </label>
                                 <input type="text" class="form-control" name="name" id="name"
-                                    placeholder="Add Expenditure Category">
+                                    placeholder="Add Expenditure Category" value="{{ old('name') }}">
                                 @if ($errors->has('name'))
                                     <span style="color: red">{{ $errors->first('name') }}</span>
                                 @endif

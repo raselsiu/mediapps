@@ -93,13 +93,20 @@
                     name: {
                         required: true,
                         maxlength: 50,
-                    }
+                    },
+                    regi_fee: {
+                        required: true,
+                        maxlength: 50,
+                    },
                 },
                 messages: {
                     name: {
                         required: "Please enter name",
                         maxlength: "Your password must be not greater then 50 characters long"
-                    }
+                    },
+                    regi_fee: {
+                        required: "Please enter Amount",
+                    },
                 },
                 errorElement: 'span',
                 errorPlacement: function(error, element) {
