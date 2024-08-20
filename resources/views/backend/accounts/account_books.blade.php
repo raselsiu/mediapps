@@ -85,13 +85,13 @@
                         <form action="{{ route('getDatedData') }}" method="GET" class="formHandler" id="userForm">
                             @csrf
                             <span>Start Date</span>&nbsp;&nbsp;
-                            <input class="inputControl" type="date" name="start_date" placeholder="Start Date"
-                                required>&nbsp;&nbsp;
+                            <input class="inputControl" type="date" name="start_date"
+                                placeholder="Start Date">&nbsp;&nbsp;
                             @if ($errors->has('start_date'))
                                 <span style="color: red">Field is Required</span>
                             @endif
                             <span>End Date</span>&nbsp;
-                            <input class="inputControl" type="date" name="end_date" placeholder="End Date" required>
+                            <input class="inputControl" type="date" name="end_date" placeholder="End Date">
                             @if ($errors->has('end_date'))
                                 <span style="color: red">Field is Required</span>
                             @endif

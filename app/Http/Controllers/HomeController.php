@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AllInComingAmount;
+use App\Models\DueCollection;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+
         return view('backend.layouts.dashboard');
     }
 }

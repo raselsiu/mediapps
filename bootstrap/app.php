@@ -1,8 +1,5 @@
 <?php
 
-use App\Http\Middleware\AdminMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
-
 /*
 |--------------------------------------------------------------------------
 | Create The Application
@@ -14,13 +11,8 @@ use Illuminate\Routing\Controllers\Middleware;
 |
 */
 
-
-
-
 $app = new Illuminate\Foundation\Application(
     $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
-
-
 );
 
 /*
@@ -59,11 +51,5 @@ $app->singleton(
 | from the actual running of the application and sending responses.
 |
 */
-
-
-
-
-
-
 
 return $app;

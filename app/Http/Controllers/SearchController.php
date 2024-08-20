@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CashMemoInfo;
 use App\Models\Due;
+use App\Models\DueCollection;
 use App\Models\Expenditure;
 use App\Models\Income;
 use App\Models\IncomeField;
@@ -183,19 +184,6 @@ class SearchController extends Controller
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     public function getDatedData(Request $request)
     {
         $request->validate([
@@ -217,11 +205,12 @@ class SearchController extends Controller
         $income = IncomeField::whereBetween('created_at', [$startDate, $endDate])->pluck('amount')->sum();
         $expenditure = Expenditure::whereBetween('created_at', [$startDate, $endDate])->pluck('amount')->sum();
         $due = Due::whereBetween('created_at', [$startDate, $endDate])->pluck('due_amount')->sum();
+        $dueCollection = DueCollection::pluck('amount')->sum();
 
         $total_income = $indoor + $outdoor + $income;
 
 
 
-        return view('backend.search_data.search_by_calender', compact('indoor', 'outdoor', 'income', 'expenditure', 'total_income', 'due', 'startDate', 'endDate'));
+        return view('backend.search_data.search_by_calender', compact('indoor', 'outdoor', 'income', 'expenditure', 'total_income', 'due', 'dueCollection', 'startDate', 'endDate'));
     }
 }

@@ -194,18 +194,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 
-        @if (session()->has('validationError'))
-            <script>
-                Swal.fire({
-                    title: "{{ session()->get('validationError') }}",
-                    text: "You are not permitted to this",
-                    icon: "error"
-                });
-            </script>
-        @endif
-
-
-
 
 
 

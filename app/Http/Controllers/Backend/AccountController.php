@@ -115,6 +115,9 @@ class AccountController extends Controller
 
         $incomes = Income::whereDate('created_at', Carbon::today())->get();
 
+        // Due Amount Getting 
+        
+
         // Indoor Patients
         $fromAdmittedPatient = CashMemoInfo::whereDate('created_at', Carbon::today())->select('patient_name as income_source', 'paid as income_amount')->get();
 
@@ -138,30 +141,14 @@ class AccountController extends Controller
 
         $income_field_yd = IncomeField::whereDate('created_at', Carbon::yesterday())->select('category as income_source', 'amount as income_amount')->get();
         $incomes_yd = Income::whereDate('created_at', Carbon::yesterday())->get();
-
         $fromAdmittedPatient_YD = CashMemoInfo::whereDate('created_at', Carbon::yesterday())->select('patient_uuid as income_source', 'total_paid as income_amount')->get();
-
         $merge_income_yd = $incomes_yd->concat($income_field_yd)->concat($fromAdmittedPatient_YD);
-
-
         $income_balance_yd = $merge_income_yd->pluck('income_amount')->sum();
-
-
-        // Yesterday Expenditure
         $expenditure_yd = Expenditure::whereDate('created_at', Carbon::yesterday())->get();
         $expenditureAmount_yd = DB::table('expenditures')->whereDate('created_at', Carbon::yesterday())->pluck('amount')->sum();
-
-        // Yesterday Cash
         $inCashYd = $income_balance_yd - $expenditureAmount_yd;
 
-
-        // Yesterday Calculation End
-
-
         // Final Cash with forwording yesterday cash  
-
-
-
         $allIncomingAmount = AllInComingAmount::first();
         $allOutGoingAmount = AllOutGoingAmount::first();
 
@@ -176,10 +163,7 @@ class AccountController extends Controller
             $outGoingAmount = $allOutGoingAmount->total_amount;
         }
 
-
         $inCashTotal = $incomingAmount - $outGoingAmount;
-
-
 
 
         return view('backend.accounts.account_books', compact(
@@ -188,10 +172,6 @@ class AccountController extends Controller
             'merge_income',
             'income_balance',
             'inCash',
-            'expenditure_yd',
-            'expenditureAmount_yd',
-            'merge_income_yd',
-            'income_balance_yd',
             'inCashTotal'
         ));
     }

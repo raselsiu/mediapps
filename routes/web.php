@@ -14,6 +14,10 @@ use App\Http\Controllers\IncomeFieldController;
 use App\Http\Controllers\IncomeSubCategoryController;
 use App\Http\Controllers\OutdoorController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\TestController;
+use App\Models\Expenditure;
+use App\Models\ExpenditureCategory;
+use App\Models\ExpenditureSubCategory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -110,11 +114,11 @@ Route::group(['prefix' => 'outdoor', 'middleware' => ['auth']], function () {
 });
 
 
-Route::group(['prefix' => 'accounts', 'middleware' => ['auth', 'admin']], function () {
+Route::group(['prefix' => 'accounts', 'middleware' => ['auth']], function () {
 
     Route::get('/outdoor', [AccountController::class, 'outdoor_income'])->name('outdoor_income');
 
-    Route::get('/getting-income', [AccountController::class, 'gettingIncome'])->name('gettingIncome');
+    Route::get('/getting-income', 'AccountController@gettingIncome')->name('gettingIncome');
 
     Route::get('/expenditure/', [AccountController::class, 'expenditureCalculation'])->name('expenditureCalculation');
 
@@ -123,6 +127,7 @@ Route::group(['prefix' => 'accounts', 'middleware' => ['auth', 'admin']], functi
     Route::get('/outdoor', [AccountController::class, 'outdoor_income'])->name('outdoor_income');
 
     Route::get('/indoor', [AccountController::class, 'indoor_income'])->name('indoor_income');
+
 
     // Account Books Controller 
     Route::get('/account/books/todays', [AccountController::class, 'accountsBook'])->name('accountsBook');

@@ -213,7 +213,7 @@ $route = Route::current()->getName();
 
 
 
-                @if (auth()->user()->usertype == 'admin' || auth()->user()->usertype == 'developers')
+                @if (auth()->user()->usertype == 'admin')
                     <li class="nav-item {{ $prefix == '/accounts' ? 'menu-open' : '' }}">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-tachometer-alt"></i>

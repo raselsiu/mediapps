@@ -14,7 +14,9 @@
     </div>
     <div class="row">
 
+
         <div id="cf-data-container"></div>
+
 
         <div class="col-md-12 col-lg-12 col-sm-12">
             <div class="card">
@@ -79,27 +81,30 @@
 
 
         </div>
-    </div>
 
-    @push('js')
-        <script>
-            $(function() {
-                $("#example1").DataTable({
-                    "responsive": true,
-                    "lengthChange": true,
-                    "autoWidth": true,
-                    'footer': true,
-                    dom: 'lBfrtip',
-                    buttons: [{
-                        extend: ['print'],
-                        footer: true,
-                        exportOptions: {
-                            columns: ':not(.notForPrint)'
-                        }
-                    }]
 
-                }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            });
-        </script>
-    @endpush
-@endsection
+
+
+
+        @push('js')
+            <script>
+                $(function() {
+                    $("#example1").DataTable({
+                        "responsive": true,
+                        "lengthChange": true,
+                        "autoWidth": true,
+                        'footer': true,
+                        dom: 'lBfrtip',
+                        buttons: [{
+                            extend: ['print'],
+                            footer: true,
+                            exportOptions: {
+                                columns: ':not(.notForPrint)'
+                            }
+                        }]
+
+                    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+                });
+            </script>
+        @endpush
+    @endsection

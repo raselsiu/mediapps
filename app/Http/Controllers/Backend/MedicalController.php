@@ -8,6 +8,7 @@ use App\Models\AllInComingAmount;
 use App\Models\CashMemoForm;
 use App\Models\CashMemoInfo;
 use App\Models\Due;
+use App\Models\DueCollection;
 use App\Models\Income;
 use App\Models\RegistratonForm;
 use App\Models\Service;
@@ -23,11 +24,14 @@ class MedicalController extends Controller
 
     public function registration_form()
     {
+
         return view('backend.medical_pages.registraton_fee');
     }
 
     public function admission_form()
     {
+
+
         return view('backend.medical_pages.admission_form');
     }
 
@@ -37,13 +41,8 @@ class MedicalController extends Controller
     {
 
         $uuid = $id;
-
-
         $patient = AdmissinForm::where('uuid', $id)->first();
-
-
         $service_list = Service::all();
-
 
         return view('backend.medical_pages.cash_memo', compact('uuid', 'patient', 'service_list'));
     }
@@ -69,13 +68,104 @@ class MedicalController extends Controller
     }
 
 
+    public function addMoreServicesForm(Request $request, string $id)
+    {
+
+        $uuid = $id;
+        $patient = AdmissinForm::where('uuid', $id)->first();
+        $service_list = Service::all();
+
+        return view('backend.medical_pages.add_more_services', compact('uuid', 'patient', 'service_list'));
+    }
+
+
+    public function addMoreServicesUpdate(Request $request, string $id)
+    {
+
+        $uuid = $id;
+
+        $admissionForm = AdmissinForm::where('uuid', $uuid)->first();
+        $cashMemoInfo =  CashMemoInfo::where('patient_uuid', $uuid)->first();
+        $allIncomeAmount = AllInComingAmount::first();
+
+
+
+
+
+
+        // =====================================================================
+        $previousTotalBill = $cashMemoInfo->total_bill;
+        $previousDiscount = $cashMemoInfo->discount;
+        $previousTotalPaid = $cashMemoInfo->total_paid;
+        $previousPaid = $cashMemoInfo->paid;
+        $previousOutstandingTotal = $cashMemoInfo->outstanding_total;
+
+        $addServiceBill = $allIncomeAmount->total_amount;
+
+        // ======================================================================
+
+        $admissionForm->total_bill = $request->total_bill + $previousTotalBill;
+        $admissionForm->discount = $request->discount + $previousDiscount;
+        $admissionForm->total_paid = $request->total_paid + $previousTotalPaid;
+        $admissionForm->paid = $request->paid + $previousPaid;
+
+        // =====================================================================
+        $cashMemoInfo->total_bill = $request->total_bill + $previousTotalBill;
+        $cashMemoInfo->discount = $request->discount + $previousDiscount;
+        $cashMemoInfo->total_paid = $request->total_paid + $previousTotalPaid;
+        $cashMemoInfo->paid = $request->paid + $previousPaid;
+        // =====================================================================
+
+        // =====================================================================
+        $allIncomeAmount->total_amount = $addServiceBill + $request->paid;
+
+        // =====================================================================
+
+        $totalPaid = $request->total_paid;
+        $paid = $request->paid;
+        $outstanding = $totalPaid - $paid;
+        // =====================================================================
+        $cashMemoInfo->outstanding_total = $outstanding + $previousOutstandingTotal;
+
+
+        $cashMemoInfo->save();
+        $admissionForm->save();
+        $allIncomeAmount->save();
+
+        //Cash-Memo Form 
+
+        $this->validate($request, [
+            'patient_uuid' => 'required',
+        ]);
+
+        $patient_uuid = $uuid;
+        $description = $request->description;
+        $comments = $request->comments;
+        $amount = $request->amount;
+
+        for ($i = 0; $i < count($description); $i++) {
+            $data = [
+                'patient_uuid' => $patient_uuid,
+                'description' => $description[$i],
+                'comments' => $comments[$i],
+                'amount' => $amount[$i],
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ];
+            DB::table('cash_memo_forms')->insert($data);
+        }
+
+        return redirect()->route('all_regi_patient')->with('success', 'Service Added Successfully!');
+    }
+
+
+
 
 
 
 
     public function cash_memo_form_save(Request $request)
     {
-
 
         $data = new CashMemoInfo();
         $admissionFormData = AdmissinForm::where('uuid', $request->patient_uuid)->first();
@@ -125,6 +215,8 @@ class MedicalController extends Controller
         // Save the amount to Master Amount
         $allIncomeAmount = AllInComingAmount::first();
 
+
+
         if ($allIncomeAmount == null) {
             $allIncomingAmountSave->total_amount = $request->paid;
             $allIncomingAmountSave->save();
@@ -171,15 +263,12 @@ class MedicalController extends Controller
 
 
 
-        $rcpt_info = CashMemoInfo::where('patient_uuid', $request->patient_uuid)->first();
+        // $rcpt_info = CashMemoInfo::where('patient_uuid', $request->patient_uuid)->first();
+        // $patient_info = AdmissinForm::where('uuid', $request->patient_uuid)->first();
+        // $get_bill = CashMemoForm::where('patient_uuid', $request->patient_uuid)->get()->toArray();
+        // return view('backend.medical_pages.cash_memo_receipt', compact('rcpt_info', 'get_bill', 'patient_info'));
 
-        $patient_info = AdmissinForm::where('uuid', $request->patient_uuid)->first();
-
-
-        $get_bill = CashMemoForm::where('patient_uuid', $request->patient_uuid)->get()->toArray();
-
-
-        return view('backend.medical_pages.cash_memo_receipt', compact('rcpt_info', 'get_bill', 'patient_info'));
+        return redirect()->route('view_cash_memo', $request->patient_uuid);
     }
 
 
@@ -203,12 +292,15 @@ class MedicalController extends Controller
             'due_amount' => 'required',
         ]);
 
+
+
         if ($request->due_amount > $outstanding_value) {
             return redirect()->back()->with('msg', 'Amount should not be greater then the Due Amount');
         }
         if ($request->due_amount <= 0) {
             return redirect()->back()->with('msg', 'Amount should not be less then or equal to 0');
         }
+
 
 
 
@@ -220,8 +312,39 @@ class MedicalController extends Controller
         $user = CashMemoInfo::where('patient_uuid', $id)->first();
         $user->paid = $amount;
         $user->outstanding_total = $UpdateOutstanding_Total;
+
+
+        // Update Due
+
+        $due = Due::where('refs_id', $id)->first();
+        $due_amount = $due->due_amount;
+        $updateDue = Due::where('refs_id', $id)->first();
+        $updateDue->due_amount = $due_amount - $request->due_amount;
+
+
+
+        // Due Amount Collection 
+
+        $saveDue = new  DueCollection();
+        $saveDue->refs_id  = $id;
+        $saveDue->details  = 'Due Collected';
+        $saveDue->amount  = $request->due_amount;
+
+        // Updating Master Amount with Due Amount
+
+        $UpdateMasterAmount = AllInComingAmount::first();
+
+        $UpdateMasterAmount->total_amount = $UpdateMasterAmount->total_amount + $request->due_amount;
+
+
+
         $user->save();
-        return redirect()->route('all_regi_patient')->with('success', 'Updated Successfully!');
+        $updateDue->save();
+        $saveDue->save();
+        $UpdateMasterAmount->save();
+
+
+        return redirect()->route('all_regi_patient')->with('success', 'Due Collected Successfully!');
     }
 
 
@@ -272,10 +395,7 @@ class MedicalController extends Controller
 
 
 
-    public function store(Request $request)
-    {
-        //
-    }
+
 
 
 
