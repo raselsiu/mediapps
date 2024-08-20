@@ -78,9 +78,17 @@
 
                                         <a href="{{ route('destroyPatient', $patient->uuid) }}" id="deleteEvent"
                                             class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
-                                        -
+
                                         <a href="{{ route('regi_form_view', $patient->uuid) }}"
                                             class="btn btn-sm btn-primary"><i class="fa fa-eye"></i></a>
+
+                                        @if ($patient->is_cash_memo_generated)
+                                            <a href="{{ route('addMoreServicesForm', $patient->uuid) }}"
+                                                class="btn btn-sm btn-danger"><i class="fa fa-plus"
+                                                    id="moreservice"></i></a>
+                                        @endif
+
+
                                     </td>
                                 </tr>
                             @endforeach
@@ -152,6 +160,6 @@
                     }
                 });
             })
-        })
+        });
     </script>
 @endpush

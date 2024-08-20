@@ -160,8 +160,17 @@ use Carbon\Carbon;
                             @endif
 
                             <div class="col-md-6"> <a href="{{ route('all_regi_patient') }}"
-                                    class="btn btn-success btn-block"><b>Indoor Pateint Lists</b></a>
+                                    class="btn btn-success btn-sm"> &nbsp;<i class="fa fa-user"></i> &nbsp; Indoor Pateint
+                                    Lists</a>
                             </div>
+
+                            <div class="col-md-6"> <a href="{{ route('addMoreServicesForm', $patient_info->uuid) }}"
+                                    class="btn btn-sm btn-danger"><i class="fa fa-plus"></i> &nbsp;Add More
+                                    Services</a>
+                            </div>
+
+
+
                         </div>
                     </div>
                 </div>

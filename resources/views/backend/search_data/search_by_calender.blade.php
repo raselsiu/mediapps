@@ -69,6 +69,7 @@
                                         <td>Outdoor</td>
                                         <td>{{ $outdoor }} Tk</td>
                                     </tr>
+
                                     <tr>
                                         <th scope="row">3</th>
                                         <td>Others</td>
@@ -92,10 +93,16 @@
                                         <td><b> =&nbsp;&nbsp;{{ number_format($total_income - $expenditure) }} TK</b></td>
                                     </tr>
 
+
                                     <tr class="due">
                                         <th scope="row">7</th>
-                                        <td><b>Due - Total Amount:</b></td>
+                                        <td><b>Due Amount:</b></td>
                                         <td><b> = &nbsp;{{ $due }} Tk</b></td>
+                                    </tr>
+                                    <tr class="due">
+                                        <th scope="row">7</th>
+                                        <td><b>Due Collected:</b></td>
+                                        <td><b> = &nbsp;{{ $dueCollection }} Tk</b></td>
                                     </tr>
                                 </tbody>
                                 <tfoot>

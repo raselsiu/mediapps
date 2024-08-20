@@ -90,9 +90,6 @@ class MedicalController extends Controller
 
 
 
-
-
-
         // =====================================================================
         $previousTotalBill = $cashMemoInfo->total_bill;
         $previousDiscount = $cashMemoInfo->discount;
@@ -128,9 +125,17 @@ class MedicalController extends Controller
         $cashMemoInfo->outstanding_total = $outstanding + $previousOutstandingTotal;
 
 
+
+
+        $dueAmount = Due::where('refs_id', $uuid)->first();
+        $due = Due::where('refs_id', $uuid)->first();
+        $due->due_amount = $dueAmount->due_amount  + $outstanding;
+
+
         $cashMemoInfo->save();
         $admissionForm->save();
         $allIncomeAmount->save();
+        $due->save();
 
         //Cash-Memo Form 
 

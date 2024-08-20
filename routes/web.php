@@ -216,6 +216,11 @@ Route::group(['prefix' => 'data-entry', 'middleware' => ['auth']], function () {
     Route::get('/service/create', [MedicalController::class, 'service_index'])->name('service_index');
     Route::post('/service/store', [MedicalController::class, 'service_store'])->name('service_store');
     Route::get('/service/delete', [MedicalController::class, 'delete_service'])->name('delete_service');
+
+
+    // Add More Services
+    Route::get('/service/add/{id}', [MedicalController::class, 'addMoreServicesForm'])->name('addMoreServicesForm');
+    Route::post('/service/update/{id}', [MedicalController::class, 'addMoreServicesUpdate'])->name('addMoreServicesUpdate');
 });
 
 
