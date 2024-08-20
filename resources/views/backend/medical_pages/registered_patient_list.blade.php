@@ -76,8 +76,10 @@
                                     </td>
                                     <td>
 
-                                        <a href="{{ route('destroyPatient', $patient->uuid) }}" id="deleteEvent"
-                                            class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                                        @if (Auth()->user()->usertype == 'developers')
+                                            <a href="{{ route('destroyPatient', $patient->uuid) }}" id="deleteEvent"
+                                                class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                                        @endif
 
                                         <a href="{{ route('regi_form_view', $patient->uuid) }}"
                                             class="btn btn-sm btn-primary"><i class="fa fa-eye"></i></a>
