@@ -44,8 +44,9 @@
                                 <label for="user_role">User Role</label>
                                 <select class="custom-select rounded-0" name="user_role" id="user_role">
                                     <option value="">Select Role</option>
-                                    <option value="Admin">Admin</option>
-                                    <option value="User">User</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="author">Author</option>
+                                    <option value="developers">Developers</option>
                                 </select>
                                 @if ($errors->has('user_role'))
                                     <span style="color: red">{{ $errors->first('user_role') }}</span>

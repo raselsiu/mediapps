@@ -36,8 +36,16 @@
                                 <label for="user_role">User Role</label>
                                 <select class="custom-select rounded-0" name="user_role" id="user_role">
                                     <option value="">Select Role</option>
-                                    <option value="Admin" {{ $user->usertype == 'Admin' ? 'selected' : '' }}>Admin</option>
-                                    <option value="User" {{ $user->usertype == 'User' ? 'selected' : '' }}>User</option>
+                                    <option value="admin" {{ $user->usertype == 'admin' ? 'selected' : '' }}>Admin</option>
+                                    <option value="author" {{ $user->usertype == 'author' ? 'selected' : '' }}>Author
+                                    </option>
+                                    <option value="developers" {{ $user->usertype == 'developers' ? 'selected' : '' }}>
+                                        Developers
+                                    </option>
+
+
+
+
                                 </select>
                                 @if ($errors->has('user_role'))
                                     <span style="color: red">{{ $errors->first('user_role') }}</span>

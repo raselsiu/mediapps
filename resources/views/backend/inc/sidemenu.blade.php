@@ -43,7 +43,7 @@ $route = Route::current()->getName();
                 </li>
 
 
-                @if (Auth::user()->usertype == 'Admin')
+                @if (Auth::user()->usertype == 'developers')
                     <li class="nav-item {{ $prefix == '/users' ? 'menu-open' : '' }}">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-users"></i>
@@ -213,7 +213,7 @@ $route = Route::current()->getName();
 
 
 
-                @if (auth()->user()->usertype == 'admin')
+                @if (auth()->user()->usertype == 'admin' || auth()->user()->usertype == 'developers')
                     <li class="nav-item {{ $prefix == '/accounts' ? 'menu-open' : '' }}">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
