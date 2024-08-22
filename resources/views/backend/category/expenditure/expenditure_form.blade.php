@@ -155,13 +155,13 @@
                 },
                 messages: {
                     category: {
-                        required: "Select a category first",
+                        required: "Required!",
                     },
                     sub_category: {
-                        required: "Select a Sub-Category",
+                        required: "Required!",
                     },
                     amount: {
-                        required: "Select a Sub-Category",
+                        required: "Required!",
                     }
                 },
                 errorElement: 'span',

@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class AdminMiddleware
@@ -15,15 +16,13 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->user()->usertype == 'developers') {
-            return $next($request);
-        }
-        if (auth()->user()->usertype == 'admin') {
+
+        if (Auth()->user()->usertype == 'admin' || Auth()->user()->usertype == 'developers') {
             return $next($request);
         } else {
-
-            return redirect('/home')->with('validationError', 'Permission Error!');
+            return redirect('/home')->with('error', 'Permission Error!');
         }
+
         return $next($request);
     }
 }

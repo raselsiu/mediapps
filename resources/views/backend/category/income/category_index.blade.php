@@ -60,7 +60,9 @@
                             <tr>
                                 <th>No.</th>
                                 <th>Name</th>
-                                <th>Actions</th>
+                                @if (Auth::user()->usertype == 'developers')
+                                    <th>Actions</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -69,10 +71,12 @@
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $category->name }}</td>
-                                    <td>
-                                        <a href="{{ route('deleteIncomeCategory', $category->id) }}" id="deleteEvent"
-                                            class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
-                                    </td>
+                                    @if (Auth::user()->usertype == 'developers')
+                                        <td>
+                                            <a href="{{ route('deleteIncomeCategory', $category->id) }}" id="deleteEvent"
+                                                class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
 

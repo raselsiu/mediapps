@@ -60,7 +60,9 @@
                             <tr>
                                 <th>No.</th>
                                 <th>Name</th>
-                                <th>Actions</th>
+                                @if (Auth()->user()->usertype == 'developers')
+                                    <th>Actions</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -69,10 +71,13 @@
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $category->name }}</td>
-                                    <td>
-                                        <a href="{{ route('deleteCategory', $category->id) }}" id="deleteEvent"
-                                            class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
-                                    </td>
+                                    @if (Auth()->user()->usertype == 'developers')
+                                        <td>
+                                            <a href="{{ route('deleteCategory', $category->id) }}" id="deleteEvent"
+                                                class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                                        </td>
+                                    @endif
+
                                 </tr>
                             @endforeach
 
@@ -130,6 +135,33 @@
                     $(element).removeClass('is-invalid');
                 }
             });
+        });
+    </script>
+
+    <script>
+        $(function() {
+            $(document).on('click', '#deleteEvent', function(e) {
+                e.preventDefault();
+                var link = $(this).attr('href');
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = link;
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your file has been deleted.",
+                            icon: "success"
+                        });
+                    }
+                });
+            })
         });
     </script>
 @endpush

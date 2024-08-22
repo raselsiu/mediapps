@@ -78,7 +78,9 @@
                                 <th>No.</th>
                                 <th>Category</th>
                                 <th>Sub-Category</th>
-                                <th>Actions</th>
+                                @if (Auth::user()->usertype == 'developers')
+                                    <th>Actions</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -90,11 +92,12 @@
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $subcategory->name }}</td>
                                     <td>{{ $subcategory->subcategory }}</td>
-                                    <td>
-                                        {{-- {{ route('showSub', 7) }} --}}
-                                        <a href="" id="deleteEvent" class="btn btn-sm btn-danger"><i
-                                                class="fa fa-trash"></i></a>
-                                    </td>
+                                    @if (Auth::user()->usertype == 'developers')
+                                        <td>
+                                            <a href="" id="deleteEvent" class="btn btn-sm btn-danger"><i
+                                                    class="fa fa-trash"></i></a>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
 
@@ -134,12 +137,18 @@
                 rules: {
                     name: {
                         required: true,
-                    }
+                    },
+                    sub_category: {
+                        required: true,
+                    },
                 },
                 messages: {
                     name: {
                         required: "Category name required",
-                    }
+                    },
+                    sub_category: {
+                        required: "Add some details",
+                    },
                 },
                 errorElement: 'span',
                 errorPlacement: function(error, element) {

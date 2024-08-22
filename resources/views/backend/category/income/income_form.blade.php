@@ -81,49 +81,6 @@
             </form>
         </div>
     </div>
-    {{-- <div class="row">
-        <div class="col-md-12 col-lg-12 col-sm-12">
-            <div class="card">
-                <div class="card-header">
-                    <h1 class="card-title">Available Users</h1>
-                    <a href="{{ route('subcategory') }}" class="float-right btn btn-success"> <i
-                            class="fa fa-plus-circle"></i> Add Sub Category</a>
-                </div>
-                <div class="card-body">
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Name</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            @foreach ($categories as $key => $category)
-                                <tr>
-                                    <td>{{ $key + 1 }}</td>
-                                    <td>{{ $category->name }}</td>
-                                    <td>
-                                        <a href="{{ route('deleteCategory', $category->id) }}" id="deleteEvent"
-                                            class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                            @endforeach
-
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th>No.</th>
-                                <th>Name</th>
-                                <th>Actions</th>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div> --}}
 @endsection
 
 
@@ -156,13 +113,13 @@
                 },
                 messages: {
                     category: {
-                        required: "Select a category first",
+                        required: "Field is required!",
                     },
                     sub_category: {
-                        required: "Select a Sub-Category",
+                        required: "Field is required!",
                     },
                     amount: {
-                        required: "Select a Sub-Category",
+                        required: "Field is required!",
                     }
                 },
                 errorElement: 'span',

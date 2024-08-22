@@ -205,7 +205,7 @@ class SearchController extends Controller
         $income = IncomeField::whereBetween('created_at', [$startDate, $endDate])->pluck('amount')->sum();
         $expenditure = Expenditure::whereBetween('created_at', [$startDate, $endDate])->pluck('amount')->sum();
         $due = Due::whereBetween('created_at', [$startDate, $endDate])->pluck('due_amount')->sum();
-        $dueCollection = DueCollection::pluck('amount')->sum();
+        $dueCollection = DueCollection::whereBetween('created_at', [$startDate, $endDate])->pluck('amount')->sum();
 
         $total_income = $indoor + $outdoor + $income;
 
