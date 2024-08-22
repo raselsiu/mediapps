@@ -44,7 +44,7 @@ use Carbon\Carbon;
 
                             <table class="table patient_info_viewer">
                                 <tbody>
-                                    {{-- <tr>
+                                    <tr>
                                         <td>1</td>
                                         <td>a</td>
                                         <td>1</td>
@@ -68,7 +68,7 @@ use Carbon\Carbon;
                                         <td>Thornton</td>
                                         <td>@fat</td>
                                         <td>@fat</td>
-                                    </tr> --}}
+                                    </tr>
                                     Patients ID: {{ $patient_info->uuid }}
                                     Date: {{ Carbon::now()->toFormattedDateString() }}
                                     Name: {{ $patient_info->name }}
@@ -123,7 +123,7 @@ use Carbon\Carbon;
                                     </li>
                                     <li class="list-group-item">
                                         <b>Discount:</b>
-                                        <p class="float-right">{{ $rcpt_info->discount }}</p>
+                                        <p class="float-right">{{ $rcpt_info->discount }} TK</p>
                                     </li>
                                     <li class="list-group-item">
                                         <b>Total Amount: </b>
@@ -151,20 +151,20 @@ use Carbon\Carbon;
                     <div class="cashmemo_btn">
                         <div class="row">
                             @if ($rcpt_info->outstanding_total > 0)
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <a href="{{ route('edit_cash_memo', $patient_info->uuid) }}"
-                                        class="btn btn-warning btn-block">
-                                        <b>Update Cash-Memo</b>
+                                        class="btn btn-sm btn-warning">
+                                        <b><i class="fa fa-pen"></i> &nbsp;&nbsp;Update Cash-Memo</b>
                                     </a>
                                 </div>
                             @endif
 
-                            <div class="col-md-6"> <a href="{{ route('all_regi_patient') }}"
+                            <div class="col-md-4"> <a href="{{ route('all_regi_patient') }}"
                                     class="btn btn-success btn-sm"> &nbsp;<i class="fa fa-user"></i> &nbsp; Indoor Pateint
                                     Lists</a>
                             </div>
 
-                            <div class="col-md-6"> <a href="{{ route('addMoreServicesForm', $patient_info->uuid) }}"
+                            <div class="col-md-4"> <a href="{{ route('addMoreServicesForm', $patient_info->uuid) }}"
                                     class="btn btn-sm btn-danger"><i class="fa fa-plus"></i> &nbsp;Add More
                                     Services</a>
                             </div>

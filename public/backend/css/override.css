@@ -121,7 +121,7 @@ p.cash_memo_generated {
 }
 
 .cashmemo_btn {
-    width: 60%;
+    width: 75%;
     margin: 0 auto;
 }
 
@@ -196,4 +196,13 @@ tr.due {
     background-image: url(/backend/img/dashboard-bg.jpg);
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+.bf {
+    border: 1px solid #ff2727;
+    font-size: 20px;
+    font-weight: bold;
+    color: #e12828;
+    padding: 5px 8px;
+    border-radius: 5px;
 }

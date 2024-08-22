@@ -10,6 +10,9 @@ use App\Models\Income;
 use App\Models\IncomeField;
 use App\Models\OutdoorModel;
 use Carbon\Carbon;
+use DateInterval;
+use DateTime;
+use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Contracts\Service\Attribute\Required;
@@ -200,6 +203,27 @@ class SearchController extends Controller
         $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay();
         $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay();
 
+
+        // Getting previous day from a date
+        $tz    = new DateTimeZone('Asia/Dhaka');
+        $date  = new DateTime($endDate, $tz);
+        $interval = new DateInterval('P1D');
+        $date->sub($interval);
+        $previousDayFromADate = $date->format('y-m-d');
+        $previousDay = Carbon::createFromFormat('Y-m-d', $previousDayFromADate)->endOfDay();
+
+        $indoorPre = CashMemoInfo::whereBetween('created_at', [$startDate, $previousDay])->pluck('paid')->sum();
+        $outdoorPre = Income::whereBetween('created_at', [$startDate, $previousDay])->pluck('income_amount')->sum();
+        $incomePre = IncomeField::whereBetween('created_at', [$startDate, $previousDay])->pluck('amount')->sum();
+        $expenditurePre = Expenditure::whereBetween('created_at', [$startDate, $previousDay])->pluck('amount')->sum();
+
+        $previousDayIncome = (($indoorPre + $outdoorPre + $incomePre) - $expenditurePre);
+
+        // end
+
+
+
+
         $indoor = CashMemoInfo::whereBetween('created_at', [$startDate, $endDate])->pluck('paid')->sum();
         $outdoor = Income::whereBetween('created_at', [$startDate, $endDate])->pluck('income_amount')->sum();
         $income = IncomeField::whereBetween('created_at', [$startDate, $endDate])->pluck('amount')->sum();
@@ -207,10 +231,12 @@ class SearchController extends Controller
         $due = Due::whereBetween('created_at', [$startDate, $endDate])->pluck('due_amount')->sum();
         $dueCollection = DueCollection::whereBetween('created_at', [$startDate, $endDate])->pluck('amount')->sum();
 
+
+
         $total_income = $indoor + $outdoor + $income;
 
 
 
-        return view('backend.search_data.search_by_calender', compact('indoor', 'outdoor', 'income', 'expenditure', 'total_income', 'due', 'dueCollection', 'startDate', 'endDate'));
+        return view('backend.search_data.search_by_calender', compact('indoor', 'outdoor', 'income', 'expenditure', 'total_income', 'due', 'dueCollection', 'previousDayIncome', 'startDate', 'endDate'));
     }
 }

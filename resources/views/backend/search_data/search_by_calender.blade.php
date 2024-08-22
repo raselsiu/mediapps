@@ -51,7 +51,7 @@
 
                                 <thead>
                                     <tr>
-                                        <th scope="col">No.</th>
+                                        <th scope="col" class="notForPrint">No.</th>
                                         <th scope="col">Detials</th>
                                         <th scope="col">Amount</th>
                                     </tr>
@@ -97,18 +97,22 @@
                                     <tr class="due">
                                         <th scope="row">7</th>
                                         <td><b>Due Amount:</b></td>
-                                        <td><b> = &nbsp;{{ $due }} Tk</b></td>
+                                        <td><b> = &nbsp;{{ $due }} Tk (All Patient)</b></td>
                                     </tr>
                                     <tr class="due">
-                                        <th scope="row">7</th>
+                                        <th scope="row">8</th>
                                         <td><b>Due Collected:</b></td>
                                         <td><b> = &nbsp;{{ $dueCollection }} Tk</b></td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
-                                    <th colspan="3"><span class="title_bar">Result Between:
+                                    <th>##</th>
+                                    <th colspan="1"><span class="title_bar">Result Between:
                                             {{ $startDate->toDateString() }} -
                                             {{ $endDate->toDateString() }}&nbsp;&nbsp;!</span>
+                                    </th>
+                                    <th>
+                                        <span class="bf">BF: {{ $previousDayIncome }}</span>
                                     </th>
                                 </tfoot>
                             </table>
