@@ -19,8 +19,8 @@
             <div class="card">
                 <div class="card-header">
                     <h1 class="card-title">Available Patients</h1>
-                    <a href="{{ route('registration_form') }}" class="float-right btn btn-success"> <i
-                            class="fa fa-plus-circle"></i> Register Patients</a>
+                    <a href="{{ route('admission_form') }}" class="float-right btn btn-success"> <i
+                            class="fa fa-plus-circle"></i> Admit Patients</a>
                 </div>
                 <div class="card-body">
                     <table id="example1" class="table table-bordered table-striped">

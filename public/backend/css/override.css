@@ -206,3 +206,7 @@ tr.due {
     padding: 5px 8px;
     border-radius: 5px;
 }
+
+aside.main-sidebar.sidebar-dark-primary.elevation-4 {
+    position: fixed;
+}

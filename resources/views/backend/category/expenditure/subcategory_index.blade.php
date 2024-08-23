@@ -93,12 +93,13 @@
                                     <td>{{ $subcategory->name }}</td>
                                     <td>{{ $subcategory->subcategory }}</td>
                                     @if (Auth::user()->usertype == 'developers')
+                                        <td>
+                                            <a href="" id="deleteEvent" class="btn btn-sm btn-danger"><i
+                                                    class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
                                     @endif
-                                    <td>
-                                        <a href="" id="deleteEvent" class="btn btn-sm btn-danger"><i
-                                                class="fa fa-trash"></i>
-                                        </a>
-                                    </td>
+
 
                                 </tr>
                             @endforeach

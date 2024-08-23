@@ -42,46 +42,39 @@ use Carbon\Carbon;
                             <p class="text-muted text-center">{{ $hospitalAddress }} | Mobile: {{ $hospitalPhone }}</p>
 
 
-                            <table class="table patient_info_viewer">
+                            <table class="table table-bordered patient_info_viewer">
                                 <tbody>
                                     <tr>
-                                        <td>1</td>
-                                        <td>a</td>
-                                        <td>1</td>
-                                        <td>1</td>
+                                        <td> Patients ID:</td>
+                                        <td>{{ $patient_info->uuid }}</td>
+                                        <td> Date:</td>
+                                        <td>{{ Carbon::now()->toFormattedDateString() }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                        <td>@fat</td>
+                                        <td> Name:</td>
+                                        <td>{{ $patient_info->name }}</td>
+                                        <td>Cabin No: </td>
+                                        <td> {{ $patient_info->cabin_no }}</td>
                                     </tr>
 
                                     <tr>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                        <td>@fat</td>
+                                        <td>Regi. No: </td>
+                                        <td> {{ $patient_info->regi_no }}</td>
+                                        <td>Contact No: </td>
+                                        <td>{{ $patient_info->mobile }}</td>
                                     </tr>
-                                    <tr>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                        <td>@fat</td>
-                                    </tr>
-                                    Patients ID: {{ $patient_info->uuid }}
-                                    Date: {{ Carbon::now()->toFormattedDateString() }}
-                                    Name: {{ $patient_info->name }}
-                                    Cabin No: {{ $patient_info->cabin_no }}
-                                    Regi. No: {{ $patient_info->regi_no }}
 
-                                    Contact No: {{ $patient_info->mobile }}
-                                    Adm. Date: {{ $patient_info->admission_date }}
-                                    Leave Date: {{ $rcpt_info->leave_date }}
+                                    <tr>
+                                        <td>Adm. Date:</td>
+                                        <td> {{ $patient_info->admission_date }}</td>
+                                        <td> Leave Date:</td>
+                                        <td> {{ $rcpt_info->leave_date }}</td>
+                                    </tr>
                                 </tbody>
                             </table>
 
 
+                            <hr>
 
                             <table class="table table-bordered">
                                 <thead>
