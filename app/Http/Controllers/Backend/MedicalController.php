@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\AdmissinForm;
 use App\Models\AllInComingAmount;
+use App\Models\Cabin;
 use App\Models\CashMemoForm;
 use App\Models\CashMemoInfo;
 use App\Models\Due;
@@ -234,11 +235,22 @@ class MedicalController extends Controller
         $due->refs_id = $request->patient_uuid;
         $due->due_amount = $outstanding;
         $due->source = $admissionFormData->name;
+
+
+
+        // Unblocking Cabin No
+
+        $cabinUnblock = Cabin::where('slug', Str::slug($request->cabin_no))->first();
+        $cabinUnblock->status = '0';
+
+
+
+        //  Saving Data
+
         $due->save();
-
         $data->save();
-
         $admissionFormData->save();
+        $cabinUnblock->save();
 
 
 
@@ -464,23 +476,23 @@ class MedicalController extends Controller
     public function admission_form_view()
     {
         // $uuid = $id;
-        return view('backend.medical_pages.admission_form');
+        $cabin_info = Cabin::where('status', '0')->get();
+        return view('backend.medical_pages.admission_form', compact('cabin_info'));
     }
 
     public function admission_form_save(Request $request)
     {
 
-        $request->validate([
-            'regi_no' => "required|unique:admissin_forms,regi_no"
-        ]);
+        // $request->validate([
+        //     'regi_no' => "required|unique:admissin_forms,regi_no"
+        // ]);
 
         $patient_info = new AdmissinForm();
 
         $uuid = uniqid();
 
         $patient_info->uuid = $uuid;
-        $patient_info->regular_date = $request->regular_date;
-        $patient_info->regi_no = $request->regi_no;
+        $patient_info->regi_no = '0';
         $patient_info->name = $request->name;
         $patient_info->age = $request->age;
         $patient_info->father_or_husb_name = $request->father_or_husb_name;
@@ -490,18 +502,32 @@ class MedicalController extends Controller
         $patient_info->pre_thana = $request->pre_thana;
         $patient_info->pre_district = $request->pre_district;
         $patient_info->mobile = $request->mobile;
-        $patient_info->admission_date = $request->admission_date;
-        $patient_info->admission_time = $request->admission_time;
         $patient_info->disease_name = $request->disease_name;
         $patient_info->doctor_name = $request->doctor_name;
-        $patient_info->cabin_no = $request->cabin_no;
-        $patient_info->date_of_leave = $request->date_of_leave;
-        $patient_info->leave_time = $request->leave_time;
+        $patient_info->cabin_no = Str::slug($request->cabin_no);
+        $patient_info->care_of = $request->care_of;
+        $patient_info->regi_fee = $request->regi_fee;
         $patient_info->is_admitted = true;
         $patient_info->status = 'admitted';
 
+        // Cabin Block
+
+        $findCabin = Cabin::where('slug', Str::slug($request->cabin_no))->first();
+        $findCabin->status = '1';
+
 
         $patient_info->save();
+
+        $findRegiField = AdmissinForm::where('id', $patient_info->id)->first();
+
+        $regi_num = '#' . str_pad($patient_info->id + 1, 4, "0", STR_PAD_LEFT);
+
+        $findRegiField->regi_no = $regi_num;
+
+        $findRegiField->save();
+
+        $findCabin->save();
+
 
         return redirect()->route('all_regi_patient')->with('success', 'Patient Admitted Successfully!');
     }

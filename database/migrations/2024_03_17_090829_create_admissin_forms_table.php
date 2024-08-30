@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('admissin_forms', function (Blueprint $table) {
             $table->id();
             $table->string('uuid');
-            $table->string('regular_date');
-            $table->string('regi_no');
+            $table->string('regi_no')->unique();
             $table->string('name');
             $table->string('age');
             $table->string('father_or_husb_name');
@@ -25,13 +24,9 @@ return new class extends Migration
             $table->string('pre_thana');
             $table->string('pre_district');
             $table->string('mobile');
-            $table->string('admission_date');
-            $table->string('admission_time');
             $table->string('disease_name')->nullable();
             $table->string('doctor_name');
             $table->string('cabin_no');
-            $table->string('date_of_leave')->nullable();
-            $table->string('leave_time')->nullable();
             $table->string('is_admitted')->nullable();
             $table->string('status')->nullable();
             $table->string('total_bill')->nullable();
@@ -40,6 +35,8 @@ return new class extends Migration
             $table->string('paid')->nullable();
             $table->string('is_payment_clear')->default(0);
             $table->string('is_cash_memo_generated')->default(0);
+            $table->string('care_of');
+            $table->string('regi_fee');
             $table->timestamps();
         });
     }

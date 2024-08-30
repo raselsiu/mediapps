@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\AccountController;
+use App\Http\Controllers\Backend\CabinController;
 use App\Http\Controllers\Backend\MedicalController;
 use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\UserController;
@@ -221,6 +222,11 @@ Route::group(['prefix' => 'data-entry', 'middleware' => ['auth']], function () {
     // Add More Services
     Route::get('/service/add/{id}', [MedicalController::class, 'addMoreServicesForm'])->name('addMoreServicesForm');
     Route::post('/service/update/{id}', [MedicalController::class, 'addMoreServicesUpdate'])->name('addMoreServicesUpdate');
+
+    // 
+
+    Route::get('/cabin/create', [CabinController::class, 'cabinForm'])->name('cabinForm');
+    Route::post('/cabin/store', [CabinController::class, 'storeCabin'])->name('storeCabin');
 });
 
 

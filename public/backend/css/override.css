@@ -210,3 +210,31 @@ tr.due {
 aside.main-sidebar.sidebar-dark-primary.elevation-4 {
     position: fixed;
 }
+
+.card_area {
+    width: 40%;
+    margin: 0 auto;
+    margin-top: 30px;
+    background: #3498db;
+    padding: 5px 12px;
+    text-align: center;
+    color: #fff;
+    font-weight: bold;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.grid-item {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgb(24 23 255 / 80%);
+    padding: 20px;
+    font-size: 20px;
+    text-align: center;
+    margin: 5px;
+}

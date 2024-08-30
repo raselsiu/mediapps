@@ -49,7 +49,8 @@
 
                             <div class="form-group col-md-4">
                                 <label for="name">Leave Date: </label>
-                                <input type="date" class="form-control" name="leave_date" placeholder="Leave Date....">
+                                <input type="date" class="form-control" name="leave_date" value="{{ date('Y-m-d') }}"
+                                    placeholder="Leave Date....">
                                 {{-- @if ($errors->has('name'))
                                     <span style="color: red">{{ $errors->first('name') }}</span>
                                 @endif --}}

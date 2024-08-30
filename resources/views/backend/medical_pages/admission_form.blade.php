@@ -31,30 +31,13 @@
 
                     {{-- <input type="hidden" name="uuid" value="{{ $uuid }}"> --}}
 
+                    @if ($errors->has('regi_no'))
+                        <span style="color: red">{{ $errors->first('regi_no') }}</span>
+                    @endif
+
                     <input type="text" hidden name="registration_fee" value="registration_fee">
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="regular_date">Date: </label>
-                                    <input type="date" class="form-control" name="regular_date" id="regular_date"
-                                        value="{{ old('regular_date') }}">
-                                    @if ($errors->has('regular_date'))
-                                        <span style="color: red">{{ $errors->first('regular_date') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="regi_no">Regi No: </label>
-                                    <input type="text" class="form-control" name="regi_no" id="regi_no"
-                                        placeholder="Enter Regi. No..." value="{{ old('regi_no') }}">
-                                    @if ($errors->has('regi_no'))
-                                        <span style="color: red">{{ $errors->first('regi_no') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label for="name">Patient Name: </label>
@@ -133,6 +116,7 @@
 
                         <br>
                         <div class="row">
+
                             <div class="form-group col-md-4">
                                 <label for="mobile">Mobile: </label>
                                 <input type="text" class="form-control" name="mobile" id="mobile"
@@ -141,22 +125,7 @@
                                     <span style="color: red">{{ $errors->first('mobile') }}</span>
                                 @endif
                             </div>
-                            <div class="form-group col-md-4">
-                                <label for="admission_date">Admission Date: </label>
-                                <input type="date" class="form-control" name="admission_date" id="admission_date"
-                                    placeholder="Admission Date...." value="{{ old('admission_date') }}">
-                                @if ($errors->has('admission_date'))
-                                    <span style="color: red">{{ $errors->first('admission_date') }}</span>
-                                @endif
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="admission_time">Admission Time: </label>
-                                <input type="time" class="form-control" name="admission_time" id="admission_time"
-                                    placeholder="Admission Time...." value="{{ old('admission_time') }}">
-                                @if ($errors->has('admission_time'))
-                                    <span style="color: red">{{ $errors->first('admission_time') }}</span>
-                                @endif
-                            </div>
+
                             <div class="form-group col-md-4">
                                 <label for="disease_name">Disease Name: </label>
                                 <input type="text" class="form-control" name="disease_name" id="disease_name"
@@ -165,6 +134,7 @@
                                     <span style="color: red">{{ $errors->first('disease_name') }}</span>
                                 @endif
                             </div>
+
                             <div class="form-group col-md-4">
                                 <label for="doctor_name">Doctor Name: </label>
                                 <input type="text" class="form-control" name="doctor_name" id="doctor_name"
@@ -173,32 +143,36 @@
                                     <span style="color: red">{{ $errors->first('doctor_name') }}</span>
                                 @endif
                             </div>
+
                             <div class="form-group col-md-4">
-                                <label for="cabin_no">Cabin No: </label>
-                                <input type="text" class="form-control" name="cabin_no" id="cabin_no"
-                                    placeholder="Cabin Number...." value="{{ old('cabin_no') }}">
+                                <label for="category">Select Cabin No: </label>
+                                <select class="custom-select" name="cabin_no" id="cabin_no">
+                                    <option value="">Select Cabin</option>
+
+                                    @foreach ($cabin_info as $cabin)
+                                        <option value="{{ $cabin->cabin_no }}">{{ $cabin->cabin_no }}</option>
+                                    @endforeach
+                                </select>
                                 @if ($errors->has('cabin_no'))
                                     <span style="color: red">{{ $errors->first('cabin_no') }}</span>
                                 @endif
                             </div>
+
                         </div>
 
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="addr_area">
                                     <div class="form-group col-md-12">
-                                        <label for="date_of_leave">Date Of Leave: </label>
-                                        <input type="date" class="form-control" name="date_of_leave"
-                                            id="date_of_leave" placeholder="Cabin Number...."
-                                            value="{{ old('date_of_leave') }}">
-
+                                        <label for="care_of">Care Of: </label>
+                                        <input type="text" class="form-control" name="care_of" id="care_of"
+                                            placeholder="Cabin Number...." value="{{ old('care_of') }}">
                                     </div>
 
                                     <div class="form-group col-md-12">
-                                        <label for="leave_time">Leave Time: </label>
-                                        <input type="time" class="form-control" name="leave_time" id="leave_time"
-                                            placeholder="Cabin Number...." value="{{ old('leave_time') }}">
-
+                                        <label for="regi_fee">Registration Fee: </label>
+                                        <input type="number" class="form-control" name="regi_fee" id="regi_fee"
+                                            placeholder="Cabin Number...." value="{{ old('regi_fee') }}">
                                     </div>
                                 </div>
                             </div>
@@ -241,9 +215,6 @@
                     regular_date: {
                         required: true,
                     },
-                    regi_no: {
-                        required: true,
-                    },
                     name: {
                         required: true,
                     },
@@ -271,12 +242,6 @@
                     mobile: {
                         required: true,
                     },
-                    admission_date: {
-                        required: true,
-                    },
-                    admission_time: {
-                        required: true,
-                    },
                     disease_name: {
                         required: true,
                     },
@@ -286,13 +251,16 @@
                     cabin_no: {
                         required: true,
                     },
+                    care_of: {
+                        required: true,
+                    },
+                    regi_fee: {
+                        required: true,
+                    },
                 },
                 messages: {
                     regular_date: {
                         required: 'Date required.',
-                    },
-                    regi_no: {
-                        required: 'Enter Regi No.',
                     },
                     name: {
                         required: 'Enter patient name',
@@ -321,12 +289,6 @@
                     mobile: {
                         required: 'Field is required',
                     },
-                    admission_date: {
-                        required: 'Field is required',
-                    },
-                    admission_time: {
-                        required: 'Field is required',
-                    },
                     disease_name: {
                         required: 'Field is required',
                     },
@@ -334,6 +296,12 @@
                         required: 'Field is required',
                     },
                     cabin_no: {
+                        required: 'Field is required',
+                    },
+                    care_of: {
+                        required: 'Field is required',
+                    },
+                    regi_fee: {
                         required: 'Field is required',
                     }
                 },

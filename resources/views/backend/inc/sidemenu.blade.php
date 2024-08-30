@@ -205,6 +205,15 @@ $route = Route::current()->getName();
                             </a>
                         </li>
 
+
+                        <li class="nav-item">
+                            <a href="{{ route('cabinForm') }}"
+                                class="nav-link {{ $route == 'cabinForm' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add Cabin</p>
+                            </a>
+                        </li>
+
                     </ul>
                 </li>
 
