@@ -144,7 +144,7 @@ use Carbon\Carbon;
                     <div class="cashmemo_btn">
                         <div class="row">
                             @if ($rcpt_info->outstanding_total > 0)
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <a href="{{ route('edit_cash_memo', $patient_info->uuid) }}"
                                         class="btn btn-sm btn-warning">
                                         <b><i class="fa fa-pen"></i> &nbsp;&nbsp;Update Cash-Memo</b>
@@ -152,14 +152,18 @@ use Carbon\Carbon;
                                 </div>
                             @endif
 
-                            <div class="col-md-4"> <a href="{{ route('all_regi_patient') }}"
+                            <div class="col-md-3"> <a href="{{ route('all_regi_patient') }}"
                                     class="btn btn-success btn-sm"> &nbsp;<i class="fa fa-user"></i> &nbsp; Indoor Pateint
                                     Lists</a>
                             </div>
 
-                            <div class="col-md-4"> <a href="{{ route('addMoreServicesForm', $patient_info->uuid) }}"
+                            <div class="col-md-3"> <a href="{{ route('addMoreServicesForm', $patient_info->uuid) }}"
                                     class="btn btn-sm btn-danger"><i class="fa fa-plus"></i> &nbsp;Add More
                                     Services</a>
+                            </div>
+                            <div class="col-md-3"> <a href="{{ route('', $patient_info->uuid) }}"
+                                    class="btn btn-sm btn-danger"><i class="fas fa-user-shield"></i> &nbsp;Release
+                                    Patient</a>
                             </div>
 
 

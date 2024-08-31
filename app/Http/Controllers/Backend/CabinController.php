@@ -19,20 +19,18 @@ class CabinController extends Controller
         return view('cabin.cabin_form', compact('cabin'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+
+
+
+    public function release_cabin()
     {
-        //
+        return 'released';
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
+
     public function storeCabin(Request $request)
     {
-
         $this->validate($request, [
             'cabin_no' => 'required|unique:cabins,cabin_no'
         ]);
@@ -46,35 +44,20 @@ class CabinController extends Controller
         return redirect()->back()->with('success', 'Created Successfully!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+    public function show(string $id) {}
+
+
+    public function edit(string $id) {}
+
+
+
+
+    public function update(Request $request, string $id) {}
+
+
+
+    public function destroy(string $id) {}
 }
