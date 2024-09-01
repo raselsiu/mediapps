@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AllInComingAmount;
 use App\Models\ExpenditureCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -29,6 +30,7 @@ class ExpenditureCategoryController extends Controller
      */
     public function store_exp_category(Request $request)
     {
+
 
 
         $request->validate([

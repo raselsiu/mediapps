@@ -39,6 +39,7 @@ class ExpenditureSubCategoryController extends Controller
      */
     public function store(Request $request)
     {
+
         $data = new ExpenditureSubCategory();
         $data->category_id = $request->category_id;
         $data->subcategory = $request->sub_category;

@@ -66,50 +66,48 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="addr_area">
-                                    <div class="form-group col-md-12">
-                                        <label for="present_address">Present Address: </label>
-                                        <input type="text" class="form-control" name="present_address"
-                                            id="present_address" placeholder="Present Address...."
-                                            value="{{ old('present_address') }}">
-                                        @if ($errors->has('present_address'))
-                                            <span style="color: red">{{ $errors->first('present_address') }}</span>
-                                        @endif
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <label for="pre_village">Village: </label>
-                                        <input type="text" class="form-control" name="pre_village" id="pre_village"
-                                            placeholder="Village...." value="{{ old('pre_village') }}">
-                                        @if ($errors->has('pre_village'))
-                                            <span style="color: red">{{ $errors->first('pre_village') }}</span>
-                                        @endif
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <label for="pre_post_code">Post Office: </label>
-                                        <input type="text" class="form-control" name="pre_post_code" id="pre_post_code"
-                                            placeholder="Post Office...." value="{{ old('pre_post_code') }}">
-                                        @if ($errors->has('pre_post_code'))
-                                            <span style="color: red">{{ $errors->first('pre_post_code') }}</span>
-                                        @endif
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <label for="pre_thana">Thana: </label>
-                                        <input type="text" class="form-control" name="pre_thana" id="pre_thana"
-                                            placeholder="Thana...." value="{{ old('pre_thana') }}">
-                                        @if ($errors->has('pre_thana'))
-                                            <span style="color: red">{{ $errors->first('pre_thana') }}</span>
-                                        @endif
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <label for="pre_district">District: </label>
-                                        <input type="text" class="form-control" name="pre_district" id="pre_district"
-                                            placeholder="District...." value="{{ old('pre_district') }}">
-                                        @if ($errors->has('pre_district'))
-                                            <span style="color: red">{{ $errors->first('pre_district') }}</span>
-                                        @endif
-                                    </div>
+
+                        <div class="addr_area">
+                            <div class="row">
+                                <div class="form-group col-md-4 col-sm-6 col-lg-4">
+                                    <label for="present_address">Present Address: </label>
+                                    <input type="text" class="form-control" name="present_address" id="present_address"
+                                        placeholder="Present Address...." value="{{ old('present_address') }}">
+                                    @if ($errors->has('present_address'))
+                                        <span style="color: red">{{ $errors->first('present_address') }}</span>
+                                    @endif
+                                </div>
+                                <div class="form-group col-md-4 col-sm-6 col-lg-4">
+                                    <label for="pre_village">Village: </label>
+                                    <input type="text" class="form-control" name="pre_village" id="pre_village"
+                                        placeholder="Village...." value="{{ old('pre_village') }}">
+                                    @if ($errors->has('pre_village'))
+                                        <span style="color: red">{{ $errors->first('pre_village') }}</span>
+                                    @endif
+                                </div>
+                                <div class="form-group col-md-4 col-sm-6 col-lg-4">
+                                    <label for="pre_post_code">Post Office: </label>
+                                    <input type="text" class="form-control" name="pre_post_code" id="pre_post_code"
+                                        placeholder="Post Office...." value="{{ old('pre_post_code') }}">
+                                    @if ($errors->has('pre_post_code'))
+                                        <span style="color: red">{{ $errors->first('pre_post_code') }}</span>
+                                    @endif
+                                </div>
+                                <div class="form-group col-md-4 col-sm-6 col-lg-4">
+                                    <label for="pre_thana">Thana: </label>
+                                    <input type="text" class="form-control" name="pre_thana" id="pre_thana"
+                                        placeholder="Thana...." value="{{ old('pre_thana') }}">
+                                    @if ($errors->has('pre_thana'))
+                                        <span style="color: red">{{ $errors->first('pre_thana') }}</span>
+                                    @endif
+                                </div>
+                                <div class="form-group col-md-4 col-sm-6 col-lg-4">
+                                    <label for="pre_district">District: </label>
+                                    <input type="text" class="form-control" name="pre_district" id="pre_district"
+                                        placeholder="District...." value="{{ old('pre_district') }}">
+                                    @if ($errors->has('pre_district'))
+                                        <span style="color: red">{{ $errors->first('pre_district') }}</span>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -117,7 +115,7 @@
                         <br>
                         <div class="row">
 
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3 col-lg-3 col-sm-3">
                                 <label for="mobile">Mobile: </label>
                                 <input type="text" class="form-control" name="mobile" id="mobile"
                                     placeholder="Mobile Number...." value="{{ old('mobile') }}">
@@ -126,7 +124,7 @@
                                 @endif
                             </div>
 
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3 col-lg-3 col-sm-3">
                                 <label for="disease_name">Disease Name: </label>
                                 <input type="text" class="form-control" name="disease_name" id="disease_name"
                                     placeholder="Disease Name...." value="{{ old('disease_name') }}">
@@ -135,7 +133,7 @@
                                 @endif
                             </div>
 
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3 col-lg-3 col-sm-3">
                                 <label for="doctor_name">Doctor Name: </label>
                                 <input type="text" class="form-control" name="doctor_name" id="doctor_name"
                                     placeholder="Doctor Name...." value="{{ old('doctor_name') }}">
@@ -144,7 +142,7 @@
                                 @endif
                             </div>
 
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3 col-lg-3 col-sm-3">
                                 <label for="category">Select Cabin No: </label>
                                 <select class="custom-select" name="cabin_no" id="cabin_no">
                                     <option value="">Select Cabin</option>
@@ -160,23 +158,23 @@
 
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="addr_area">
-                                    <div class="form-group col-md-12">
-                                        <label for="care_of">Care Of: </label>
-                                        <input type="text" class="form-control" name="care_of" id="care_of"
-                                            placeholder="Cabin Number...." value="{{ old('care_of') }}">
-                                    </div>
 
-                                    <div class="form-group col-md-12">
-                                        <label for="regi_fee">Registration Fee: </label>
-                                        <input type="number" class="form-control" name="regi_fee" id="regi_fee"
-                                            placeholder="Cabin Number...." value="{{ old('regi_fee') }}">
-                                    </div>
+                        <div class="addr_area">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="care_of">Reference: </label>
+                                    <input type="text" class="form-control" name="care_of" id="care_of"
+                                        placeholder="Enter Reference " value="{{ old('care_of') }}">
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="regi_fee">Registration Fee: </label>
+                                    <input type="number" class="form-control" name="regi_fee" id="regi_fee"
+                                        placeholder="Amount" value="{{ old('regi_fee') }}">
                                 </div>
                             </div>
                         </div>
+
                         <br>
 
                         <button type="submit" class="btn btn-primary">Admit Patient</button>

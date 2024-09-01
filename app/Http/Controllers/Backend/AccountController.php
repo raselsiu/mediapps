@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdmissinForm;
 use App\Models\AllInComingAmount;
 use App\Models\AllOutGoingAmount;
 use App\Models\CashMemoInfo;
@@ -53,24 +54,26 @@ class AccountController extends Controller
 
     public function indoor_income()
     {
-        $out_income['data'] = CashMemoInfo::all();
-        $totalAmount = CashMemoInfo::pluck('paid')->sum();
-
-        $fromDate = Carbon::now()->subMonth()->startOfMonth()->toDateString();
-        $tillDate = Carbon::now()->subMonth()->endOfMonth()->toDateString();
-        $revenueLastMonth = DB::table('incomes')->whereBetween('created_at', [$fromDate, $tillDate])->get();
-        $revenue24Hours = DB::table('incomes')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->get();
-        $currentMonth = Income::select('*')->whereMonth('created_at', Carbon::now()->month)->get();
-
-        $last24HourIncomeDaily = DB::table('incomes')->where('created_at', '>=', Carbon::now()->subDays(30)->toDateTimeString())->get();
-
-        $yearly = DB::table('incomes')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->get();
 
 
 
-        return view('backend.indoor_income.indoor_income', $out_income, compact('totalAmount'));
+
+
+        $data1 = CashMemoInfo::select('patient_uuid as uuid', 'patient_name as income_source', 'paid as income_amount')->orderBy('created_at', 'desc')->get();
+        $data2 = AdmissinForm::select('uuid', 'name as income_source', 'regi_fee as income_amount')->orderBy('created_at', 'desc')->get();
+
+        $indoor_info['data'] = $data1->concat($data2);
+
+        $indoor_info['full_amount'] = $data1->concat($data2)->pluck('income_amount')->sum();
+
+
+
+        // dd($indoor_info['data']);
+
+
+
+        return view('backend.indoor_income.indoor_income', $indoor_info);
     }
-
 
 
 
@@ -115,13 +118,13 @@ class AccountController extends Controller
 
         $incomes = Income::whereDate('created_at', Carbon::today())->get();
 
-        // Due Amount Getting 
-        
-
         // Indoor Patients
         $fromAdmittedPatient = CashMemoInfo::whereDate('created_at', Carbon::today())->select('patient_name as income_source', 'paid as income_amount')->get();
 
-        $merge_income = $income_field->concat($incomes)->concat($fromAdmittedPatient);
+        // Indoor Registration Fee
+        $regiFee = AdmissinForm::whereDate('created_at', Carbon::today())->select('name as income_source', 'regi_fee as income_amount')->get();
+
+        $merge_income = $income_field->concat($incomes)->concat($fromAdmittedPatient)->concat($regiFee);
 
         $income_balance = $merge_income->pluck('income_amount')->sum();
 

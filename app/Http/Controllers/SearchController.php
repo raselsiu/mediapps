@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdmissinForm;
 use App\Models\CashMemoInfo;
 use App\Models\Due;
 use App\Models\DueCollection;
@@ -15,7 +16,6 @@ use DateTime;
 use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Symfony\Contracts\Service\Attribute\Required;
 
 class SearchController extends Controller
 {
@@ -69,29 +69,88 @@ class SearchController extends Controller
     // #################################################################
     public function indoorTwentyFourHour()
     {
-        $revenue24Hours['data'] = DB::table('cash_memo_infos')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->get();
-        $totalAmount  = DB::table('cash_memo_infos')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->pluck('paid')->sum();
+        // $revenue24Hours['data'] = DB::table('cash_memo_infos')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->get();
+        // $totalAmount  = DB::table('cash_memo_infos')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->pluck('paid')->sum();
 
-        return view('backend.indoor_income.indoor_income', $revenue24Hours, compact('totalAmount'));
+
+        $data1 = CashMemoInfo::select('patient_uuid as uuid', 'patient_name as income_source', 'paid as income_amount')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->orderBy('created_at', 'desc')->get();
+        $data2 = AdmissinForm::select('uuid', 'name as income_source', 'regi_fee as income_amount')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->orderBy('created_at', 'desc')->get();
+
+
+
+        $sum1 = AdmissinForm::where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->pluck('regi_fee')->sum();
+        $sum2 = CashMemoInfo::where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->pluck('paid')->sum();
+
+        $indoor_info['data'] = $data1->concat($data2);
+
+        $indoor_info['full_amount'] = $sum1 + $sum2;
+
+
+        return view('backend.indoor_income.indoor_income', $indoor_info);
     }
     public function indoorGetCurrentMonthRevenue()
-    {
-        // Current Month Revenue
-        $currentMonth['data'] = CashMemoInfo::select('*')->whereMonth('created_at', Carbon::now()->month)->get();
-        $totalAmount  = CashMemoInfo::select('*')->whereMonth('created_at', Carbon::now()->month)->pluck('paid')->sum();
 
-        return view('backend.indoor_income.indoor_income', $currentMonth, compact('totalAmount'));
+    {
+
+
+        $data1 = CashMemoInfo::select('patient_uuid as uuid', 'patient_name as income_source', 'paid as income_amount')->whereMonth('created_at', Carbon::now()->month)->orderBy('created_at', 'desc')->get();
+        $data2 = AdmissinForm::select('uuid', 'name as income_source', 'regi_fee as income_amount')->whereMonth('created_at', Carbon::now()->month)->orderBy('created_at', 'desc')->get();
+
+
+
+        $sum1 = AdmissinForm::whereMonth('created_at', Carbon::now()->month)->pluck('regi_fee')->sum();
+        $sum2 = CashMemoInfo::whereMonth('created_at', Carbon::now()->month)->pluck('paid')->sum();
+
+        $indoor_info['data'] = $data1->concat($data2);
+
+        $indoor_info['full_amount'] = $sum1 + $sum2;
+
+
+        return view('backend.indoor_income.indoor_income', $indoor_info);
     }
     public function indoorGetLastMonthRevenue()
     {
         $fromDate = Carbon::now()->subMonth()->startOfMonth()->toDateString();
         $tillDate = Carbon::now()->subMonth()->endOfMonth()->toDateString();
 
-        // Last Month Revenue from Outdoor Patient
-        $revenueLastMonth['data'] = DB::table('cash_memo_infos')->whereBetween('created_at', [$fromDate, $tillDate])->get();
-        $totalAmount  = DB::table('cash_memo_infos')->whereBetween('created_at', [$fromDate, $tillDate])->pluck('paid')->sum();
 
-        return view('backend.indoor_income.indoor_income', $revenueLastMonth, compact('totalAmount'));
+
+        $startDate = Carbon::createFromFormat('Y-m-d', $fromDate)->startOfDay();
+        $endDate = Carbon::createFromFormat('Y-m-d', $tillDate)->endOfDay();
+
+
+
+
+        // Last Month Revenue from Outdoor Patient
+        // $revenueLastMonth['data'] = DB::table('cash_memo_infos')->whereBetween('created_at', [$fromDate, $tillDate])->get();
+        // $totalAmount  = DB::table('cash_memo_infos')->whereBetween('created_at', [$fromDate, $tillDate])->pluck('paid')->sum();
+
+        // return view('backend.indoor_income.indoor_income', $revenueLastMonth, compact('totalAmount'));
+
+
+
+
+        $data1 = CashMemoInfo::select('patient_uuid as uuid', 'patient_name as income_source', 'paid as income_amount')->whereBetween('created_at', [$startDate, $endDate])->get();
+        $data2 = AdmissinForm::select('uuid', 'name as income_source', 'regi_fee as income_amount')->whereBetween('created_at', [$startDate, $endDate])->get();
+
+
+
+
+
+
+
+        $sum1 = AdmissinForm::whereBetween('created_at', [$startDate, $endDate])->pluck('regi_fee')->sum();
+        $sum2 = CashMemoInfo::whereBetween('created_at', [$startDate, $endDate])->pluck('paid')->sum();
+
+        $indoor_info['data'] = $data1->concat($data2);
+
+        $indoor_info['full_amount'] = $sum1 + $sum2;
+
+
+
+
+
+        return view('backend.indoor_income.indoor_income', $indoor_info);
     }
     // #################################################################
     // Indoor Area End

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdmissinForm;
 use App\Models\Cabin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -22,9 +23,12 @@ class CabinController extends Controller
 
 
 
-    public function release_cabin()
+    public function release_cabin(string $cabin_no, string $uuid)
     {
-        return 'released';
+
+        Cabin::where('cabin_no', $cabin_no)->update(['status' => '0']);
+        AdmissinForm::where('uuid', $uuid)->update(['status' => 'released']);
+        return redirect()->back()->with('success', 'Patient Released Successfully!');
     }
 
 

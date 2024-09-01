@@ -45,24 +45,25 @@
 
                             <p class="text-muted text-center">{{ $hospitalAddress }} | Mobile: {{ $hospitalPhone }}</p>
 
-                            <table id="tobeprint" class="list-group list-group-unbordered mb-3">
-                                <li class="list-group-item">
+                            <table id="tobeprint" class="list-group list-group-unbordered mb-3" style="font-size: 20px;">
+                                <li class="list-group-item" style="font-size: 18px;">
                                     Date:- &nbsp;&nbsp;
                                     {{ $patient->created_at->format('D, d M Y h:i A') }}
                                     <p class="float-right">#MAF00{{ $patient->serial_no }}</p>
                                 </li>
-                                <li class="list-group-item">
+                                <li class="list-group-item" style="font-size: 18px;">
                                     Patient ID: &nbsp;&nbsp;&nbsp;{{ $patient->uuid }}
                                 </li>
-                                <li class="list-group-item">
+                                <li class="list-group-item" style="font-size: 18px;">
                                     Patient Name:-
                                     <p class="float-right">{{ $patient->name }}</p>
                                 </li>
-                                <li class="list-group-item">
+                                <li class="list-group-item" style="font-size: 18px;">
                                     Address:-
-                                    <p class="float-right">{{ $patient->address }}</p>
+                                    <p class="float-right" style="font-size: 18px;">{{ $patient->address }}
+                                    </p>
                                 </li>
-                                <li class="list-group-item">
+                                <li class="list-group-item" style="font-size: 18px;">
                                     Registration Fee:-
                                     <p class="float-right">{{ $patient->regi_fee }}</p>
                                 </li> <br>

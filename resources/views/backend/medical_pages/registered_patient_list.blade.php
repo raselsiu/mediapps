@@ -19,7 +19,7 @@
             <div class="card">
                 <div class="card-header">
                     <h1 class="card-title">Available Patients</h1>
-                    <a href="{{ route('admission_form') }}" class="float-right btn btn-success"> <i
+                    <a href="{{ route('admission_form_view') }}" class="float-right btn btn-success"> <i
                             class="fa fa-plus-circle"></i> Admit Patients</a>
                 </div>
                 <div class="card-body">
@@ -85,9 +85,12 @@
                                             class="btn btn-sm btn-primary"><i class="fa fa-eye"></i></a>
 
                                         @if ($patient->is_cash_memo_generated)
-                                            <a href="{{ route('addMoreServicesForm', $patient->uuid) }}"
-                                                class="btn btn-sm btn-danger"><i class="fa fa-plus"
-                                                    id="moreservice"></i></a>
+                                            @if ($patient->status == 'released')
+                                            @else
+                                                <a href="{{ route('addMoreServicesForm', $patient->uuid) }}"
+                                                    class="btn btn-sm btn-danger"><i class="fa fa-plus"
+                                                        id="moreservice"></i></a>
+                                            @endif
                                         @endif
 
 

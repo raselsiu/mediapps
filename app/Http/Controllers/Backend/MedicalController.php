@@ -237,20 +237,12 @@ class MedicalController extends Controller
         $due->source = $admissionFormData->name;
 
 
-
-        // Unblocking Cabin No
-
-        $cabinUnblock = Cabin::where('slug', Str::slug($request->cabin_no))->first();
-        $cabinUnblock->status = '0';
-
-
-
         //  Saving Data
 
         $due->save();
         $data->save();
         $admissionFormData->save();
-        $cabinUnblock->save();
+
 
 
 
@@ -385,19 +377,19 @@ class MedicalController extends Controller
 
 
 
-    public function receipt_generate()
-    {
+    // public function receipt_generate()
+    // {
 
-        $id = '6630cece79b9e';
+    //     $id = '6630cece79b9e';
 
-        $rcpt_info = CashMemoInfo::where('patient_uuid', $id)->first();
-        $get_bill = CashMemoForm::where('patient_uuid', $id)->get()->toArray();
+    //     $rcpt_info = CashMemoInfo::where('patient_uuid', $id)->first();
+    //     $get_bill = CashMemoForm::where('patient_uuid', $id)->get()->toArray();
 
-        $patient_info = AdmissinForm::where('uuid', $id)->first();
+    //     $patient_info = AdmissinForm::where('uuid', $id)->first();
 
 
-        return view('backend.medical_pages.cash_memo_receipt', compact('rcpt_info', 'get_bill', 'patient_info'));
-    }
+    //     return view('backend.medical_pages.cash_memo_receipt', compact('rcpt_info', 'get_bill', 'patient_info'));
+    // }
 
 
 
@@ -475,7 +467,9 @@ class MedicalController extends Controller
 
     public function admission_form_view()
     {
-        // $uuid = $id;
+
+
+
         $cabin_info = Cabin::where('status', '0')->get();
         return view('backend.medical_pages.admission_form', compact('cabin_info'));
     }
@@ -508,7 +502,7 @@ class MedicalController extends Controller
         $patient_info->care_of = $request->care_of;
         $patient_info->regi_fee = $request->regi_fee;
         $patient_info->is_admitted = true;
-        $patient_info->status = 'admitted';
+        $patient_info->status = 'not_released';
 
         // Cabin Block
 
@@ -520,13 +514,30 @@ class MedicalController extends Controller
 
         $findRegiField = AdmissinForm::where('id', $patient_info->id)->first();
 
-        $regi_num = '#' . str_pad($patient_info->id + 1, 4, "0", STR_PAD_LEFT);
+        $regi_num = '#' . str_pad($patient_info->id + 1, 8, "0", STR_PAD_LEFT);
 
         $findRegiField->regi_no = $regi_num;
 
         $findRegiField->save();
 
         $findCabin->save();
+
+
+        // Save Indoor Regi fee to total Amount 
+
+        $totalRegiFee = AdmissinForm::pluck('regi_fee')->sum();
+
+        // Get totalAmount
+
+        $totalAmount = AllInComingAmount::pluck('total_amount')->sum();
+
+        $amount = AllInComingAmount::first();
+
+        $amount->total_amount = $totalRegiFee + $totalAmount;
+        $amount->save();
+
+
+
 
 
         return redirect()->route('all_regi_patient')->with('success', 'Patient Admitted Successfully!');

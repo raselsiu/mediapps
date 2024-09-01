@@ -80,8 +80,8 @@
 
                             <div class="form-group col-md-4">
                                 <label for="name">Cabin No: </label>
-                                <input type="text" class="form-control" name="cabin_no" value="{{ $patient->cabin_no }}"
-                                    placeholder="Patient Cabin No. ....">
+                                <input type="text" class="form-control" name="cabin_no"
+                                    value="{{ Str::ucfirst($patient->cabin_no) }}" placeholder="Patient Cabin No. ....">
                                 {{-- @if ($errors->has('name'))
                                     <span style="color: red">{{ $errors->first('name') }}</span>
                                 @endif --}}

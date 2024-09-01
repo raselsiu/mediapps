@@ -39,6 +39,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('backend/css/override.css') }}">
 
 
+    <link rel="stylesheet" href="{{ asset('backend/css/responsive.css') }}">
+
+
+
 
     {{-- Printing Script --}}
     <script type="text/javascript">

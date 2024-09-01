@@ -227,6 +227,8 @@ Route::group(['prefix' => 'data-entry', 'middleware' => ['auth']], function () {
 
     Route::get('/cabin/create', [CabinController::class, 'cabinForm'])->name('cabinForm');
     Route::post('/cabin/store', [CabinController::class, 'storeCabin'])->name('storeCabin');
+
+    Route::get('/release/cabin/{cabin_no}/{uuid}', [CabinController::class, 'release_cabin'])->name('release_cabin');
 });
 
 
@@ -235,5 +237,5 @@ Route::group(['prefix' => 'data-entry', 'middleware' => ['auth']], function () {
 
 Route::group(['prefix' => 'delete', 'middleware' => ['auth']], function () {
     Route::get('/patient/history/{id}', [DeleteController::class, 'destroyPatient'])->name('destroyPatient');
-    Route::get('/OUTDOOR/history/{id}', [DeleteController::class, 'destroyOutdoorPatient'])->name('destroyOutdoorPatient');
+    Route::get('/outdoor/history/{id}', [DeleteController::class, 'destroyOutdoorPatient'])->name('destroyOutdoorPatient');
 });

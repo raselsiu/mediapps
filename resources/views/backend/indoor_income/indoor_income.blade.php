@@ -42,24 +42,45 @@
                             <tr>
                                 <th># SL No</th>
                                 {{-- <th>Patients ID</th> --}}
-                                <th>Name</th>
+                                <th>Source</th>
                                 <th>Amount</th>
                                 <th class="notForPrint">View Patient</th>
                             </tr>
                         </thead>
                         <tbody>
 
+
+
+
+
+
+
+
+
+
                             @foreach ($data as $key => $income)
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
-                                    <td>{{ $income->patient_name }}</td>
+                                    <td>{{ $income->income_source }}</td>
                                     <td>
-                                        <p class="amount" style="margin: 0px;padding:0px;">+{{ $income->paid }}</p>
+                                        <p class="amount" style="margin: 0px;padding:0px;">{{ $income->income_amount }}</p>
                                     </td>
+                                    <?php 
+
+                                    if ($income->uuid == null) {
+                                        echo 'Null Value';
+                                    } else {
+                                        ?>
+
                                     <td>
-                                        <a href="{{ route('regi_form_view', $income->patient_uuid) }}"
+                                        <a href="{{ route('regi_form_view', $income->uuid) }}"
                                             class="btn btn-sm btn-primary"><i class="fa fa-eye"></i></a>
                                     </td>
+                                    <?php
+                                    }
+                                    
+                                    ?>
+
                                 </tr>
                             @endforeach
 
@@ -67,10 +88,9 @@
                         <tfoot>
                             <tr>
                                 <th>No.</th>
-                                {{-- <th>Patients ID</th> --}}
                                 <th>Name </th>
-                                <th> Total = <span id="total_amount" class="total_amount">{{ $totalAmount }} Tk</span></th>
-                                <th>View Patient</th>
+                                <th> Total = <span id="total_amount" class="total_amount">{{ $full_amount }} Tk</span></th>
+                                <th class="notForPrint">View Patient</th>
                             </tr>
                         </tfoot>
                     </table>
