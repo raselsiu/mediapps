@@ -21,12 +21,11 @@
             <div class="card">
                 <div class="card-header">
                     <div class="btn-row">
-                        <span><a class="btn btn-warning" href="{{ route('dataTwentyFourHour') }}">Todays
-                                Revenue</a></span>
+                        <span><a class="btn btn-warning" href="{{ route('dataTwentyFourHour') }}">Previous Day</a></span>
                         <span><a class="btn btn-warning" href="{{ route('getCurrentMonthRevenue') }}">Current Month
-                                Revenue</a></span>
+                            </a></span>
                         <span><a class="btn btn-warning" href="{{ route('getLastMonthRevenue') }}">Last Month
-                                Revenue</a></span>
+                            </a></span>
                     </div>
                 </div>
                 <div class="card-body">
@@ -65,7 +64,7 @@
                                 <th>No.</th>
                                 <th>Name </th>
                                 <th> Total Amount = &nbsp;<span id="total_amount"
-                                        class="total_amount">{{ $outdoorAmount }}</span>
+                                        class="total_amount">{{ $total_amount }}</span>
                                 </th>
                                 <th>View Patient</th>
                             </tr>

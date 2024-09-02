@@ -94,7 +94,8 @@
                                     <td>{{ $subcategory->subcategory }}</td>
                                     @if (Auth::user()->usertype == 'developers')
                                         <td>
-                                            <a href="" id="deleteEvent" class="btn btn-sm btn-danger"><i
+                                            <a href="{{ route('deleteIncomeSubCategory', $subcategory->id) }}"
+                                                id="deleteEvent" class="btn btn-sm btn-danger"><i
                                                     class="fa fa-trash"></i></a>
                                         </td>
                                     @endif
@@ -162,6 +163,34 @@
                     $(element).removeClass('is-invalid');
                 }
             });
+        });
+    </script>
+
+
+    <script>
+        $(function() {
+            $(document).on('click', '#deleteEvent', function(e) {
+                e.preventDefault();
+                var link = $(this).attr('href');
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "want to delete this Subcategory?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = link;
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your file has been deleted.",
+                            icon: "success"
+                        });
+                    }
+                });
+            })
         });
     </script>
 @endpush

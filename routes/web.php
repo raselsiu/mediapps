@@ -238,4 +238,6 @@ Route::group(['prefix' => 'data-entry', 'middleware' => ['auth']], function () {
 Route::group(['prefix' => 'delete', 'middleware' => ['auth']], function () {
     Route::get('/patient/history/{id}', [DeleteController::class, 'destroyPatient'])->name('destroyPatient');
     Route::get('/outdoor/history/{id}', [DeleteController::class, 'destroyOutdoorPatient'])->name('destroyOutdoorPatient');
+    Route::get('expenditure/sub-category/{id}', [DeleteController::class, 'deleteExpSubCategory'])->name('deleteExpSubCategory');
+    Route::get('income/sub-category/{id}', [DeleteController::class, 'deleteIncomeSubCategory'])->name('deleteIncomeSubCategory');
 });

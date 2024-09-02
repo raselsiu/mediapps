@@ -23,11 +23,11 @@
                 <div class="card-header">
 
                     <div class="btn-row">
-                        <span><a class="btn btn-warning" href="{{ route('expTwentyFourHour') }}">Todays Revenue</a></span>
+                        <span><a class="btn btn-warning" href="{{ route('expTwentyFourHour') }}">Previous Day</a></span>
                         <span><a class="btn btn-warning" href="{{ route('expGetCurrentMonthRevenue') }}">Current Month
-                                Revenue</a></span>
+                            </a></span>
                         <span><a class="btn btn-warning" href="{{ route('expGetLastMonthRevenue') }}">Last Month
-                                Revenue</a></span>
+                            </a></span>
                     </div>
 
                     <div class="card-body">
@@ -68,7 +68,7 @@
                                     {{-- <th>Patients ID</th> --}}
                                     <th></th>
                                     <th></th>
-                                    <th><span class="total_amount">Total ={{ $totalAmount }} TK</span></th>
+                                    <th><span class="total_amount">Total ={{ $total_amount }} TK</span></th>
 
                                 </tr>
                             </tfoot>

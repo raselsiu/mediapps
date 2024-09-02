@@ -66,7 +66,7 @@
                                 {{-- <th>Patients ID</th> --}}
                                 <th></th>
                                 <th></th>
-                                <th><span class="total_amount">Total = {{ $totalAmount }} TK</span></th>
+                                <th><span class="total_amount">Total = {{ $total_amount }} TK</span></th>
 
                             </tr>
                         </tfoot>

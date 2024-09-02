@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AllInComingAmount;
 use App\Models\ExpenditureCategory;
+use App\Models\ExpenditureSubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -75,7 +76,9 @@ class ExpenditureCategoryController extends Controller
     public function delete(string $id)
     {
         $user = ExpenditureCategory::find($id);
+        $expSubCat = ExpenditureSubCategory::where('category_id', $id);
         $user->delete();
+        $expSubCat->delete();
         return redirect()->back()->with('success', 'Data Deleted Successfully!');
     }
 }

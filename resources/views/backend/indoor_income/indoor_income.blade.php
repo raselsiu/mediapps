@@ -22,12 +22,11 @@
             <div class="card">
                 <div class="card-header">
                     <div class="btn-row">
-                        <span><a class="btn btn-warning" href="{{ route('indoorTwentyFourHour') }}">Todays
-                                Revenue</a></span>
+                        <span><a class="btn btn-warning" href="{{ route('indoorTwentyFourHour') }}">Previous Day</a></span>
                         <span><a class="btn btn-warning" href="{{ route('indoorGetCurrentMonthRevenue') }}">Current Month
-                                Revenue</a></span>
+                            </a></span>
                         <span><a class="btn btn-warning" href="{{ route('indoorGetLastMonthRevenue') }}">Last Month
-                                Revenue</a></span>
+                            </a></span>
                     </div>
 
 

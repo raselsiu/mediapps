@@ -6,6 +6,9 @@ use App\Models\AdmissinForm;
 use App\Models\CashMemoForm;
 use App\Models\CashMemoInfo;
 use App\Models\Due;
+use App\Models\ExpenditureCategory;
+use App\Models\ExpenditureSubCategory;
+use App\Models\IncomeSubCategory;
 use App\Models\OutdoorModel;
 use Illuminate\Http\Request;
 
@@ -43,5 +46,25 @@ class DeleteController extends Controller
         $outdoorPatient->delete();
 
         return redirect()->back()->with('success', 'Patient History Deleted Successfully!');
+    }
+
+
+    public function deleteExpSubCategory(string $id)
+    {
+
+        $expSubCat = ExpenditureSubCategory::where('id', $id);
+        $expSubCat->delete();
+
+        return redirect()->back()->with('success', 'Deleted Successfully!');
+    }
+
+
+    public function deleteIncomeSubCategory(string $id)
+    {
+
+        $expSubCat = IncomeSubCategory::where('id', $id);
+        $expSubCat->delete();
+
+        return redirect()->back()->with('success', 'Deleted Successfully!');
     }
 }

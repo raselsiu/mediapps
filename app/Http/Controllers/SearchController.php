@@ -25,34 +25,57 @@ class SearchController extends Controller
     // #################################################################
     public function dataTwentyFourHour()
     {
-        // Last 24 Hours Revenue from Outdoor Patient
-        $revenue24Hours['data'] = DB::table('outdoor_models')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->get();
-        $outdoorAmount  = DB::table('outdoor_models')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->pluck('regi_fee')->sum();
 
-        return view('backend.outdoor_income.outdoor_income', $revenue24Hours, compact('outdoorAmount'));
+        $fromDate = Carbon::now()->subDay()->startOfDay()->toDateString();
+        $tillDate = Carbon::now()->subDay()->endOfDay()->toDateString();
+
+        $startDate = Carbon::createFromFormat('Y-m-d', $fromDate)->startOfDay();
+        $endDate = Carbon::createFromFormat('Y-m-d', $tillDate)->endOfDay();
+
+
+        // Prevoius Days Outdoor Patient
+        $outdoor['data'] = DB::table('outdoor_models')->whereBetween('created_at', [$startDate, $endDate])->get();
+        $outdoor['total_amount'] = DB::table('outdoor_models')->whereBetween('created_at', [$startDate, $endDate])->pluck('regi_fee')->sum();
+
+        return view('backend.outdoor_income.outdoor_income', $outdoor);
     }
+
+
 
     public function getCurrentMonthRevenue()
     {
         // Current Month Revenue
-        $currentMonth['data'] = OutdoorModel::select('*')->whereMonth('created_at', Carbon::now()->month)->get();
-        $outdoorAmount  = OutdoorModel::select('*')->whereMonth('created_at', Carbon::now()->month)->pluck('regi_fee')->sum();
+        $outdoor['data'] = OutdoorModel::select('*')->whereMonth('created_at', Carbon::now()->month)->get();
+        $outdoor['total_amount']  = OutdoorModel::select('*')->whereMonth('created_at', Carbon::now()->month)->pluck('regi_fee')->sum();
 
-        return view('backend.outdoor_income.outdoor_income', $currentMonth, compact('outdoorAmount'));
+        return view('backend.outdoor_income.outdoor_income', $outdoor);
     }
+
+
+
+
 
 
     public function getLastMonthRevenue()
     {
+
         $fromDate = Carbon::now()->subMonth()->startOfMonth()->toDateString();
         $tillDate = Carbon::now()->subMonth()->endOfMonth()->toDateString();
 
-        // Last Month Revenue from Outdoor Patient
-        $revenueLastMonth['data'] = DB::table('outdoor_models')->whereBetween('created_at', [$fromDate, $tillDate])->get();
-        $outdoorAmount  = DB::table('outdoor_models')->whereBetween('created_at', [$fromDate, $tillDate])->pluck('regi_fee')->sum();
+        $startDate = Carbon::createFromFormat('Y-m-d', $fromDate)->startOfDay();
+        $endDate = Carbon::createFromFormat('Y-m-d', $tillDate)->endOfDay();
 
-        return view('backend.outdoor_income.outdoor_income', $revenueLastMonth, compact('outdoorAmount'));
+
+
+        // Last Month Revenue from Outdoor Patient
+        $outdoor['data'] = DB::table('outdoor_models')->whereBetween('created_at', [$startDate, $endDate])->get();
+        $outdoor['total_amount']  = DB::table('outdoor_models')->whereBetween('created_at', [$startDate, $endDate])->pluck('regi_fee')->sum();
+
+        return view('backend.outdoor_income.outdoor_income', $outdoor);
     }
+
+
+
 
     // #################################################################
     // Outdoor Area End
@@ -62,24 +85,27 @@ class SearchController extends Controller
 
 
 
-
-
     // #################################################################
     // Indoor Area
     // #################################################################
+
+
     public function indoorTwentyFourHour()
     {
-        // $revenue24Hours['data'] = DB::table('cash_memo_infos')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->get();
-        // $totalAmount  = DB::table('cash_memo_infos')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->pluck('paid')->sum();
+
+        $fromDate = Carbon::now()->subDay()->startOfDay()->toDateString();
+        $tillDate = Carbon::now()->subDay()->endOfDay()->toDateString();
+
+        $startDate = Carbon::createFromFormat('Y-m-d', $fromDate)->startOfDay();
+        $endDate = Carbon::createFromFormat('Y-m-d', $tillDate)->endOfDay();
 
 
-        $data1 = CashMemoInfo::select('patient_uuid as uuid', 'patient_name as income_source', 'paid as income_amount')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->orderBy('created_at', 'desc')->get();
-        $data2 = AdmissinForm::select('uuid', 'name as income_source', 'regi_fee as income_amount')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->orderBy('created_at', 'desc')->get();
+        $data1 = CashMemoInfo::select('patient_uuid as uuid', 'patient_name as income_source', 'paid as income_amount')->whereBetween('created_at', [$startDate, $endDate])->get();
+        $data2 = AdmissinForm::select('uuid', 'name as income_source', 'regi_fee as income_amount')->whereBetween('created_at', [$startDate, $endDate])->get();
 
 
-
-        $sum1 = AdmissinForm::where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->pluck('regi_fee')->sum();
-        $sum2 = CashMemoInfo::where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->pluck('paid')->sum();
+        $sum1 = AdmissinForm::whereBetween('created_at', [$startDate, $endDate])->pluck('regi_fee')->sum();
+        $sum2 = CashMemoInfo::whereBetween('created_at', [$startDate, $endDate])->pluck('paid')->sum();
 
         $indoor_info['data'] = $data1->concat($data2);
 
@@ -88,6 +114,9 @@ class SearchController extends Controller
 
         return view('backend.indoor_income.indoor_income', $indoor_info);
     }
+
+
+
     public function indoorGetCurrentMonthRevenue()
 
     {
@@ -108,35 +137,21 @@ class SearchController extends Controller
 
         return view('backend.indoor_income.indoor_income', $indoor_info);
     }
+
+
+
+
     public function indoorGetLastMonthRevenue()
     {
         $fromDate = Carbon::now()->subMonth()->startOfMonth()->toDateString();
         $tillDate = Carbon::now()->subMonth()->endOfMonth()->toDateString();
 
-
-
         $startDate = Carbon::createFromFormat('Y-m-d', $fromDate)->startOfDay();
         $endDate = Carbon::createFromFormat('Y-m-d', $tillDate)->endOfDay();
 
 
-
-
-        // Last Month Revenue from Outdoor Patient
-        // $revenueLastMonth['data'] = DB::table('cash_memo_infos')->whereBetween('created_at', [$fromDate, $tillDate])->get();
-        // $totalAmount  = DB::table('cash_memo_infos')->whereBetween('created_at', [$fromDate, $tillDate])->pluck('paid')->sum();
-
-        // return view('backend.indoor_income.indoor_income', $revenueLastMonth, compact('totalAmount'));
-
-
-
-
         $data1 = CashMemoInfo::select('patient_uuid as uuid', 'patient_name as income_source', 'paid as income_amount')->whereBetween('created_at', [$startDate, $endDate])->get();
         $data2 = AdmissinForm::select('uuid', 'name as income_source', 'regi_fee as income_amount')->whereBetween('created_at', [$startDate, $endDate])->get();
-
-
-
-
-
 
 
         $sum1 = AdmissinForm::whereBetween('created_at', [$startDate, $endDate])->pluck('regi_fee')->sum();
@@ -147,17 +162,14 @@ class SearchController extends Controller
         $indoor_info['full_amount'] = $sum1 + $sum2;
 
 
-
-
-
         return view('backend.indoor_income.indoor_income', $indoor_info);
     }
+
+
+
     // #################################################################
     // Indoor Area End
     // #################################################################
-
-
-
 
 
 
@@ -167,29 +179,53 @@ class SearchController extends Controller
     #################################################################
     public function expTwentyFourHour()
     {
-        $revenue24Hours['data'] = DB::table('expenditures')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->get();
-        $totalAmount  = DB::table('expenditures')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->pluck('amount')->sum();
 
-        return view('backend.expenditure_amount.expenditure_account', $revenue24Hours, compact('totalAmount'));
+        $fromDate = Carbon::now()->subDay()->startOfDay()->toDateString();
+        $tillDate = Carbon::now()->subDay()->endOfDay()->toDateString();
+
+        $startDate = Carbon::createFromFormat('Y-m-d', $fromDate)->startOfDay();
+        $endDate = Carbon::createFromFormat('Y-m-d', $tillDate)->endOfDay();
+
+
+        $expenditure['data'] = DB::table('expenditures')->whereBetween('created_at', [$startDate, $endDate])->get();
+        $expenditure['total_amount']  = DB::table('expenditures')->whereBetween('created_at', [$startDate, $endDate])->pluck('amount')->sum();
+
+
+        return view('backend.expenditure_amount.expenditure_account', $expenditure);
     }
+
+
+
+
     public function expGetCurrentMonthRevenue()
     {
         // Current Month Revenue
         $currentMonth['data'] = Expenditure::select('*')->whereMonth('created_at', Carbon::now()->month)->get();
-        $totalAmount  = Expenditure::select('*')->whereMonth('created_at', Carbon::now()->month)->pluck('amount')->sum();
+        $currentMonth['total_amount']  = Expenditure::select('*')->whereMonth('created_at', Carbon::now()->month)->pluck('amount')->sum();
 
-        return view('backend.expenditure_amount.expenditure_account', $currentMonth, compact('totalAmount'));
+        return view('backend.expenditure_amount.expenditure_account', $currentMonth);
     }
+
+
+
+
     public function expGetLastMonthRevenue()
     {
+
+
         $fromDate = Carbon::now()->subMonth()->startOfMonth()->toDateString();
         $tillDate = Carbon::now()->subMonth()->endOfMonth()->toDateString();
 
-        // Last Month Revenue from Outdoor Patient
-        $revenueLastMonth['data'] = DB::table('expenditures')->whereBetween('created_at', [$fromDate, $tillDate])->get();
-        $totalAmount  = DB::table('expenditures')->whereBetween('created_at', [$fromDate, $tillDate])->pluck('amount')->sum();
+        $startDate = Carbon::createFromFormat('Y-m-d', $fromDate)->startOfDay();
+        $endDate = Carbon::createFromFormat('Y-m-d', $tillDate)->endOfDay();
 
-        return view('backend.expenditure_amount.expenditure_account', $revenueLastMonth, compact('totalAmount'));
+
+        // Last Month Revenue from Outdoor Patient
+        $lastMonth['data'] = DB::table('expenditures')->whereBetween('created_at', [$startDate, $endDate])->get();
+        $lastMonth['total_amount'] = DB::table('expenditures')->whereBetween('created_at', [$startDate, $endDate])->pluck('amount')->sum();
+
+
+        return view('backend.expenditure_amount.expenditure_account', $lastMonth);
     }
 
 
@@ -206,30 +242,56 @@ class SearchController extends Controller
     // #################################################################
     public function othersTwentyFourHour()
     {
-        $revenue24Hours['data'] = DB::table('income_fields')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->get();
-        $totalAmount  = DB::table('income_fields')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->pluck('amount')->sum();
 
-        return view('backend.income_amount.income_amount', $revenue24Hours, compact('totalAmount'));
+        $fromDate = Carbon::now()->subDay()->startOfDay()->toDateString();
+        $tillDate = Carbon::now()->subDay()->endOfDay()->toDateString();
+
+        $startDate = Carbon::createFromFormat('Y-m-d', $fromDate)->startOfDay();
+        $endDate = Carbon::createFromFormat('Y-m-d', $tillDate)->endOfDay();
+
+
+        $previousDay['data'] = DB::table('income_fields')->whereBetween('created_at', [$startDate, $endDate])->get();
+        $previousDay['total_amount']  = DB::table('income_fields')->whereBetween('created_at', [$startDate, $endDate])->pluck('amount')->sum();
+
+        return view('backend.income_amount.income_amount', $previousDay);
     }
+
+
+
+
     public function othersGetCurrentMonthRevenue()
     {
         // Current Month Revenue
         $currentMonth['data'] = IncomeField::select('*')->whereMonth('created_at', Carbon::now()->month)->get();
-        $totalAmount  = IncomeField::select('*')->whereMonth('created_at', Carbon::now()->month)->pluck('amount')->sum();
+        $currentMonth['total_amount']  = IncomeField::select('*')->whereMonth('created_at', Carbon::now()->month)->pluck('amount')->sum();
 
-        return view('backend.income_amount.income_amount', $currentMonth, compact('totalAmount'));
+        return view('backend.income_amount.income_amount', $currentMonth);
     }
+
+
+
+
     public function othersGetLastMonthRevenue()
     {
+
         $fromDate = Carbon::now()->subMonth()->startOfMonth()->toDateString();
         $tillDate = Carbon::now()->subMonth()->endOfMonth()->toDateString();
 
-        // Last Month Revenue from Outdoor Patient
-        $revenueLastMonth['data'] = DB::table('income_fields')->whereBetween('created_at', [$fromDate, $tillDate])->get();
-        $totalAmount  = DB::table('income_fields')->whereBetween('created_at', [$fromDate, $tillDate])->pluck('amount')->sum();
+        $startDate = Carbon::createFromFormat('Y-m-d', $fromDate)->startOfDay();
+        $endDate = Carbon::createFromFormat('Y-m-d', $tillDate)->endOfDay();
 
-        return view('backend.income_amount.income_amount', $revenueLastMonth, compact('totalAmount'));
+
+
+        // Last Month Revenue from Outdoor Patient
+        $lastMonth['data'] = DB::table('income_fields')->whereBetween('created_at', [$startDate, $endDate])->get();
+        $lastMonth['total_amount']  = DB::table('income_fields')->whereBetween('created_at', [$startDate, $endDate])->pluck('amount')->sum();
+
+        return view('backend.income_amount.income_amount', $lastMonth);
     }
+
+
+
+
     // #################################################################
     // Others Income Area End
     // #################################################################

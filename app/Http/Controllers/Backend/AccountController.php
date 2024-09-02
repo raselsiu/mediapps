@@ -21,41 +21,15 @@ class AccountController extends Controller
     public function outdoor_income()
     {
 
-        $out_income['data'] = OutdoorModel::all();
+        $outdoor['data'] = OutdoorModel::all();
+        $outdoor['total_amount'] = OutdoorModel::pluck('regi_fee')->sum();
 
-
-        $outdoorAmount = OutdoorModel::pluck('regi_fee')->sum();
-
-
-        $fromDate = Carbon::now()->subMonth()->startOfMonth()->toDateString();
-
-        $tillDate = Carbon::now()->subMonth()->endOfMonth()->toDateString();
-
-        // Last Month Revenue from Outdoor Patient
-        $revenueLastMonth = DB::table('outdoor_models')->whereBetween('created_at', [$fromDate, $tillDate])->get();
-
-        // Last 24 Hours Revenue from Outdoor Patient
-        $revenue24Hours = DB::table('outdoor_models')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->get();
-
-        // Current Month Revenue
-        $currentMonth = OutdoorModel::select('*')->whereMonth('created_at', Carbon::now()->month)->get();
-
-        $last24HourIncomeDaily = DB::table('outdoor_models')->where('created_at', '>=', Carbon::now()->subDays(30)->toDateTimeString())->get();
-
-        $yearly = DB::table('outdoor_models')->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())->get();
-
-        // dd($currentMonth);
-
-
-
-        return view('backend.outdoor_income.outdoor_income', $out_income, compact('outdoorAmount'));
+        return view('backend.outdoor_income.outdoor_income', $outdoor);
     }
 
 
     public function indoor_income()
     {
-
-
 
 
 
@@ -81,8 +55,8 @@ class AccountController extends Controller
     public function expenditureCalculation()
     {
         $expenditure['data'] = Expenditure::all();
-        $totalAmount = Expenditure::pluck('amount')->sum();
-        return view('backend.expenditure_amount.expenditure_account', $expenditure, compact('totalAmount'));
+        $expenditure['total_amount'] = Expenditure::pluck('amount')->sum();
+        return view('backend.expenditure_amount.expenditure_account', $expenditure);
     }
 
 
@@ -91,8 +65,8 @@ class AccountController extends Controller
     public function incomeCalculation()
     {
         $income['data'] = IncomeField::all();
-        $totalAmount = IncomeField::pluck('amount')->sum();
-        return view('backend.income_amount.income_amount', $income, compact('totalAmount'));
+        $income['total_amount'] = IncomeField::pluck('amount')->sum();
+        return view('backend.income_amount.income_amount', $income);
     }
 
 

@@ -145,7 +145,7 @@
                 var link = $(this).attr('href');
                 Swal.fire({
                     title: "Are you sure?",
-                    text: "You won't be able to revert this!",
+                    text: "delete this with related sub-category?",
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",

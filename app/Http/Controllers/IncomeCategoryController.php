@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\IncomeCategory;
+use App\Models\IncomeSubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -34,8 +35,10 @@ class IncomeCategoryController extends Controller
 
     public function delete(string $id)
     {
-        $user = IncomeCategory::find($id);
-        $user->delete();
+        $incomeCat = IncomeCategory::find($id);
+        $incomeSubCat = IncomeSubCategory::where('category_id', $id);
+        $incomeCat->delete();
+        $incomeSubCat->delete();
         return redirect()->back()->with('success', 'Data Deleted Successfully!');
     }
 }
