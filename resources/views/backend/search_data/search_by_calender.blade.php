@@ -61,7 +61,7 @@
                                     <tr>
                                         <th scope="row">1</th>
                                         <td>Indoor</td>
-                                        <td>{{ $indoor }} Tk</td>
+                                        <td>{{ $indoors }} Tk</td>
                                     </tr>
 
                                     <tr>
@@ -108,8 +108,8 @@
                                 <tfoot>
                                     <th>##</th>
                                     <th colspan="1"><span class="title_bar">Result Between:
-                                            {{ $startDate->toDateString() }} -
-                                            {{ $endDate->toDateString() }}&nbsp;&nbsp;!</span>
+                                            {{ $startDate->toFormattedDateString() }} -
+                                            {{ $endDate->toFormattedDateString() }}&nbsp;&nbsp;!</span>
                                     </th>
                                     <th>
                                         <span class="bf">BF: {{ $previousDayIncome }}</span>

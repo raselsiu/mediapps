@@ -377,19 +377,6 @@ class MedicalController extends Controller
 
 
 
-    // public function receipt_generate()
-    // {
-
-    //     $id = '6630cece79b9e';
-
-    //     $rcpt_info = CashMemoInfo::where('patient_uuid', $id)->first();
-    //     $get_bill = CashMemoForm::where('patient_uuid', $id)->get()->toArray();
-
-    //     $patient_info = AdmissinForm::where('uuid', $id)->first();
-
-
-    //     return view('backend.medical_pages.cash_memo_receipt', compact('rcpt_info', 'get_bill', 'patient_info'));
-    // }
 
 
 
@@ -523,18 +510,18 @@ class MedicalController extends Controller
         $findCabin->save();
 
 
-        // Save Indoor Regi fee to total Amount 
-
-        $totalRegiFee = AdmissinForm::pluck('regi_fee')->sum();
-
-        // Get totalAmount
-
         $totalAmount = AllInComingAmount::pluck('total_amount')->sum();
 
         $amount = AllInComingAmount::first();
+        $saveFirst = new AllInComingAmount();
 
-        $amount->total_amount = $totalRegiFee + $totalAmount;
-        $amount->save();
+        if ($amount == null) {
+            $saveFirst->total_amount = $request->regi_fee;
+            $saveFirst->save();
+        } else {
+            $amount->total_amount =  $request->regi_fee + $totalAmount;
+            $amount->save();
+        }
 
 
 

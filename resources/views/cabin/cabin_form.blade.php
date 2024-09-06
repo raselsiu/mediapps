@@ -46,23 +46,34 @@
         </div>
     </div>
 
-    {{-- <div class="card_area">
-        <div class="row">
-            @foreach ($cabin as $data)
-                <div class="col-md-2 col-sm-2 col-lg-2">
-                    <span class="cabin_view badge badge-warning">{{ Str::ucfirst($data->cabin_no) }}</span>
-                </div>
-            @endforeach
-        </div>
-    </div> --}}
 
 
+    <?php
+    
+    $available = $cabin->where('status', 0)->count();
+    $booked = $cabin->where('status', 1)->count();
+    
+    ?>
 
-    <h3>All Cabin No. </h3>
+    <h3 class="cd">
+        Cabin Detials
+        <span class="breaking">
+            <span style="color: green;font-size:12px">Available Cabin: {{ $available }}</span>
+            <span style="color: red;font-size:12px">Booked Cabin: {{ $booked }}</span>
+        </span>
+    </h3>
+
 
     <div class="grid-container">
         @foreach ($cabin as $data)
-            <div class="grid-item badge badge-warning">{{ Str::ucfirst($data->cabin_no) }}</div>
+            <div class="grid-item badge badge-warning {{ $data->status ? 'bk_clr' : '' }}">
+                {{ Str::ucfirst($data->cabin_no) }}
+                @if ($data->status == 0)
+                    <br> <span class="available">Available</span>
+                @else
+                    <br> <span class="booked">Booked</span>
+                @endif
+            </div>
         @endforeach
 
     </div>

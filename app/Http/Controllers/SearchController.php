@@ -300,14 +300,6 @@ class SearchController extends Controller
 
 
 
-
-
-
-
-
-
-
-
     public function getDatedData(Request $request)
     {
         $request->validate([
@@ -346,6 +338,7 @@ class SearchController extends Controller
 
 
         $indoor = CashMemoInfo::whereBetween('created_at', [$startDate, $endDate])->pluck('paid')->sum();
+        $indoorRegiFee = AdmissinForm::whereBetween('created_at', [$startDate, $endDate])->pluck('regi_fee')->sum();
         $outdoor = Income::whereBetween('created_at', [$startDate, $endDate])->pluck('income_amount')->sum();
         $income = IncomeField::whereBetween('created_at', [$startDate, $endDate])->pluck('amount')->sum();
         $expenditure = Expenditure::whereBetween('created_at', [$startDate, $endDate])->pluck('amount')->sum();
@@ -353,11 +346,16 @@ class SearchController extends Controller
         $dueCollection = DueCollection::whereBetween('created_at', [$startDate, $endDate])->pluck('amount')->sum();
 
 
-
-        $total_income = $indoor + $outdoor + $income;
-
+        $indoors = $indoor + $indoorRegiFee;
 
 
-        return view('backend.search_data.search_by_calender', compact('indoor', 'outdoor', 'income', 'expenditure', 'total_income', 'due', 'dueCollection', 'previousDayIncome', 'startDate', 'endDate'));
+        $total_income = $indoor + $outdoor + $income + $indoorRegiFee;
+
+
+
+        return view(
+            'backend.search_data.search_by_calender',
+            compact('indoors', 'indoorRegiFee', 'outdoor', 'income', 'expenditure', 'total_income', 'due', 'dueCollection', 'previousDayIncome', 'startDate', 'endDate')
+        );
     }
 }

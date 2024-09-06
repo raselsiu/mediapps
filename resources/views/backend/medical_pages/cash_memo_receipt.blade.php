@@ -272,8 +272,6 @@ use Carbon\Carbon;
         $(function() {
             $(document).on('click', '#release', function(e) {
                 e.preventDefault();
-                var link =
-                    'http://127.0.0.1:8000/data-entry/release/cabin/{{ $patient_info->cabin_no }}/{{ $patient_info->uuid }}';
                 Swal.fire({
                     title: "Are you sure?",
                     text: "You want to release this patient!",
@@ -284,7 +282,8 @@ use Carbon\Carbon;
                     confirmButtonText: "Yes, release!"
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = link;
+                        window.location.href =
+                            '{{ route('release_cabin', [$patient_info->cabin_no, $patient_info->uuid]) }}';
                         Swal.fire({
                             title: "Released!",
                             text: "This patient has been released successfully!",

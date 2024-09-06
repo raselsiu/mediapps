@@ -26,6 +26,8 @@ class CabinController extends Controller
     public function release_cabin(string $cabin_no, string $uuid)
     {
 
+        $uuid = $uuid;
+
         Cabin::where('cabin_no', $cabin_no)->update(['status' => '0']);
         AdmissinForm::where('uuid', $uuid)->update(['status' => 'released']);
         return redirect()->back()->with('success', 'Patient Released Successfully!');

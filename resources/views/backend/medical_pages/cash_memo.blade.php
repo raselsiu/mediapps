@@ -10,7 +10,7 @@
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Simple Tables</li>
+                <li class="breadcrumb-item active">Cash-Memo Form</li>
             </ol>
         </div>
         <div class="col-md-12">
@@ -41,7 +41,8 @@
                             <div class="form-group col-md-4">
                                 <label for="name">Admission Date: </label>
                                 <input type="date" class="form-control" name="admission_date"
-                                    value="{{ $patient->created_at->format('Y-m-d') }}" placeholder="Admission Date....">
+                                    value="{{ $patient->created_at->format('Y-m-d') }}" placeholder="Admission Date...."
+                                    readonly>
                                 {{-- @if ($errors->has('name'))
                                     <span style="color: red">{{ $errors->first('name') }}</span>
                                 @endif --}}
@@ -50,7 +51,7 @@
                             <div class="form-group col-md-4">
                                 <label for="name">Leave Date: </label>
                                 <input type="date" class="form-control" name="leave_date" value="{{ date('Y-m-d') }}"
-                                    placeholder="Leave Date....">
+                                    placeholder="Leave Date...." readonly>
                                 {{-- @if ($errors->has('name'))
                                     <span style="color: red">{{ $errors->first('name') }}</span>
                                 @endif --}}
@@ -59,7 +60,7 @@
                             <div class="form-group col-md-4">
                                 <label for="name">Name: </label>
                                 <input type="text" class="form-control" value="{{ $patient->name }}" name="name"
-                                    placeholder="Patient Name....">
+                                    placeholder="Patient Name...." readonly>
                                 {{-- @if ($errors->has('name'))
                                     <span style="color: red">{{ $errors->first('name') }}</span>
                                 @endif --}}
@@ -70,7 +71,7 @@
                             <div class="form-group col-md-4">
                                 <label for="name">Mobile No: </label>
                                 <input type="text" class="form-control" name="mobile" value="{{ $patient->mobile }}"
-                                    placeholder="Patient Mobile Number....">
+                                    placeholder="Patient Mobile Number...." readonly>
                                 {{-- @if ($errors->has('name'))
                                     <span style="color: red">{{ $errors->first('name') }}</span>
                                 @endif --}}
@@ -81,7 +82,8 @@
                             <div class="form-group col-md-4">
                                 <label for="name">Cabin No: </label>
                                 <input type="text" class="form-control" name="cabin_no"
-                                    value="{{ Str::ucfirst($patient->cabin_no) }}" placeholder="Patient Cabin No. ....">
+                                    value="{{ Str::ucfirst($patient->cabin_no) }}" placeholder="Patient Cabin No. ...."
+                                    readonly>
                                 {{-- @if ($errors->has('name'))
                                     <span style="color: red">{{ $errors->first('name') }}</span>
                                 @endif --}}
@@ -90,7 +92,7 @@
                             <div class="form-group col-md-4">
                                 <label for="name">Regi No: </label>
                                 <input type="text" class="form-control" value="{{ $patient->regi_no }}" name="regi_no"
-                                    value="" placeholder="Regi. No....">
+                                    value="" placeholder="Regi. No...." readonly>
                                 {{-- @if ($errors->has('name'))
                                     <span style="color: red">{{ $errors->first('name') }}</span>
                                 @endif --}}
@@ -98,7 +100,7 @@
                             <div class="form-group col-md-6">
                                 <label for="name">Address: </label>
                                 <textarea class="form-control" name="address" id="address" cols="5" rows="2"
-                                    placeholder="Patient Address Here...">{{ $patient->present_address }}, {{ $patient->pre_village }},{{ $patient->pre_post_code }},{{ $patient->pre_thana }}, {{ $patient->pre_district }}</textarea>
+                                    placeholder="Patient Address Here..." readonly>{{ $patient->present_address }}, {{ $patient->pre_village }},{{ $patient->pre_post_code }},{{ $patient->pre_thana }}, {{ $patient->pre_district }}</textarea>
                                 {{-- @if ($errors->has('name'))
                                     <span style="color: red">{{ $errors->first('name') }}</span>
                                 @endif --}}
