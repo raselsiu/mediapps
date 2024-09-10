@@ -18,9 +18,9 @@
         <div class="col-md-12 col-lg-12 col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <h1 class="card-title">Outdoor Patients</h1>
+                    <h1 class="card-title">Service</h1>
                     <a href="{{ route('outdoor_regi_form') }}" class="float-right btn btn-success"> <i
-                            class="fa fa-plus-circle"></i> Register Outdoor Patients</a>
+                            class="fa fa-plus-circle"></i> Service Entry</a>
                 </div>
                 <div class="card-body">
                     <table id="example1" class="table table-bordered table-striped">

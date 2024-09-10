@@ -15,7 +15,7 @@
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Patient Registration</li>
+                <li class="breadcrumb-item active">Service Entry</li>
             </ol>
         </div>
     </div>
@@ -24,9 +24,9 @@
         <div class="col-md-12 col-lg-12 col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <h1 class="card-title">Registration Form</h1>
+                    <h1 class="card-title">Service Entry</h1>
                     <a href="{{ route('all_out_regi_patient') }}" class="float-right btn btn-success"> <i
-                            class="fa fa-eye"></i> Outdoor Patients List</a>
+                            class="fa fa-eye"></i> Service List</a>
                 </div>
                 <form method="POST" action="{{ route('storeOutdoor_regi_form') }}" id="userForm">
                     @csrf
@@ -36,7 +36,7 @@
                             <div class="form-group col-md-6">
                                 <label for="name">Name: </label>
                                 <input type="text" class="form-control" name="name" id="name"
-                                    placeholder="Patient Name....">
+                                    placeholder="Name....">
                                 @if ($errors->has('name'))
                                     <span style="color: red">{{ $errors->first('name') }}</span>
                                 @endif
@@ -44,7 +44,7 @@
                             <div class="form-group col-md-6">
                                 <label for="address">Address: </label>
                                 <input type="text" class="form-control" id="address" name="address"
-                                    placeholder="Patient Address...." />
+                                    placeholder="Address...." />
                                 @if ($errors->has('address'))
                                     <span style="color: red">{{ $errors->first('address') }}</span>
                                 @endif
@@ -54,9 +54,9 @@
                         <div class="row">
 
                             <div class="form-group col-md-4">
-                                <label for="regi_fee">Registration Fee: - </label>
+                                <label for="regi_fee">Service Fee: - </label>
                                 <input type="number" class="form-control" id="regi_fee" name="regi_fee"
-                                    placeholder="Amount - ....">
+                                    placeholder="Amount ....">
                                 @if ($errors->has('regi_fee'))
                                     <span style="color: red">{{ $errors->first('regi_fee') }}</span>
                                 @endif
