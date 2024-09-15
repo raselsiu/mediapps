@@ -207,9 +207,7 @@ tr.due {
     border-radius: 5px;
 }
 
-aside.main-sidebar.sidebar-dark-primary.elevation-4 {
-    position: fixed;
-}
+
 
 .card_area {
     width: 40%;
@@ -268,4 +266,22 @@ h3.cd {
 
 .breaking {
     display: grid;
+}
+
+.indoor_outer_card {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.required:after {
+    content: " *";
+    color: red;
+}
+
+.service_btn a {
+    background: #3498db;
+    color: #fff;
+    padding: 0px 1px;
+    border-radius: 5px;
+    font-size: 14px;
 }

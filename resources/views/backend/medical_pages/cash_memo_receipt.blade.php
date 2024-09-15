@@ -190,17 +190,11 @@ use Carbon\Carbon;
                                     <i class="fas fa-user-shield"></i> &nbsp; Already Released!</a>
                             </div>
                         @else
-                            @if ($rcpt_info->outstanding_total > 0)
-                                <div class="col-md-3"> <a class="btn btn-sm btn-danger disabled">
-                                        <i class="fas fa-user-shield"></i> &nbsp; Release Not Available</a>
-                                </div>
-                            @else
-                                <div class="col-md-3" id="release"> <a
-                                        href="{{ route('release_cabin', [$patient_info->cabin_no, $patient_info->uuid]) }}"
-                                        class="btn btn-sm btn-danger">
-                                        <i class="fas fa-user-shield"></i> &nbsp; Release this Patient </a>
-                                </div>
-                            @endif
+                            <div class="col-md-3" id="release"> <a
+                                    href="{{ route('release_cabin', [$patient_info->cabin_no, $patient_info->uuid]) }}"
+                                    class="btn btn-sm btn-danger">
+                                    <i class="fas fa-user-shield"></i> &nbsp; Release this Patient </a>
+                            </div>
                         @endif
 
 
@@ -215,7 +209,6 @@ use Carbon\Carbon;
 
         </div>
     </div>
-
 @endsection
 
 

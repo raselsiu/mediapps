@@ -112,7 +112,7 @@
                                             {{ $endDate->toFormattedDateString() }}&nbsp;&nbsp;!</span>
                                     </th>
                                     <th>
-                                        <span class="bf">BF: {{ $previousDayIncome }}</span>
+                                        {{-- <span class="bf">BF: {{ $previousDayIncome }}</span> --}}
                                     </th>
                                 </tfoot>
                             </table>

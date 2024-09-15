@@ -139,7 +139,7 @@ $route = Route::current()->getName();
                             <a href="{{ route('outdoor_regi_form') }}"
                                 class="nav-link {{ $route == 'outdoor_regi_form' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Service Entry</p>
+                                <p>Service</p>
                             </a>
                         </li>
 
@@ -148,6 +148,14 @@ $route = Route::current()->getName();
                                 class="nav-link {{ $route == 'all_out_regi_patient' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Service Lists</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('outdoorServiceView') }}"
+                                class="nav-link {{ $route == 'outdoorServiceView' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Create Service</p>
                             </a>
                         </li>
 

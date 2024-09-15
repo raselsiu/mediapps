@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('age');
             $table->string('father_or_husb_name');
             $table->string('present_address');
-            $table->string('pre_village');
-            $table->string('pre_post_code');
+            $table->string('pre_village')->nullable(true);
+            $table->string('pre_post_code')->nullable(true);
             $table->string('pre_thana');
             $table->string('pre_district');
             $table->string('mobile');

@@ -13,6 +13,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IncomeCategoryController;
 use App\Http\Controllers\IncomeFieldController;
 use App\Http\Controllers\IncomeSubCategoryController;
+use App\Http\Controllers\IndoorController;
 use App\Http\Controllers\OutdoorController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TestController;
@@ -83,6 +84,8 @@ Route::group(['prefix' => 'admission', 'middleware' => ['auth']], function () {
     Route::get('/form/view', [MedicalController::class, 'admission_form_view'])->name('admission_form_view');
     Route::post('/form/save', [MedicalController::class, 'admission_form_save'])->name('admission_form_save');
     Route::get('/registered/patients', [MedicalController::class, 'all_regi_patient'])->name('all_regi_patient');
+
+    Route::get('/patients/print/view/{patient_id}', [IndoorController::class, 'indoorRegiPrintView'])->name('indoorRegiPrintView');
 });
 
 
@@ -108,10 +111,11 @@ Route::group(['prefix' => 'outdoor', 'middleware' => ['auth']], function () {
     Route::post('/registration/form/save', [OutdoorController::class, 'storeOutdoor_regi_form'])->name('storeOutdoor_regi_form');
 
 
-    // Outdoor Income show by Day Week Month and Year based 
 
+    // Outdoor Service
 
-
+    Route::get('/outdoor/service/create', [OutdoorController::class, 'outdoorServiceView'])->name('outdoorServiceView');
+    Route::post('/outdoor/service/store', [OutdoorController::class, 'outdoorServiceStore'])->name('outdoorServiceStore');
 });
 
 
@@ -227,6 +231,7 @@ Route::group(['prefix' => 'data-entry', 'middleware' => ['auth']], function () {
 
     Route::get('/cabin/create', [CabinController::class, 'cabinForm'])->name('cabinForm');
     Route::post('/cabin/store', [CabinController::class, 'storeCabin'])->name('storeCabin');
+
 
     Route::get('/release/cabin/{cabin_no}/{uuid}', [CabinController::class, 'release_cabin'])->name('release_cabin');
 });

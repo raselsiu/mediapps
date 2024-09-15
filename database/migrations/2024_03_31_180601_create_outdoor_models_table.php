@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('is_payment_clear')->default(false);
             $table->string('status')->default(0);
             $table->string('address');
+            $table->string('service_category');
             $table->string('regi_fee');
             $table->string('generated_by');
             $table->timestamps();

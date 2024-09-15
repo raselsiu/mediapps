@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AllInComingAmount;
 use App\Models\Income;
 use App\Models\OutdoorModel;
+use App\Models\OutdoorService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -21,9 +22,39 @@ class OutdoorController extends Controller
 
     public function outdoor_regi_form()
     {
+        $data['service'] = OutdoorService::all();
 
-        return view('backend.outdoor.outdoor_registraton_fee');
+        return view('backend.outdoor.outdoor_registraton_fee', $data);
     }
+
+
+
+
+
+    public function outdoorServiceView()
+    {
+
+        return view('backend.outdoor.service_entry');
+    }
+
+
+    public function outdoorServiceStore(Request $request)
+    {
+
+        $this->validate($request, [
+            'name' => 'required|unique:services,name'
+        ]);
+
+
+        $data = new OutdoorService();
+
+        $data->name = $request->name;
+        $data->slug = Str::slug($request->name);
+        $data->save();
+        return redirect()->back()->with('success', 'Created Successfully!');
+    }
+
+
 
 
     public function all_out_regi_patient()
@@ -45,9 +76,12 @@ class OutdoorController extends Controller
     public function storeOutdoor_regi_form(Request $request)
     {
 
+
+
         $request->validate([
             'name' => 'required|max:100',
             'address' => 'required',
+            'service_category' => 'required',
             'regi_fee' => 'required|numeric',
         ]);
 
@@ -79,6 +113,8 @@ class OutdoorController extends Controller
             }
 
 
+
+
             $income->save();
         }
 
@@ -104,6 +140,7 @@ class OutdoorController extends Controller
         $data->serial_no = invoiceNumber();
         $data->address = $request->address;
         $data->regi_fee = $request->regi_fee;
+        $data->service_category = $request->service_category;
         $data->generated_by = Auth::user()->name;
         $data->save();
         return redirect()->route('outdoor_regi_form_view', $data->uuid)->with('success', 'Registration Success!');

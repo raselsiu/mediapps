@@ -31,7 +31,9 @@
                                 <th>Address</th>
                                 <th>Mobile</th>
                                 <th>Cabin No.</th>
+                                <th>Regi No.</th>
                                 <th>Payment Status</th>
+                                <th>Status</th>
                                 <th>Cash-Memo</th>
                                 <th>Actions</th>
                             </tr>
@@ -46,6 +48,7 @@
                                         {{ $patient->pre_district }}</td>
                                     <td>{{ $patient->mobile }}</td>
                                     <td>{{ $patient->cabin_no }}</td>
+                                    <td>{{ $patient->regi_no }}</td>
 
                                     <?php
                                     
@@ -64,6 +67,16 @@
                                                 style="background: #fa9090; padding:2px 5px; border-radius:5px;text-align:center">
                                                 Not Genereted</p>
                                         @endisset
+                                    </td>
+                                    <td>
+                                        @if ($patient->status == 'not_released')
+                                            <span
+                                                style="background: #ff2f4b;color: #fff;padding: 2px 5px;border-radius: 5px">{{ $patient->status }}</span>
+                                        @else
+                                            <span
+                                                style="background: #14da9e;color: #fff;padding: 2px 5px;border-radius: 5px">{{ $patient->status }}</span>
+                                        @endif
+
                                     </td>
                                     <td>
                                         @if ($patient->is_cash_memo_generated)
@@ -85,12 +98,9 @@
                                             class="btn btn-sm btn-primary"><i class="fa fa-eye"></i></a>
 
                                         @if ($patient->is_cash_memo_generated)
-                                            @if ($patient->status == 'released')
-                                            @else
-                                                <a href="{{ route('addMoreServicesForm', $patient->uuid) }}"
-                                                    class="btn btn-sm btn-danger"><i class="fa fa-plus"
-                                                        id="moreservice"></i></a>
-                                            @endif
+                                            <a href="{{ route('addMoreServicesForm', $patient->uuid) }}"
+                                                class="btn btn-sm btn-danger"><i class="fa fa-plus"
+                                                    id="moreservice"></i></a>
                                         @endif
 
 
@@ -106,7 +116,9 @@
                                 <th>Address</th>
                                 <th>Mobile</th>
                                 <th>Cabin No.</th>
+                                <th>Regi. No.</th>
                                 <th>Payment Status</th>
+                                <th>Status</th>
                                 <th>Cash-Memo</th>
                                 <th>Actions</th>
                             </tr>

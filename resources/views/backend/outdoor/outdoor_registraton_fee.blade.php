@@ -34,7 +34,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="name">Name: </label>
+                                <label for="name" class="required">Name: </label>
                                 <input type="text" class="form-control" name="name" id="name"
                                     placeholder="Name....">
                                 @if ($errors->has('name'))
@@ -42,7 +42,7 @@
                                 @endif
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="address">Address: </label>
+                                <label for="address" class="required">Address: </label>
                                 <input type="text" class="form-control" id="address" name="address"
                                     placeholder="Address...." />
                                 @if ($errors->has('address'))
@@ -54,11 +54,27 @@
                         <div class="row">
 
                             <div class="form-group col-md-4">
-                                <label for="regi_fee">Service Fee: - </label>
+                                <label for="regi_fee" class="required">Service Fee: </label>
                                 <input type="number" class="form-control" id="regi_fee" name="regi_fee"
                                     placeholder="Amount ....">
                                 @if ($errors->has('regi_fee'))
                                     <span style="color: red">{{ $errors->first('regi_fee') }}</span>
+                                @endif
+                            </div>
+                            <div class="form-group col-md-4 col-lg-4 col-sm-4">
+                                <label for="category" class="required">Service Category: </label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<label for="category" class="service_btn"> <a
+                                        href="{{ route('outdoorServiceView') }}">Create a
+                                        Service</a></label>
+                                <select class="custom-select" name="service_category" id="service_category">
+                                    <option value="">Select a service</option>
+
+                                    @foreach ($service as $data)
+                                        <option value="{{ $data->name }}">{{ $data->name }}</option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('service_category'))
+                                    <span style="color: red">{{ $errors->first('service_category') }}</span>
                                 @endif
                             </div>
                         </div>
@@ -98,6 +114,10 @@
                         required: true,
                         maxlength: 50,
                     },
+                    service_category: {
+                        required: true,
+                        maxlength: 50,
+                    },
                 },
                 messages: {
                     name: {
@@ -106,6 +126,9 @@
                     },
                     regi_fee: {
                         required: "Please enter Amount",
+                    },
+                    service_category: {
+                        required: "Select a category",
                     },
                 },
                 errorElement: 'span',

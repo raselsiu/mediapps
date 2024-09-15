@@ -455,8 +455,6 @@ class MedicalController extends Controller
     public function admission_form_view()
     {
 
-
-
         $cabin_info = Cabin::where('status', '0')->get();
         return view('backend.medical_pages.admission_form', compact('cabin_info'));
     }
@@ -501,7 +499,7 @@ class MedicalController extends Controller
 
         $findRegiField = AdmissinForm::where('id', $patient_info->id)->first();
 
-        $regi_num = '#' . str_pad($patient_info->id + 1, 8, "0", STR_PAD_LEFT);
+        $regi_num = '#' . str_pad($patient_info->id, 8, "0", STR_PAD_LEFT);
 
         $findRegiField->regi_no = $regi_num;
 
@@ -525,9 +523,7 @@ class MedicalController extends Controller
 
 
 
-
-
-        return redirect()->route('all_regi_patient')->with('success', 'Patient Admitted Successfully!');
+        return redirect()->route('regi_form_view', $patient_info->uuid)->with('success', 'Admit Success!');
     }
 
     // Admission Part Started End
