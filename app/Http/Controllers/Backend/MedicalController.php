@@ -8,6 +8,7 @@ use App\Models\AllInComingAmount;
 use App\Models\Cabin;
 use App\Models\CashMemoForm;
 use App\Models\CashMemoInfo;
+use App\Models\DiscountDue;
 use App\Models\Due;
 use App\Models\DueCollection;
 use App\Models\Income;
@@ -201,9 +202,6 @@ class MedicalController extends Controller
         $data->generated_by = Auth::user()->name;
 
 
-
-
-
         $admissionFormData->total_bill = $request->total_bill;
         $admissionFormData->discount = $request->discount;
         $admissionFormData->total_paid = $request->total_paid;
@@ -215,6 +213,16 @@ class MedicalController extends Controller
         }
 
         $admissionFormData->is_cash_memo_generated = true;
+
+
+
+
+
+        // Due Discount Table 
+        $discountDue = new DiscountDue();
+        $discountDue->patient_id = $request->patient_uuid;
+        $discountDue->name = $request->name;
+        $discountDue->discount_amount = $request->discount;
 
 
 
@@ -240,6 +248,7 @@ class MedicalController extends Controller
         //  Saving Data
 
         $due->save();
+        $discountDue->save();
         $data->save();
         $admissionFormData->save();
 
@@ -290,31 +299,44 @@ class MedicalController extends Controller
 
 
         $patient_cash = CashMemoInfo::where('patient_uuid', $id)->first();
-
-
-
         $outstanding_value = $patient_cash->outstanding_total;
 
 
 
+        // due_amount
+        // total_due_paid
+
+        // Due Discount Table 
+        $discountDue = new DiscountDue();
+        $discountDue->patient_id = $id;
+        $discountDue->name = $request->name;
+        $discountDue->discount_amount = $request->due_discount;
+        $discountDue->remarks = $request->remarks;
+
+
+        // Updating Due Discount 
+
+
+
+
+
+
+
+
+
         $this->validate($request, [
-            'due_amount' => 'required',
+            'total_due_paid' => 'required',
         ]);
 
-
-
-        if ($request->due_amount > $outstanding_value) {
+        if ($request->total_due_paid > $outstanding_value) {
             return redirect()->back()->with('msg', 'Amount should not be greater then the Due Amount');
         }
-        if ($request->due_amount <= 0) {
+        if ($request->total_due_paid <= 0) {
             return redirect()->back()->with('msg', 'Amount should not be less then or equal to 0');
         }
 
 
-
-
-
-        $amount = $patient_cash->paid + $request->due_amount;
+        $amount = $patient_cash->paid + $request->total_due_paid;
 
         $UpdateOutstanding_Total = $patient_cash->total_paid - $amount;
 
@@ -326,10 +348,9 @@ class MedicalController extends Controller
         // Update Due
 
         $due = Due::where('refs_id', $id)->first();
-        $due_amount = $due->due_amount;
+        $due_amount = $due->total_due_paid;
         $updateDue = Due::where('refs_id', $id)->first();
-        $updateDue->due_amount = $due_amount - $request->due_amount;
-
+        $updateDue->due_amount = $due_amount - $request->total_due_paid;
 
 
         // Due Amount Collection 
@@ -337,20 +358,33 @@ class MedicalController extends Controller
         $saveDue = new  DueCollection();
         $saveDue->refs_id  = $id;
         $saveDue->details  = 'Due Collected';
-        $saveDue->amount  = $request->due_amount;
+        $saveDue->amount  = $request->total_due_paid;
 
         // Updating Master Amount with Due Amount
 
         $UpdateMasterAmount = AllInComingAmount::first();
 
-        $UpdateMasterAmount->total_amount = $UpdateMasterAmount->total_amount + $request->due_amount;
+        $UpdateMasterAmount->total_amount = $UpdateMasterAmount->total_amount + $request->total_due_paid;
 
+
+        // Updating Due Discount
+        $UpdatedDueDiscount = CashMemoInfo::where('patient_uuid', $id)->first();
+        $UpdatedDueDiscount->discount = $UpdatedDueDiscount->discount + $request->due_discount;
+        $UpdatedDueDiscount->total_paid = $UpdatedDueDiscount->total_paid - $request->due_discount;
+        $outstanding = ($UpdatedDueDiscount->outstanding_total) - $request->due_discount;
+        $UpdatedDueDiscount->outstanding_total = $outstanding;
+        $UpdatedDueDiscount->paid = $UpdatedDueDiscount->total_paid - $request->due_discount;
+
+
+        dd($UpdatedDueDiscount->paid);
 
 
         $user->save();
         $updateDue->save();
+        $discountDue->save();
         $saveDue->save();
         $UpdateMasterAmount->save();
+        $UpdatedDueDiscount->save();
 
 
         return redirect()->route('all_regi_patient')->with('success', 'Due Collected Successfully!');
