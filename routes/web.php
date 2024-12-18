@@ -70,12 +70,10 @@ Route::group(['prefix' => 'patients', 'middleware' => ['auth']], function () {
 
 
     Route::get('/registration/form', [MedicalController::class, 'registration_form'])->name('registration_form');
-
     Route::get('/registered/admit/patients/view/{patient_id}', [MedicalController::class, 'regi_form_view'])->name('regi_form_view');
     Route::get('/admission/form/', [MedicalController::class, 'admission_form'])->name('admission_form');
-
-
     Route::post('/registration/form/save', [MedicalController::class, 'storeRegistration'])->name('storeRegistration');
+    Route::get('/generate/pdf/{patient_id}', [MedicalController::class, 'printPdf'])->name('printPdf');
 });
 
 
@@ -110,6 +108,11 @@ Route::group(['prefix' => 'outdoor', 'middleware' => ['auth']], function () {
     Route::get('/registered/patients/view/{patient_id}', [OutdoorController::class, 'outdoor_regi_form_view'])->name('outdoor_regi_form_view');
     Route::post('/registration/form/save', [OutdoorController::class, 'storeOutdoor_regi_form'])->name('storeOutdoor_regi_form');
 
+    // print
+    Route::get('/outdoor/print/{patient_id}', [OutdoorController::class, 'printOutDoor'])->name('printOutDoor');
+
+
+
 
 
     // Outdoor Service
@@ -121,16 +124,17 @@ Route::group(['prefix' => 'outdoor', 'middleware' => ['auth']], function () {
 
 Route::group(['prefix' => 'accounts', 'middleware' => ['auth']], function () {
 
-    Route::get('/outdoor', [AccountController::class, 'outdoor_income'])->name('outdoor_income');
 
+    // print
+    Route::get('/print/outdoor', [AccountController::class, 'acoutdoor'])->name('acoutdoor');
+    Route::get('/print/exp', [AccountController::class, 'expenPrint'])->name('expenPrint');
+    Route::get('/print/otherInPrint', [AccountController::class, 'otherInPrint'])->name('otherInPrint');
+    //  End 
+    Route::get('/outdoor', [AccountController::class, 'outdoor_income'])->name('outdoor_income');
     Route::get('/getting-income', 'AccountController@gettingIncome')->name('gettingIncome');
-
     Route::get('/expenditure/', [AccountController::class, 'expenditureCalculation'])->name('expenditureCalculation');
-
     Route::get('/income/', [AccountController::class, 'incomeCalculation'])->name('incomeCalculation');
-
     Route::get('/outdoor', [AccountController::class, 'outdoor_income'])->name('outdoor_income');
-
     Route::get('/indoor', [AccountController::class, 'indoor_income'])->name('indoor_income');
 
 
@@ -149,6 +153,11 @@ Route::group(['prefix' => 'accounts', 'middleware' => ['auth']], function () {
     Route::get('/indoor/search/todays', [SearchController::class, 'indoorTwentyFourHour'])->name('indoorTwentyFourHour');
     Route::get('/indoor/search/current-month', [SearchController::class, 'indoorGetCurrentMonthRevenue'])->name('indoorGetCurrentMonthRevenue');
     Route::get('/indoor/search/last-month', [SearchController::class, 'indoorGetLastMonthRevenue'])->name('indoorGetLastMonthRevenue');
+
+    // print
+    Route::get('/print/indoor', [AccountController::class, 'acindoor'])->name('acindoor');
+    //  End 
+
 
     // Expenditure
     Route::get('/expenditure/search/todays', [SearchController::class, 'expTwentyFourHour'])->name('expTwentyFourHour');

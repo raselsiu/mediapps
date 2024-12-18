@@ -27,16 +27,13 @@
                             </a></span>
                         <span><a class="btn btn-warning" href="{{ route('indoorGetLastMonthRevenue') }}">Last Month
                             </a></span>
+                        <a href="{{ route('acindoor') }}" target="_blank" class="btn btn-success"
+                            style="float: right">Print</a>
                     </div>
-
-
-
-                    {{-- <a href="" class="float-right btn btn-success"> <i class="fa fa-plus-circle"></i> Register
-                        Patients</a> --}}
                 </div>
                 <div class="card-body">
 
-                    <table id="printable" class="table table-bordered table-striped">
+                    <table id="" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th># SL No</th>
@@ -47,15 +44,6 @@
                             </tr>
                         </thead>
                         <tbody>
-
-
-
-
-
-
-
-
-
 
                             @foreach ($data as $key => $income)
                                 <tr>

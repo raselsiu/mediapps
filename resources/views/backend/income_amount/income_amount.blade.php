@@ -27,12 +27,16 @@
                             </a></span>
                         <span><a class="btn btn-warning" href="{{ route('othersGetLastMonthRevenue') }}">Last Month
                             </a></span>
+
+                        <a href="{{ route('otherInPrint') }}" target="_blank" class="btn btn-success"
+                            style="float: right">Print</a>
+
                     </div>
 
                 </div>
                 <div class="card-body">
 
-                    <table id="printable" class="table table-bordered table-striped">
+                    <table id="" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>#SL No</th>

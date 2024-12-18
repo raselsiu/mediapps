@@ -11,6 +11,7 @@ use App\Models\Expenditure;
 use App\Models\Income;
 use App\Models\IncomeField;
 use App\Models\OutdoorModel;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -28,23 +29,35 @@ class AccountController extends Controller
     }
 
 
+    public function acoutdoor()
+    {
+        $outdoor['data'] = OutdoorModel::all();
+        $outdoor['total_amount'] = OutdoorModel::pluck('regi_fee')->sum();
+        $pdf = Pdf::loadView('backend.pdf.account_outdoor', $outdoor);
+        return $pdf->stream('outdoor-receipt.pdf');
+    }
+
+    public function acindoor()
+    {
+        $data1 = CashMemoInfo::select('patient_uuid as uuid', 'patient_name as income_source', 'paid as income_amount')->orderBy('created_at', 'desc')->get();
+        $data2 = AdmissinForm::select('uuid', 'name as income_source', 'regi_fee as income_amount')->orderBy('created_at', 'desc')->get();
+        $indoor_info['data'] = $data1->concat($data2);
+        $indoor_info['full_amount'] = $data1->concat($data2)->pluck('income_amount')->sum();
+        $pdf = Pdf::loadView('backend.pdf.account_intdoor', $indoor_info);
+        return $pdf->stream('indoor-receipt.pdf');
+    }
+
+
+
+
+
     public function indoor_income()
     {
 
-
-
         $data1 = CashMemoInfo::select('patient_uuid as uuid', 'patient_name as income_source', 'paid as income_amount')->orderBy('created_at', 'desc')->get();
         $data2 = AdmissinForm::select('uuid', 'name as income_source', 'regi_fee as income_amount')->orderBy('created_at', 'desc')->get();
-
         $indoor_info['data'] = $data1->concat($data2);
-
         $indoor_info['full_amount'] = $data1->concat($data2)->pluck('income_amount')->sum();
-
-
-
-        // dd($indoor_info['data']);
-
-
 
         return view('backend.indoor_income.indoor_income', $indoor_info);
     }
@@ -60,6 +73,14 @@ class AccountController extends Controller
     }
 
 
+    public function expenPrint()
+    {
+        $expenditure['data'] = Expenditure::all();
+        $expenditure['full_amount'] = Expenditure::pluck('amount')->sum();
+        $pdf = Pdf::loadView('backend.pdf.exp_print', $expenditure);
+        return $pdf->stream('exp-receipt.pdf');
+    }
+
 
 
     public function incomeCalculation()
@@ -67,6 +88,15 @@ class AccountController extends Controller
         $income['data'] = IncomeField::all();
         $income['total_amount'] = IncomeField::pluck('amount')->sum();
         return view('backend.income_amount.income_amount', $income);
+    }
+
+
+    public function otherInPrint()
+    {
+        $income['data'] = IncomeField::all();
+        $income['total_amount'] = IncomeField::pluck('amount')->sum();
+        $pdf = Pdf::loadView('backend.pdf.others_income', $income);
+        return $pdf->stream('others-receipt.pdf');
     }
 
 

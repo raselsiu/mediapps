@@ -22,8 +22,8 @@
                     &nbsp;&nbsp;
                     <a href="{{ route('all_out_regi_patient') }}" class="btn btn-info">View Patients </a>
 
-                    <button type="button" id="print" class="btn btn-success"
-                        onclick="PrintDiv('print_area')">Print</button>
+                    <a href="{{ route('printOutDoor', $patient->uuid) }}" target="_blank" id="print"
+                        class="btn btn-success" style="float:right">Print</a>
 
 
 

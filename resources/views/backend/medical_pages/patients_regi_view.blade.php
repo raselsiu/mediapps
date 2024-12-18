@@ -1,6 +1,14 @@
 @extends('backend.layouts.master')
 
 
+<style>
+    #print {
+        float: right;
+    }
+</style>
+
+
+
 @section('content')
     <div class="row mb-2">
         <div class="col-sm-6">
@@ -19,8 +27,8 @@
             <div class="card">
                 <div class="card-header">
                     <h1 class="card-title">Patients Profile</h1>
-                    <button type="button" id="print" class="btn btn-success"
-                        onclick="PrintDiv('print_area')">Print</button>
+                    <a href="{{ route('printPdf', $patient->uuid) }}" target="_blank" id="print"
+                        class="btn btn-success">Print</a>
                 </div>
 
                 <div class="card-body">

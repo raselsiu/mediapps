@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 class MedicalController extends Controller
@@ -304,39 +305,32 @@ class MedicalController extends Controller
 
 
         // due_amount
-        // total_due_paid
+        // tottal_due_discount
 
         // Due Discount Table 
-        $discountDue = new DiscountDue();
-        $discountDue->patient_id = $id;
-        $discountDue->name = $request->name;
-        $discountDue->discount_amount = $request->due_discount;
-        $discountDue->remarks = $request->remarks;
+        // $discountDue = new DiscountDue();
+        // $discountDue->patient_id = $id;
+        // $discountDue->name = $request->name;
+        // $discountDue->discount_amount = $request->due_discount;
+        // $discountDue->remarks = $request->remarks;
 
 
         // Updating Due Discount 
 
 
-
-
-
-
-
-
-
         $this->validate($request, [
-            'total_due_paid' => 'required',
+            'due_amount' => 'required',
         ]);
 
-        if ($request->total_due_paid > $outstanding_value) {
+        if ($request->due_amount > $outstanding_value) {
             return redirect()->back()->with('msg', 'Amount should not be greater then the Due Amount');
         }
-        if ($request->total_due_paid <= 0) {
+        if ($request->due_amount <= 0) {
             return redirect()->back()->with('msg', 'Amount should not be less then or equal to 0');
         }
 
 
-        $amount = $patient_cash->paid + $request->total_due_paid;
+        $amount = $patient_cash->paid + $request->due_amount;
 
         $UpdateOutstanding_Total = $patient_cash->total_paid - $amount;
 
@@ -348,9 +342,9 @@ class MedicalController extends Controller
         // Update Due
 
         $due = Due::where('refs_id', $id)->first();
-        $due_amount = $due->total_due_paid;
+        $due_amount = $due->due_amount;
         $updateDue = Due::where('refs_id', $id)->first();
-        $updateDue->due_amount = $due_amount - $request->total_due_paid;
+        $updateDue->due_amount = $due_amount - $request->due_amount;
 
 
         // Due Amount Collection 
@@ -358,30 +352,30 @@ class MedicalController extends Controller
         $saveDue = new  DueCollection();
         $saveDue->refs_id  = $id;
         $saveDue->details  = 'Due Collected';
-        $saveDue->amount  = $request->total_due_paid;
+        $saveDue->amount  = $request->due_amount;
 
         // Updating Master Amount with Due Amount
 
         $UpdateMasterAmount = AllInComingAmount::first();
 
-        $UpdateMasterAmount->total_amount = $UpdateMasterAmount->total_amount + $request->total_due_paid;
+        $UpdateMasterAmount->total_amount = $UpdateMasterAmount->total_amount + $request->due_amount;
 
 
         // Updating Due Discount
         $UpdatedDueDiscount = CashMemoInfo::where('patient_uuid', $id)->first();
-        $UpdatedDueDiscount->discount = $UpdatedDueDiscount->discount + $request->due_discount;
-        $UpdatedDueDiscount->total_paid = $UpdatedDueDiscount->total_paid - $request->due_discount;
-        $outstanding = ($UpdatedDueDiscount->outstanding_total) - $request->due_discount;
+        $UpdatedDueDiscount->discount = $UpdatedDueDiscount->discount + $request->due_amount;
+        $UpdatedDueDiscount->total_paid = $UpdatedDueDiscount->total_paid - $request->due_amount;
+        $outstanding = ($UpdatedDueDiscount->outstanding_total) - $request->due_amount;
         $UpdatedDueDiscount->outstanding_total = $outstanding;
-        $UpdatedDueDiscount->paid = $UpdatedDueDiscount->total_paid - $request->due_discount;
+        $UpdatedDueDiscount->paid = $UpdatedDueDiscount->total_paid - $request->due_amount;
 
 
-        dd($UpdatedDueDiscount->paid);
+        // dd($UpdatedDueDiscount->paid);
 
 
         $user->save();
         $updateDue->save();
-        $discountDue->save();
+        // $discountDue->save();
         $saveDue->save();
         $UpdateMasterAmount->save();
         $UpdatedDueDiscount->save();
@@ -476,12 +470,18 @@ class MedicalController extends Controller
 
     public function regi_form_view(string $patient_id)
     {
-
         $patient = AdmissinForm::where('uuid', $patient_id)->firstOrFail();
-
-
         return view('backend.medical_pages.patients_regi_view', compact('patient'));
     }
+
+    public function printPdf(string $patient_id)
+    {
+        $patient['patient'] = AdmissinForm::where('uuid', $patient_id)->firstOrFail();
+
+        $pdf = Pdf::loadView('backend.pdf.regi-form', $patient);
+        return $pdf->stream('invoice.pdf');
+    }
+
 
 
     // Admission Part Started

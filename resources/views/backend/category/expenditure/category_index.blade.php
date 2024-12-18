@@ -86,7 +86,9 @@
                             <tr>
                                 <th>No.</th>
                                 <th>Name</th>
-                                <th>Actions</th>
+                                @if (Auth()->user()->usertype == 'developers')
+                                    <th>Actions</th>
+                                @endif
                             </tr>
                         </tfoot>
                     </table>

@@ -6,6 +6,7 @@ use App\Models\AllInComingAmount;
 use App\Models\Income;
 use App\Models\OutdoorModel;
 use App\Models\OutdoorService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -42,7 +43,7 @@ class OutdoorController extends Controller
     {
 
         $this->validate($request, [
-            'name' => 'required|unique:services,name'
+            'name' => 'required|unique:outdoor_services,name'
         ]);
 
 
@@ -71,6 +72,14 @@ class OutdoorController extends Controller
         $patient = OutdoorModel::where('uuid', $patient_id)->firstOrFail();
         return view('backend.outdoor.outdoor_patients_regi_view', compact('patient'));
     }
+
+    public function printOutDoor(string $patient_id)
+    {
+        $patient['patient'] = OutdoorModel::where('uuid', $patient_id)->firstOrFail();
+        $pdf = Pdf::loadView('backend.pdf.outdoor', $patient);
+        return $pdf->stream('outdoor-receipt.pdf');
+    }
+
 
 
     public function storeOutdoor_regi_form(Request $request)

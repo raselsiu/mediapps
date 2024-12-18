@@ -108,7 +108,9 @@
                                 <th>No.</th>
                                 <th>Category</th>
                                 <th>Sub-Category</th>
-                                <th>Actions</th>
+                                @if (Auth::user()->usertype == 'developers')
+                                    <th>Actions</th>
+                                @endif
                             </tr>
                         </tfoot>
                     </table>
