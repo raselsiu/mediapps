@@ -69,7 +69,7 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="row">
+                            {{-- <div class="row">
                                 <div class="form-group col-md-4">
                                     <label for="due_discount">Discount Amount: </label>
                                     <input type="number" class="form-control" oninput="calculateTotalPaid()"
@@ -82,15 +82,15 @@
                                     <input type="number" class="form-control" name="total_due_paid" id="total_due_paid"
                                         placeholder="Enter Amount" readonly>
                                 </div>
-                            </div>
+                            </div> --}}
 
-                            <div class="row">
+                            {{-- <div class="row">
                                 <div class="form-group col-md-4">
                                     <label for="remarks">Remarks: </label>
                                     <input type="text" class="form-control" name="remarks" id="remarks"
                                         placeholder="Remarks">
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
 
                         <button type="sbumit" class="btn btn-success">Update Memo</button>

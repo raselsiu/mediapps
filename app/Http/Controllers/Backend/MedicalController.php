@@ -57,13 +57,9 @@ class MedicalController extends Controller
     public function edit_cash_memo(String $id)
     {
         $uuid = $id;
-
         $patient = AdmissinForm::where('uuid', $id)->first();
-
         $cash_memo_info = CashMemoInfo::where('patient_uuid', $id)->first();
-
         $cash_memo_form = CashMemoForm::where('patient_uuid', $id)->first();
-
         $service_list = Service::all();
 
 
@@ -394,13 +390,22 @@ class MedicalController extends Controller
     public function view_cash_memo(String $id)
     {
         $rcpt_info = CashMemoInfo::where('patient_uuid', $id)->first();
-
         $patient_info = AdmissinForm::where('uuid', $id)->first();
-
         $get_bill = CashMemoForm::where('patient_uuid', $id)->get()->toArray();
 
         return view('backend.medical_pages.cash_memo_receipt', compact('rcpt_info', 'get_bill', 'patient_info'));
     }
+
+    public function memoViewPrint(String $id)
+    {
+        $data['rcpt_info'] = CashMemoInfo::where('patient_uuid', $id)->first();
+        $data['patient_info'] = AdmissinForm::where('uuid', $id)->first();
+        $data['get_bill'] = CashMemoForm::where('patient_uuid', $id)->get()->toArray();
+
+        $pdf = Pdf::loadView('backend.pdf.cash_memo_details', $data);
+        return $pdf->stream('cash-memo-details.pdf');
+    }
+
 
 
 

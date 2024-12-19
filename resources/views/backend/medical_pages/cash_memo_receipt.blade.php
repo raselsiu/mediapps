@@ -25,8 +25,10 @@ use Carbon\Carbon;
         <div class="card">
             <div class="card-header">
                 <h1 class="card-title">Cash-Memo</h1>
-                <button type="button" id="print" class="btn btn-success"
-                    onclick="PrintDiv('print_area')">Print</button>
+                {{-- <button type="button" id="print" class="btn btn-success"
+                    onclick="PrintDiv('print_area')">Print</button> --}}
+                <a href="{{ route('memoViewPrint', $patient_info->uuid) }}" class="btn btn-success"
+                    style="float: right">Print Now</a>
             </div>
 
             <div class="card-body">

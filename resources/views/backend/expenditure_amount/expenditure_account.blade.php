@@ -42,6 +42,7 @@
                                     <th># SL No</th>
                                     <th>Particulars</th>
                                     <th>Details</th>
+                                    <th>Note</th>
                                     <th>Amount</th>
                                     {{-- <th class="notForPrint">Details</th> --}}
                                 </tr>
@@ -56,6 +57,7 @@
 
                                         <td>{{ $expenditure->category }}</td>
                                         <td>{{ $expenditure->sub_category }}</td>
+                                        <td>{{ $expenditure->description }}</td>
 
                                         <td>
                                             <p class="amount" style="margin: 0px;padding:0px;">{{ $expenditure->amount }} TK
@@ -70,6 +72,7 @@
                                 <tr>
                                     <th></th>
                                     {{-- <th>Patients ID</th> --}}
+                                    <th></th>
                                     <th></th>
                                     <th></th>
                                     <th><span class="total_amount">Total ={{ $total_amount }} TK</span></th>

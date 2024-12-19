@@ -61,6 +61,7 @@
                 <th># SL No</th>
                 <th>Date</th>
                 <th>Particulars</th>
+                <th>Note</th>
                 <th>Amount</th>
             </tr>
         </thead>
@@ -71,6 +72,7 @@
                     <td style="text-align: center">{{ $key + 1 }}</td>
                     <td style="text-align: center">{{ $income->created_at->format('Y-m-d') }}</td>
                     <td>{{ $income->category }}</td>
+                    <td>{{ $income->description }}</td>
                     <td>
                         <p class="amount" style="margin: 0px;padding:0px;text-align:center">{{ $income->amount }}
                         </p>
@@ -83,6 +85,7 @@
         </tbody>
         <tfoot>
             <tr>
+                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>

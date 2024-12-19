@@ -55,7 +55,7 @@
         <p>{{ $hospitalAddress }} | Mobile: {{ $hospitalPhone }}</p>
         <br>
     </div>
-    <table class="table table-bordered table-striped" id="printable">
+    <table id="" class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th># SL No</th>
