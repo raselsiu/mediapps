@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('service_category');
             $table->string('regi_fee');
+            $table->string('extra_service')->nullable();
             $table->string('generated_by');
             $table->timestamps();
         });

@@ -77,9 +77,13 @@
                                     <span style="color: red">{{ $errors->first('service_category') }}</span>
                                 @endif
                             </div>
+                            <div class="form-group col-md-6 col-lg-6 col-sm-6">
+                                <label for="category">Add Extra Service (If Any) Separated By Comma</label>
+                                <textarea name="extra_service" id="extra_service" class="form-control" cols="5" rows="2"></textarea>
+                            </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Confim</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
                     </div>
             </div>
             </form>

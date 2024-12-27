@@ -75,9 +75,37 @@ class AccountController extends Controller
 
     public function expenPrint()
     {
+
+
         $expenditure['data'] = Expenditure::all();
         $expenditure['full_amount'] = Expenditure::pluck('amount')->sum();
         $pdf = Pdf::loadView('backend.pdf.exp_print', $expenditure);
+        return $pdf->stream('exp-receipt.pdf');
+    }
+
+
+    public function searchExpenData(Request $request, $start_date, $end_date)
+    {
+
+
+        // $request->validate([
+        //     'start_date' => 'required',
+        //     'end_date' => 'required',
+        // ]);
+
+
+
+        $start = $start_date;
+        $end = $end_date;
+
+        $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay();
+        $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay();
+
+
+        $data['data'] = Expenditure::whereBetween('created_at', [$startDate, $endDate])->get();
+        $data['full_amount'] = Expenditure::whereBetween('created_at', [$startDate, $endDate])->pluck('amount')->sum();
+
+        $pdf = Pdf::loadView('backend.pdf.exp_print', $data);
         return $pdf->stream('exp-receipt.pdf');
     }
 

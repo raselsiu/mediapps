@@ -299,6 +299,30 @@ class SearchController extends Controller
 
 
 
+    public function getDatedExpenditureData(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required',
+            'end_date' => 'required',
+        ]);
+
+
+
+        $start = $request->start_date;
+        $end = $request->end_date;
+
+        $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay();
+        $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay();
+
+
+        $data = Expenditure::whereBetween('created_at', [$startDate, $endDate])->get();
+        $total_amount = Expenditure::whereBetween('created_at', [$startDate, $endDate])->pluck('amount')->sum();
+
+        return view('backend.expenditure_amount.exp_search_by_calender', compact('data', 'total_amount'));
+    }
+
+
+
 
     public function getDatedData(Request $request)
     {

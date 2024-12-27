@@ -149,6 +149,7 @@ class OutdoorController extends Controller
         $data->serial_no = invoiceNumber();
         $data->address = $request->address;
         $data->regi_fee = $request->regi_fee;
+        $data->extra_service = $request->extra_service;
         $data->service_category = $request->service_category;
         $data->generated_by = Auth::user()->name;
         $data->save();

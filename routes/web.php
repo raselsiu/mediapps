@@ -115,9 +115,6 @@ Route::group(['prefix' => 'outdoor', 'middleware' => ['auth']], function () {
     Route::get('/outdoor/print/{patient_id}', [OutdoorController::class, 'printOutDoor'])->name('printOutDoor');
 
 
-
-
-
     // Outdoor Service
 
     Route::get('/outdoor/service/create', [OutdoorController::class, 'outdoorServiceView'])->name('outdoorServiceView');
@@ -130,7 +127,11 @@ Route::group(['prefix' => 'accounts', 'middleware' => ['auth']], function () {
 
     // print
     Route::get('/print/outdoor', [AccountController::class, 'acoutdoor'])->name('acoutdoor');
+
     Route::get('/print/exp', [AccountController::class, 'expenPrint'])->name('expenPrint');
+
+    Route::get('/search/expen/{start}/{end}/', [AccountController::class, 'searchExpenData'])->name('searchExpenData');
+
     Route::get('/print/otherInPrint', [AccountController::class, 'otherInPrint'])->name('otherInPrint');
     //  End 
     Route::get('/outdoor', [AccountController::class, 'outdoor_income'])->name('outdoor_income');
@@ -174,13 +175,8 @@ Route::group(['prefix' => 'accounts', 'middleware' => ['auth']], function () {
 
 
     Route::get('/search/date', [SearchController::class, 'getDatedData'])->name('getDatedData');
+    Route::get('/search/date', [SearchController::class, 'getDatedExpenditureData'])->name('getDatedExpenditureData');
 });
-
-
-
-
-
-
 
 
 

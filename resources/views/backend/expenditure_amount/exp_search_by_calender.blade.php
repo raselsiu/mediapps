@@ -1,3 +1,12 @@
+<?php
+
+$start_date = request()->start_date;
+$end_date = request()->end_date;
+
+?>
+
+
+
 @extends('backend.layouts.master')
 
 @section('content')
@@ -21,30 +30,30 @@
         <div class="col-md-12 col-lg-12 col-sm-12">
             <div class="card">
                 <div class="card-header">
-
                     <div class="btn-row">
-                        <a href="{{ route('expenPrint') }}" target="_blank" class="btn btn-success"
-                            style="float: right">Print</a>
+                        <a href="{{ route('searchExpenData', [request()->start_date, request()->end_date]) }}"
+                            target="_blank" class="btn btn-success" style="float: right">Print</a>
 
                     </div>
-
                     <div class="card-body">
+
                         <div class="search_border">
                             <form action="{{ route('getDatedExpenditureData') }}" method="GET" class="formHandler"
                                 id="userForm">
                                 @csrf
                                 <span>Start Date</span>&nbsp;&nbsp;
-                                <input class="inputControl" type="date" name="start_date"
-                                    placeholder="Start Date">&nbsp;&nbsp;
+                                <input class="inputControl" id="dp" type="date" value="{{ $start_date }}"
+                                    name="start_date" placeholder="Start Date">&nbsp;
                                 @if ($errors->has('start_date'))
-                                    <span style="color: red">Field is Required</span>
+                                    <span style="color: red">Field is equired</span>
                                 @endif
                                 <span>End Date</span>&nbsp;
-                                <input class="inputControl" type="date" name="end_date" placeholder="End Date">
+                                <input class="inputControl" type="date" value="{{ $end_date }}" name="end_date"
+                                    placeholder="End Date">
                                 @if ($errors->has('end_date'))
                                     <span style="color: red">Field is Required</span>
                                 @endif
-                                <button class="submitBtn" type="submit">Search By Date</button>
+                                &nbsp;&nbsp;<button class="submitBtn" type="submit">Search By Date</button>
                             </form>
                         </div>
                         <br>
@@ -52,7 +61,7 @@
                         <table class="table table-bordered table-striped" id="">
                             <thead>
                                 <tr>
-                                    <th># SL No</th>
+                                    <th>#SL No</th>
                                     <th>Particulars</th>
                                     <th>Details</th>
                                     <th>Note</th>
@@ -102,30 +111,4 @@
 
         </div>
     </div>
-
-
-
-
-
-    @push('js')
-        <script>
-            $(function() {
-                $("#example1").DataTable({
-                    "responsive": true,
-                    "lengthChange": true,
-                    "autoWidth": true,
-                    'footer': true,
-                    dom: 'lBfrtip',
-                    buttons: [{
-                        extend: ['print'],
-                        footer: true,
-                        exportOptions: {
-                            columns: ':not(.notForPrint)'
-                        }
-                    }]
-
-                }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            });
-        </script>
-    @endpush
 @endsection

@@ -66,7 +66,10 @@
                                 <li class="list-group-item" style="font-size: 18px;">
                                     Service Name:
                                     <p class="float-right" style="font-size: 18px;">{{ $patient->service_category }}
+                                        {{ $patient->extra_service ? ',' : '' }}
+                                        {{ $patient->extra_service }}
                                     </p>
+
                                 </li>
                                 <li class="list-group-item" style="font-size: 18px;">
                                     Service Fee:-
