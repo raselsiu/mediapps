@@ -1,9 +1,17 @@
+<?php
+
+$start_date = request()->start_date;
+$end_date = request()->end_date;
+
+?>
+
+
 @extends('backend.layouts.master')
 
 @section('content')
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h1 class="m-0">Others Account</h1>
+            <h1 class="m-0">Outdoor</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -20,32 +28,32 @@
         <div class="col-md-12 col-lg-12 col-sm-12">
             <div class="card">
                 <div class="card-header">
-
                     <div class="btn-row">
-                        {{-- <span><a class="btn btn-warning" href="{{ route('othersTwentyFourHour') }}">Todays</a></span>
-                        <span><a class="btn btn-warning" href="{{ route('othersGetCurrentMonthRevenue') }}">Current Month
+                        {{-- <span><a class="btn btn-warning" href="{{ route('dataTwentyFourHour') }}">Previous Day</a></span>
+                        <span><a class="btn btn-warning" href="{{ route('getCurrentMonthRevenue') }}">Current Month
                             </a></span>
-                        <span><a class="btn btn-warning" href="{{ route('othersGetLastMonthRevenue') }}">Last Month
-                            </a></span> --}}
-
-                        <a href="{{ route('otherInPrint') }}" target="_blank" class="btn btn-success"
-                            style="float: right">Print</a>
-
+                        <span><a class="btn btn-warning" href="{{ route('getLastMonthRevenue') }}">Last Month
+                            </a></span>
+                            --}}
+                        <span style="float: right">
+                            <a class="btn btn-success" target="_blank"
+                                href="{{ route('searchOutdrData', [request()->start_date, request()->end_date]) }}">Print</a>
+                        </span>
                     </div>
-
                 </div>
                 <div class="card-body">
                     <div class="search_border">
-                        <form action="{{ route('getDatedIncomesData') }}" method="GET" class="formHandler" id="userForm">
+                        <form action="{{ route('getDatedOutdrData') }}" method="GET" class="formHandler" id="userForm">
                             @csrf
                             <span>Start Date</span>&nbsp;&nbsp;
-                            <input class="inputControl" type="date" name="start_date"
+                            <input class="inputControl" type="date" name="start_date" value="{{ $start_date }}"
                                 placeholder="Start Date">&nbsp;&nbsp;
                             @if ($errors->has('start_date'))
                                 <span style="color: red">Field is Required</span>
                             @endif
                             <span>End Date</span>&nbsp;
-                            <input class="inputControl" type="date" name="end_date" placeholder="End Date">
+                            <input class="inputControl" type="date" name="end_date" value="{{ $end_date }}"
+                                placeholder="End Date">
                             @if ($errors->has('end_date'))
                                 <span style="color: red">Field is Required</span>
                             @endif
@@ -53,31 +61,29 @@
                         </form>
                     </div>
                     <br>
-                    <table id="" class="table table-bordered table-striped">
+                    <table class="table table-bordered table-striped" id="">
                         <thead>
                             <tr>
-                                <th>#SL No</th>
-                                <th>Date</th>
-                                <th>Particulars</th>
-                                <th>Detials</th>
-                                <th>Amount(TK)</th>
+                                <th># SL No</th>
+                                <th>Name</th>
+                                <th>Amount</th>
+                                <th class="notForPrint">View Patient</th>
                             </tr>
                         </thead>
                         <tbody>
 
 
 
-                            @foreach ($data as $key => $others)
+                            @foreach ($data as $key => $income)
                                 <tr>
-
                                     <td>{{ $key + 1 }}</td>
-                                    <td>{{ $others->created_at->format('d/m/Y') }}</td>
-                                    <td>{{ $others->category }}</td>
-                                    <td>{{ $others->sub_category }}</td>
-
+                                    <td>{{ $income->name }}</td>
                                     <td>
-                                        <p class="amount" style="margin: 0px;padding:0px;">{{ $others->amount }}
-                                        </p>
+                                        <p class="amount" style="margin: 0px;padding:0px;">{{ $income->regi_fee }}</p>
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('outdoor_regi_form_view', $income->uuid) }}"
+                                            class="btn btn-sm btn-primary"><i class="fa fa-eye"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -85,12 +91,12 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th>#SL No</th>
-                                <th>Date</th>
-                                <th>Particulars</th>
-                                <th>Detials</th>
-                                <th><span class="total_amount">Total = {{ $total_amount }}</span></th>
-
+                                <th>No.</th>
+                                <th>Name </th>
+                                <th> Total Amount = &nbsp;<span id="total_amount"
+                                        class="total_amount">{{ $total_amount }}</span>
+                                </th>
+                                <th>View Patient</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -100,11 +106,6 @@
 
 
     </div>
-
-
-
-
-
 
 
     @push('js')

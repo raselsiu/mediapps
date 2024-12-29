@@ -22,24 +22,40 @@
             <div class="card">
                 <div class="card-header">
                     <div class="btn-row">
-                        <span><a class="btn btn-warning" href="{{ route('indoorTwentyFourHour') }}">Previous Day</a></span>
+                        {{-- <span><a class="btn btn-warning" href="{{ route('indoorTwentyFourHour') }}">Previous Day</a></span>
                         <span><a class="btn btn-warning" href="{{ route('indoorGetCurrentMonthRevenue') }}">Current Month
                             </a></span>
                         <span><a class="btn btn-warning" href="{{ route('indoorGetLastMonthRevenue') }}">Last Month
-                            </a></span>
+                            </a></span> --}}
                         <a href="{{ route('acindoor') }}" target="_blank" class="btn btn-success"
                             style="float: right">Print</a>
                     </div>
                 </div>
                 <div class="card-body">
-
+                    <div class="search_border">
+                        <form action="{{ route('getDatedIndoorData') }}" method="GET" class="formHandler" id="userForm">
+                            @csrf
+                            <span>Start Date</span>&nbsp;&nbsp;
+                            <input class="inputControl" type="date" name="start_date"
+                                placeholder="Start Date">&nbsp;&nbsp;
+                            @if ($errors->has('start_date'))
+                                <span style="color: red">Field is Required</span>
+                            @endif
+                            <span>End Date</span>&nbsp;
+                            <input class="inputControl" type="date" name="end_date" placeholder="End Date">
+                            @if ($errors->has('end_date'))
+                                <span style="color: red">Field is Required</span>
+                            @endif
+                            <button class="submitBtn" type="submit">Search By Date</button>
+                        </form>
+                    </div>
+                    <br>
                     <table id="" class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th># SL No</th>
-                                {{-- <th>Patients ID</th> --}}
-                                <th>Source</th>
-                                <th>Amount</th>
+                                <th># SL No.</th>
+                                <th>Particulars</th>
+                                <th>Amount(TK)</th>
                                 <th class="notForPrint">View Patient</th>
                             </tr>
                         </thead>
@@ -76,7 +92,7 @@
                             <tr>
                                 <th>No.</th>
                                 <th>Name </th>
-                                <th> Total = <span id="total_amount" class="total_amount">{{ $full_amount }} Tk</span></th>
+                                <th> Total = <span id="total_amount" class="total_amount">{{ $full_amount }}</span></th>
                                 <th class="notForPrint">View Patient</th>
                             </tr>
                         </tfoot>

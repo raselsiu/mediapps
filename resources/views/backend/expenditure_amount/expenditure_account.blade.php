@@ -23,9 +23,9 @@
                 <div class="card-header">
 
                     <div class="btn-row">
-                        <a href="{{ route('expenPrint') }}" target="_blank" class="btn btn-success"
-                            style="float: right">Print</a>
-
+                        <a href="{{ route('expenPrint') }}" target="_blank" class="btn btn-success" style="float: right">
+                            Print
+                        </a>
                     </div>
 
                     <div class="card-body">
@@ -56,7 +56,7 @@
                                     <th>Particulars</th>
                                     <th>Details</th>
                                     <th>Note</th>
-                                    <th>Amount</th>
+                                    <th>Amount(TK)</th>
                                     {{-- <th class="notForPrint">Details</th> --}}
                                 </tr>
                             </thead>
@@ -73,7 +73,7 @@
                                         <td>{{ $expenditure->description }}</td>
 
                                         <td>
-                                            <p class="amount" style="margin: 0px;padding:0px;">{{ $expenditure->amount }} TK
+                                            <p class="amount" style="margin: 0px;padding:0px;">{{ $expenditure->amount }}
                                             </p>
                                         </td>
                                         {{-- <td>
@@ -88,7 +88,7 @@
                                     <th></th>
                                     <th></th>
                                     <th></th>
-                                    <th><span class="total_amount">Total ={{ $total_amount }} TK</span></th>
+                                    <th><span class="total_amount">Total ={{ $total_amount }}</span></th>
 
                                 </tr>
                             </tfoot>

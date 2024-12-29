@@ -1,3 +1,11 @@
+<?php
+
+$start_date = request()->start_date;
+$end_date = request()->end_date;
+
+?>
+
+
 @extends('backend.layouts.master')
 
 @section('content')
@@ -22,14 +30,9 @@
                 <div class="card-header">
 
                     <div class="btn-row">
-                        {{-- <span><a class="btn btn-warning" href="{{ route('othersTwentyFourHour') }}">Todays</a></span>
-                        <span><a class="btn btn-warning" href="{{ route('othersGetCurrentMonthRevenue') }}">Current Month
-                            </a></span>
-                        <span><a class="btn btn-warning" href="{{ route('othersGetLastMonthRevenue') }}">Last Month
-                            </a></span> --}}
 
-                        <a href="{{ route('otherInPrint') }}" target="_blank" class="btn btn-success"
-                            style="float: right">Print</a>
+                        <a href="{{ route('searchIncmData', [request()->start_date, request()->end_date]) }}"
+                            target="_blank" class="btn btn-success" style="float: right">Print</a>
 
                     </div>
 
@@ -39,13 +42,14 @@
                         <form action="{{ route('getDatedIncomesData') }}" method="GET" class="formHandler" id="userForm">
                             @csrf
                             <span>Start Date</span>&nbsp;&nbsp;
-                            <input class="inputControl" type="date" name="start_date"
+                            <input class="inputControl" type="date" name="start_date" value="{{ $start_date }}"
                                 placeholder="Start Date">&nbsp;&nbsp;
                             @if ($errors->has('start_date'))
                                 <span style="color: red">Field is Required</span>
                             @endif
                             <span>End Date</span>&nbsp;
-                            <input class="inputControl" type="date" name="end_date" placeholder="End Date">
+                            <input class="inputControl" type="date" name="end_date" value="{{ $end_date }}"
+                                placeholder="End Date">
                             @if ($errors->has('end_date'))
                                 <span style="color: red">Field is Required</span>
                             @endif

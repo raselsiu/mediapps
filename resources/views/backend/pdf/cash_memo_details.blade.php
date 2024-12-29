@@ -67,8 +67,12 @@
         <h2>{{ $hospitalName }}</h2>
         <p>{{ $hospitalAddress }} | Mobile: {{ $hospitalPhone }}</p>
         <br>
+        <br>
+        <br>
     </div>
 
+    <span style="border:1px solid #bbbbbb;padding:5px">Cash-Memo</span>
+    <br><br>
 
 
     <table class="table table-bordered patient_info_viewer" style="font-size: 18px">

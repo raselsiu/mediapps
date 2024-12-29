@@ -66,6 +66,8 @@
         <br>
         <br>
     </div>
+    <span style="border:1px solid #bbbbbb;padding:5px">Expenditure</span>
+    <br><br>
     <table id="printable" class="table table-bordered table-striped">
         <thead>
             <tr>

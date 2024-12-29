@@ -129,8 +129,16 @@ Route::group(['prefix' => 'accounts', 'middleware' => ['auth']], function () {
     Route::get('/print/outdoor', [AccountController::class, 'acoutdoor'])->name('acoutdoor');
 
     Route::get('/print/exp', [AccountController::class, 'expenPrint'])->name('expenPrint');
+    Route::get('/print/outdr', [AccountController::class, 'outdoorPrint'])->name('outdoorPrint');
 
     Route::get('/search/expen/{start}/{end}/', [AccountController::class, 'searchExpenData'])->name('searchExpenData');
+    Route::get('/search/out/{start}/{end}/', [AccountController::class, 'searchOutdrData'])->name('searchOutdrData');
+    Route::get('/search/in/{start}/{end}/', [AccountController::class, 'searchIndrData'])->name('searchIndrData');
+    Route::get('/search/incm/{start}/{end}/', [AccountController::class, 'searchIncmData'])->name('searchIncmData');
+    Route::get('/search/acc/books/{start}/{end}/', [AccountController::class, 'accBookPrint'])->name('accBookPrint');
+
+
+
 
     Route::get('/print/otherInPrint', [AccountController::class, 'otherInPrint'])->name('otherInPrint');
     //  End 
@@ -175,7 +183,10 @@ Route::group(['prefix' => 'accounts', 'middleware' => ['auth']], function () {
 
 
     Route::get('/search/date', [SearchController::class, 'getDatedData'])->name('getDatedData');
-    Route::get('/search/date', [SearchController::class, 'getDatedExpenditureData'])->name('getDatedExpenditureData');
+    Route::get('/search/date/exp', [SearchController::class, 'getDatedExpenditureData'])->name('getDatedExpenditureData');
+    Route::get('/search/date/outdr', [SearchController::class, 'getDatedOutdrData'])->name('getDatedOutdrData');
+    Route::get('/search/date/indr', [SearchController::class, 'getDatedIndoorData'])->name('getDatedIndoorData');
+    Route::get('/search/date/income-data', [SearchController::class, 'getDatedIncomesData'])->name('getDatedIncomesData');
 });
 
 

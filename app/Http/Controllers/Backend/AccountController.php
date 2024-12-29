@@ -7,12 +7,17 @@ use App\Models\AdmissinForm;
 use App\Models\AllInComingAmount;
 use App\Models\AllOutGoingAmount;
 use App\Models\CashMemoInfo;
+use App\Models\Due;
+use App\Models\DueCollection;
 use App\Models\Expenditure;
 use App\Models\Income;
 use App\Models\IncomeField;
 use App\Models\OutdoorModel;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use DateInterval;
+use DateTime;
+use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -24,9 +29,15 @@ class AccountController extends Controller
 
         $outdoor['data'] = OutdoorModel::all();
         $outdoor['total_amount'] = OutdoorModel::pluck('regi_fee')->sum();
-
         return view('backend.outdoor_income.outdoor_income', $outdoor);
     }
+
+
+
+
+
+
+
 
 
     public function acoutdoor()
@@ -39,8 +50,8 @@ class AccountController extends Controller
 
     public function acindoor()
     {
-        $data1 = CashMemoInfo::select('patient_uuid as uuid', 'patient_name as income_source', 'paid as income_amount')->orderBy('created_at', 'desc')->get();
-        $data2 = AdmissinForm::select('uuid', 'name as income_source', 'regi_fee as income_amount')->orderBy('created_at', 'desc')->get();
+        $data1 = CashMemoInfo::select('patient_uuid as uuid', 'patient_name as income_source', 'paid as income_amount', 'created_at')->orderBy('created_at', 'desc')->get();
+        $data2 = AdmissinForm::select('uuid', 'name as income_source', 'regi_fee as income_amount', 'created_at')->orderBy('created_at', 'desc')->get();
         $indoor_info['data'] = $data1->concat($data2);
         $indoor_info['full_amount'] = $data1->concat($data2)->pluck('income_amount')->sum();
         $pdf = Pdf::loadView('backend.pdf.account_intdoor', $indoor_info);
@@ -76,11 +87,18 @@ class AccountController extends Controller
     public function expenPrint()
     {
 
-
         $expenditure['data'] = Expenditure::all();
         $expenditure['full_amount'] = Expenditure::pluck('amount')->sum();
         $pdf = Pdf::loadView('backend.pdf.exp_print', $expenditure);
         return $pdf->stream('exp-receipt.pdf');
+    }
+    public function outdoorPrint()
+    {
+
+        $outdoor['data'] = OutdoorModel::all();
+        $outdoor['total_amount'] = OutdoorModel::pluck('regi_fee')->sum();
+        $pdf = Pdf::loadView('backend.pdf.account_outdoor', $outdoor);
+        return $pdf->stream('outdoor-receipt.pdf');
     }
 
 
@@ -107,6 +125,128 @@ class AccountController extends Controller
 
         $pdf = Pdf::loadView('backend.pdf.exp_print', $data);
         return $pdf->stream('exp-receipt.pdf');
+    }
+    public function searchOutdrData(Request $request, $start_date, $end_date)
+    {
+
+        // $request->validate([
+        //     'start_date' => 'required',
+        //     'end_date' => 'required',
+        // ]);
+
+
+
+
+        $start = $start_date;
+        $end = $end_date;
+
+        $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay();
+        $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay();
+
+
+        $data['data'] = OutdoorModel::whereBetween('created_at', [$startDate, $endDate])->get();
+        $data['total_amount'] = OutdoorModel::whereBetween('created_at', [$startDate, $endDate])->pluck('regi_fee')->sum();
+
+        $pdf = Pdf::loadView('backend.pdf.account_outdoor', $data);
+        return $pdf->stream('outdoor-receipt.pdf');
+    }
+
+
+    public function searchIndrData(Request $request, $start_date, $end_date)
+    {
+
+        // $request->validate([
+        //     'start_date' => 'required',
+        //     'end_date' => 'required',
+        // ]);
+
+
+
+
+        $start = $start_date;
+        $end = $end_date;
+
+        $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay();
+        $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay();
+
+
+        $data1 = CashMemoInfo::select('patient_uuid as uuid', 'patient_name as income_source', 'paid as income_amount', 'created_at')->whereBetween('created_at', [$startDate, $endDate])->orderBy('created_at', 'desc')->get();
+        $data2 = AdmissinForm::select('uuid', 'name as income_source', 'regi_fee as income_amount', 'created_at')->whereBetween('created_at', [$startDate, $endDate])->orderBy('created_at', 'desc')->get();
+        $indoor_info['data'] = $data1->concat($data2);
+        $indoor_info['full_amount'] = $data1->concat($data2)->pluck('income_amount')->sum();
+
+        $pdf = Pdf::loadView('backend.pdf.account_intdoor', $indoor_info);
+        return $pdf->stream('indoor-receipt.pdf');
+    }
+
+    public function searchIncmData(Request $request, $start_date, $end_date)
+    {
+
+        // $request->validate([
+        //     'start_date' => 'required',
+        //     'end_date' => 'required',
+        // ]);
+
+        $start = $start_date;
+        $end = $end_date;
+
+        $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay();
+        $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay();
+
+
+        $income['data'] = IncomeField::whereBetween('created_at', [$startDate, $endDate])->get();
+        $income['total_amount'] = IncomeField::whereBetween('created_at', [$startDate, $endDate])->pluck('amount')->sum();
+        $pdf = Pdf::loadView('backend.pdf.others_income', $income);
+        return $pdf->stream('others-receipt.pdf');
+    }
+    public function accBookPrint(Request $request, $start_date, $end_date)
+    {
+
+
+        $start = $start_date;
+        $end = $end_date;
+
+        $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay();
+        $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay();
+
+
+        // Getting previous day from a date
+        $tz    = new DateTimeZone('Asia/Dhaka');
+        $date  = new DateTime($endDate, $tz);
+        $interval = new DateInterval('P1D');
+        $date->sub($interval);
+        $previousDayFromADate = $date->format('y-m-d');
+        $previousDay = Carbon::createFromFormat('Y-m-d', $previousDayFromADate)->endOfDay();
+
+        $indoorPre = CashMemoInfo::whereBetween('created_at', [$startDate, $previousDay])->pluck('paid')->sum();
+        $outdoorPre = Income::whereBetween('created_at', [$startDate, $previousDay])->pluck('income_amount')->sum();
+        $incomePre = IncomeField::whereBetween('created_at', [$startDate, $previousDay])->pluck('amount')->sum();
+        $expenditurePre = Expenditure::whereBetween('created_at', [$startDate, $previousDay])->pluck('amount')->sum();
+
+        $previousDayIncome = (($indoorPre + $outdoorPre + $incomePre) - $expenditurePre);
+
+        // end
+
+
+        $indoor = CashMemoInfo::whereBetween('created_at', [$startDate, $endDate])->pluck('paid')->sum();
+        $indoorRegiFee = AdmissinForm::whereBetween('created_at', [$startDate, $endDate])->pluck('regi_fee')->sum();
+        $outdoor = Income::whereBetween('created_at', [$startDate, $endDate])->pluck('income_amount')->sum();
+        $income = IncomeField::whereBetween('created_at', [$startDate, $endDate])->pluck('amount')->sum();
+        $expenditure = Expenditure::whereBetween('created_at', [$startDate, $endDate])->pluck('amount')->sum();
+        $due = Due::whereBetween('created_at', [$startDate, $endDate])->pluck('due_amount')->sum();
+        $dueCollection = DueCollection::whereBetween('created_at', [$startDate, $endDate])->pluck('amount')->sum();
+
+
+
+        $indoors = $indoor + $indoorRegiFee;
+
+
+        $total_income = $indoor + $outdoor + $income + $indoorRegiFee;
+
+
+
+        $pdf = Pdf::loadView('backend.pdf.account_book', compact('indoors', 'indoorRegiFee', 'outdoor', 'income', 'expenditure', 'total_income', 'due', 'dueCollection', 'previousDayIncome', 'startDate', 'endDate'));
+        return $pdf->stream('account-books.pdf');
     }
 
 

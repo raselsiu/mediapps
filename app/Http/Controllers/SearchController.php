@@ -307,7 +307,6 @@ class SearchController extends Controller
         ]);
 
 
-
         $start = $request->start_date;
         $end = $request->end_date;
 
@@ -319,6 +318,70 @@ class SearchController extends Controller
         $total_amount = Expenditure::whereBetween('created_at', [$startDate, $endDate])->pluck('amount')->sum();
 
         return view('backend.expenditure_amount.exp_search_by_calender', compact('data', 'total_amount'));
+    }
+
+    public function getDatedOutdrData(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required',
+            'end_date' => 'required',
+        ]);
+
+
+        $start = $request->start_date;
+        $end = $request->end_date;
+
+        $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay();
+        $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay();
+
+
+        $data = OutdoorModel::whereBetween('created_at', [$startDate, $endDate])->get();
+        $total_amount = OutdoorModel::whereBetween('created_at', [$startDate, $endDate])->pluck('regi_fee')->sum();
+
+        return view('backend.outdoor_income.outdoor_search_by_calender', compact('data', 'total_amount'));
+    }
+
+    public function getDatedIndoorData(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required',
+            'end_date' => 'required',
+        ]);
+
+
+        $start = $request->start_date;
+        $end = $request->end_date;
+
+        $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay();
+        $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay();
+
+
+        $data1 = CashMemoInfo::select('patient_uuid as uuid', 'patient_name as income_source', 'paid as income_amount', 'created_at')->whereBetween('created_at', [$startDate, $endDate])->orderBy('created_at', 'desc')->get();
+        $data2 = AdmissinForm::select('uuid', 'name as income_source', 'regi_fee as income_amount', 'created_at')->whereBetween('created_at', [$startDate, $endDate])->orderBy('created_at', 'desc')->get();
+        $indoor_info['data'] = $data1->concat($data2);
+        $indoor_info['full_amount'] = $data1->concat($data2)->pluck('income_amount')->sum();
+
+        return view('backend.indoor_income.indoor_search_by_calender', $indoor_info);
+    }
+    public function getDatedIncomesData(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required',
+            'end_date' => 'required',
+        ]);
+
+
+        $start = $request->start_date;
+        $end = $request->end_date;
+
+        $startDate = Carbon::createFromFormat('Y-m-d', $start)->startOfDay();
+        $endDate = Carbon::createFromFormat('Y-m-d', $end)->endOfDay();
+
+
+        $data = IncomeField::whereBetween('created_at', [$startDate, $endDate])->get();
+        $total_amount = IncomeField::whereBetween('created_at', [$startDate, $endDate])->pluck('amount')->sum();
+
+        return view('backend.income_amount.income_search_by_calender', compact('data', 'total_amount'));
     }
 
 

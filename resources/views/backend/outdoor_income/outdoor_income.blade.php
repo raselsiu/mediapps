@@ -21,25 +21,42 @@
             <div class="card">
                 <div class="card-header">
                     <div class="btn-row">
-                        <span><a class="btn btn-warning" href="{{ route('dataTwentyFourHour') }}">Previous Day</a></span>
+                        {{-- <span><a class="btn btn-warning" href="{{ route('dataTwentyFourHour') }}">Previous Day</a></span>
                         <span><a class="btn btn-warning" href="{{ route('getCurrentMonthRevenue') }}">Current Month
                             </a></span>
                         <span><a class="btn btn-warning" href="{{ route('getLastMonthRevenue') }}">Last Month
                             </a></span>
+                            --}}
                         <span style="float: right">
                             <a class="btn btn-success" target="_blank" href="{{ route('acoutdoor') }}">Print</a>
                         </span>
                     </div>
                 </div>
                 <div class="card-body">
-
+                    <div class="search_border">
+                        <form action="{{ route('getDatedOutdrData') }}" method="GET" class="formHandler" id="userForm">
+                            @csrf
+                            <span>Start Date</span>&nbsp;&nbsp;
+                            <input class="inputControl" type="date" name="start_date"
+                                placeholder="Start Date">&nbsp;&nbsp;
+                            @if ($errors->has('start_date'))
+                                <span style="color: red">Field is Required</span>
+                            @endif
+                            <span>End Date</span>&nbsp;
+                            <input class="inputControl" type="date" name="end_date" placeholder="End Date">
+                            @if ($errors->has('end_date'))
+                                <span style="color: red">Field is Required</span>
+                            @endif
+                            <button class="submitBtn" type="submit">Search By Date</button>
+                        </form>
+                    </div>
+                    <br>
                     <table class="table table-bordered table-striped" id="">
                         <thead>
                             <tr>
                                 <th># SL No</th>
-                                {{-- <th>Patients ID</th> --}}
                                 <th>Name</th>
-                                <th>Amount</th>
+                                <th>Amount(TK)</th>
                                 <th class="notForPrint">View Patient</th>
                             </tr>
                         </thead>
@@ -66,8 +83,7 @@
                             <tr>
                                 <th>No.</th>
                                 <th>Name </th>
-                                <th> Total Amount = &nbsp;<span id="total_amount"
-                                        class="total_amount">{{ $total_amount }}</span>
+                                <th> Total = &nbsp;<span id="total_amount" class="total_amount">{{ $total_amount }}</span>
                                 </th>
                                 <th>View Patient</th>
                             </tr>

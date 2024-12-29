@@ -1,3 +1,10 @@
+<?php
+
+$start_date = request()->start_date;
+$end_date = request()->end_date;
+
+?>
+
 @extends('backend.layouts.master')
 
 @section('content')
@@ -24,14 +31,14 @@
                     <form action="{{ route('getDatedData') }}" method="GET" class="formHandler" id="userForm">
                         @csrf
                         <span>Start Date</span>&nbsp;&nbsp;
-                        <input class="inputControl" type="date" name="start_date" placeholder="Start Date"
-                            value="{{ $startDate->toDateString() }}">&nbsp;&nbsp;
+                        <input class="inputControl" type="date" name="start_date" value="{{ $start_date }}"
+                            placeholder="Start Date" value="{{ $startDate->toDateString() }}">&nbsp;&nbsp;
                         @if ($errors->has('start_date'))
                             <span style="color: red">Field is Required</span>
                         @endif
                         <span>End Date</span>&nbsp;
-                        <input class="inputControl" type="date" name="end_date" placeholder="End Date"
-                            value="{{ $endDate->toDateString() }}">
+                        <input class="inputControl" type="date" name="end_date" value="{{ $end_date }}"
+                            placeholder="End Date" value="{{ $endDate->toDateString() }}">
                         @if ($errors->has('end_date'))
                             <span style="color: red">Field is Required</span>
                         @endif
@@ -45,9 +52,11 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="time_booksarea">
-
-                            <table class="table table-bordered" id="printable">
+                        <div class="time_booksarea"> <br>
+                            <a href="{{ route('accBookPrint', [request()->start_date, request()->end_date]) }}"
+                                class="btn btn-sm btn-success" style="float: right">Print
+                                Now</a> <br> <br>
+                            <table class="table table-bordered" id="">
 
                                 <thead>
                                     <tr>

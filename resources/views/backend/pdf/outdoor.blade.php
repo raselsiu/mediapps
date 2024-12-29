@@ -57,10 +57,12 @@
         <h2>{{ $hospitalName }}</h2>
         <p>{{ $hospitalAddress }} | Mobile: {{ $hospitalPhone }}</p>
         <br>
+        <br>
     </div>
+    <span style="border:1px solid #bbbbbb;padding:5px">Outdoor</span>
+    <br><br>
+    <br>
 
-    <br>
-    <br>
 
     <table class="head_info" style="margin-bottom: 5px;margin-left:-4px;">
         <tr>
